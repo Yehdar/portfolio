@@ -14,7 +14,7 @@ const data = [
     title: "Doctor",
     duration: "2 Years",
     details:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni nulla, neque quidem rerum fuga tempora tenetur dicta minus tempore, expedita eaque, ipsum est rem optio qui velit dolorem inventore necessitatibus!",
+      "Lorem ipsum dolor st amet consectetur adipisicing elit. Magni nulla, neque quidem rerum fuga tempora tenetur dicta minus tempore, expedita eaque, ipsum est rem optio qui velit dolorem inventore necessitatibus!",
   },
 ];
 const Work = () => {
