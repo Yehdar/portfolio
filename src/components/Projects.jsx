@@ -1,9 +1,9 @@
 import React from "react";
-// import ProjectItem from "./ProjectItem";
-// import projectOne from "../assets/deer.jpeg";
-// import projectTwo from "../assets/lion.jpeg";
-// import projectThree from "../assets/elephant.jpeg";
-// import projectFour from "../assets/parrot.jpeg";
+import ProjectItem from "./ProjectItem";
+import projectOne from "../assets/deer.jpeg";
+import projectTwo from "../assets/lion.jpeg";
+import projectThree from "../assets/elephant.jpeg";
+import projectFour from "../assets/parrot.jpeg";
 
 const Projects = () => {
   return (
@@ -16,6 +16,12 @@ const Projects = () => {
         architecto sit, unde ipsam nisi? Mollitia soluta eligendi explicabo
         atque repellendus, magni eius, rem nam dolores porro veniam cum sequi!
       </p>
+      <div className="grid sm:grid-cols-2 gap-12">
+        <ProjectItem img={projectOne} title="Project One" />
+        <ProjectItem img={projectTwo} title="Project Two" />
+        <ProjectItem img={projectThree} title="Project Three" />
+        <ProjectItem img={projectFour} title="Project Four" />
+      </div>
     </div>
   );
 };
