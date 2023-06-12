@@ -7,7 +7,7 @@ import Footer from "./components/Footer.jsx";
 
 function App() {
   return (
-    <div>
+    <div className="bg-gray-900">
       <Sidenav />
       <Main />
       <Work />
