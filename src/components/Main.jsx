@@ -33,9 +33,15 @@ const Main = () => {
             />
           </h2>
           <div className="flex justify-between pt-6 max-w-[200px] w-full">
-            <FaLinkedinIn className="cursor-pointer" size={20} />
-            <FaGithub className="cursor-pointer" size={20} />
-            <FaTelegramPlane className="cursor-pointer" size={20} />
+            <a href="https://ca.linkedin.com/in/radhey-patel-">
+              <FaLinkedinIn className="cursor-pointer" size={20} />
+            </a>
+            <a href="https://github.com/yehdar">
+              <FaGithub className="cursor-pointer" size={20} />
+            </a>
+            <a href="https://t.me/Yehdarr">
+              <FaTelegramPlane className="cursor-pointer" size={20} />
+            </a>
           </div>
         </div>
       </div>
