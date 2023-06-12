@@ -3,24 +3,26 @@ import WorkItem from "./WorkItem";
 
 const data = [
   {
-    year: 2016,
-    title: "Astronaut",
-    duration: "3 Years",
+    year: 2022,
+    title: "York University Robotics Society",
+    duration: "8 Months",
     details:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni nulla, neque quidem rerum fuga tempora tenetur dicta minus tempore, expedita eaque, ipsum est rem optio qui velit dolorem inventore necessitatibus!",
+      "Helped built a Mars rover that will compete internationally at the University Rover Challenge hosted by The Mars Society",
   },
   {
-    year: 2014,
-    title: "Doctor",
-    duration: "2 Years",
+    year: 2022,
+    title: "University Education",
+    duration: "1 Year",
     details:
-      "Lorem ipsum dolor st amet consectetur adipisicing elit. Magni nulla, neque quidem rerum fuga tempora tenetur dicta minus tempore, expedita eaque, ipsum est rem optio qui velit dolorem inventore necessitatibus!",
+      "Completed introduction to computer science, introduction to web developmenet, introduction to object-orientated programming, and discrete mathematics",
   },
 ];
 const Work = () => {
   return (
     <div id="work" className="max-w-[1040px] m-auto md:pl-20 p-4 py-16">
-      <h1 className="text-4xl font-bold text-center text-yellow-400">Work</h1>
+      <h1 className="text-4xl pb-6 font-bold text-center text-yellow-400">
+        Experience
+      </h1>
       {data.map((item, idx) => (
         <WorkItem
           key={idx}
