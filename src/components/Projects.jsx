@@ -9,10 +9,14 @@ const Projects = () => {
         Projects
       </h1>
       <p className="text-center py-8 text-white text-2xl">
-        I prefer to dabble into the backend. Currently, I am learning GO.
+        Currently, I am learning Golang and Rust by rewritting famous software.
       </p>
       <div className="grid sm:grid-cols-2 gap-12">
-        <ProjectItem img={TCP} title="LAN Chat" />
+        <ProjectItem
+          bg={TCP}
+          name="LAN Chat"
+          hyperlink="https://github.com/yehdar"
+        />
       </div>
     </div>
   );
