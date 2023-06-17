@@ -3,16 +3,16 @@ import WorkItem from "./WorkItem";
 
 const data = [
   {
-    year: "Sep 2022 - Apr 2023",
-    title: "York University Robotics Society",
-    duration: "Junior Software Engineer",
+    duration: "Sep 2022 - Apr 2023",
+    company: "York University Robotics Society",
+    position: "Junior Software Engineer",
     details:
       "Helped built a Mars rover that will compete internationally at the University Rover Challenge hosted by The Mars Society",
   },
   {
-    year: "Sep 2022 - Present",
-    title: "University Education",
-    duration: "Student",
+    duration: "Sep 2022 - Present",
+    company: "University Education",
+    position: "Student",
     details:
       "Completed introduction to computer science, introduction to web development, introduction to object-orientated programming, and discrete mathematics",
   },
@@ -26,9 +26,9 @@ const Work = () => {
       {data.map((item, idx) => (
         <WorkItem
           key={idx}
-          year={item.year}
-          title={item.title}
           duration={item.duration}
+          company={item.company}
+          position={item.position}
           details={item.details}
         />
       ))}
