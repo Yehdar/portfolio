@@ -3,18 +3,18 @@ import WorkItem from "./WorkItem";
 
 const data = [
   {
-    year: 2022,
+    year: "Sep 2022 - Apr 2023",
     title: "York University Robotics Society",
-    duration: "8 Months",
+    duration: "Junior Software Engineer",
     details:
       "Helped built a Mars rover that will compete internationally at the University Rover Challenge hosted by The Mars Society",
   },
   {
-    year: 2022,
+    year: "Sep 2022 - Present",
     title: "University Education",
-    duration: "1 Year",
+    duration: "Student",
     details:
-      "Completed introduction to computer science, introduction to web developmenet, introduction to object-orientated programming, and discrete mathematics",
+      "Completed introduction to computer science, introduction to web development, introduction to object-orientated programming, and discrete mathematics",
   },
 ];
 const Work = () => {
