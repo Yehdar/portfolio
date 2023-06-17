@@ -15,7 +15,8 @@ const Projects = () => {
         <ProjectItem
           bg={TCP}
           name="LAN Chat"
-          hyperlink="https://github.com/yehdar"
+          description="local network chatting app in Python"
+          hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
       </div>
     </div>
