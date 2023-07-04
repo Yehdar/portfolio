@@ -1,13 +1,13 @@
 import React from "react";
 import { TypeAnimation } from "react-type-animation";
-import { FaLinkedinIn, FaGithub, FaTelegramPlane } from "react-icons/fa";
+import background from "../assets/bg.jpg";
 
 const Main = () => {
   return (
     <div id="main">
       <img
         className="w-full h-screen object-cover object-left"
-        src="https://coolwallpapers.me/picsup/5602779-forest-fireflies-light-wallpapers.jpg"
+        src={background}
         alt="background image"
       />
       <div className="w-full h-screen absolute top-0 left-0 bg-white/10">
