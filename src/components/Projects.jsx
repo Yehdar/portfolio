@@ -1,6 +1,10 @@
 import React from "react";
 import ProjectItem from "./ProjectItem";
 import TCP from "../assets/projectbg/tcp_messager_working.png";
+import BLINK from "../assets/projectbg/blink.jpeg";
+import REDIS from "../assets/projectbg/redis.png";
+import NMAP from "../assets/projectbg/nmap.jpeg";
+import NGINX from "../assets/projectbg/nginx.png";
 
 const Projects = () => {
   return (
@@ -13,25 +17,25 @@ const Projects = () => {
       </p>
       <div className="grid sm:grid-cols-2 gap-12">
         <ProjectItem
-          bg={TCP}
+          bg={BLINK}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
-          bg={TCP}
+          bg={REDIS}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
-          bg={TCP}
+          bg={NMAP}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
-          bg={TCP}
+          bg={NGINX}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
