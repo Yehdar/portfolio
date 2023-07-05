@@ -13,33 +13,9 @@ const Projects = () => {
         Projects
       </h1>
       <p className="text-center py-8 text-white text-2xl">
-        Currently, I am learning Rust and Go by rewritting famous software.
+        All of them are free and open-source for anybody to use
       </p>
       <div className="grid sm:grid-cols-2 gap-12">
-        <ProjectItem
-          bg={BLINK}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
-        <ProjectItem
-          bg={REDIS}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
-        <ProjectItem
-          bg={NMAP}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
-        <ProjectItem
-          bg={NGINX}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
         <ProjectItem
           bg={TCP}
           name="LAN Chat"

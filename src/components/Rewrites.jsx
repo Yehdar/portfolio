@@ -10,7 +10,7 @@ const Projects = () => {
   return (
     <div id="projects" className="max-w-[1540px] m-auto md:pl-20 p-4 py-16">
       <h1 className="text-4xl font-bold text-center text-yellow-400">
-        Projects
+        Rewrites
       </h1>
       <p className="text-center py-8 text-white text-2xl">
         Currently, I am learning Rust and Go by rewritting famous software.
@@ -36,42 +36,6 @@ const Projects = () => {
         />
         <ProjectItem
           bg={NGINX}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
-        <ProjectItem
-          bg={TCP}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
-        <ProjectItem
-          bg={TCP}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
-        <ProjectItem
-          bg={TCP}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
-        <ProjectItem
-          bg={TCP}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
-        <ProjectItem
-          bg={TCP}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
-        />
-        <ProjectItem
-          bg={TCP}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
