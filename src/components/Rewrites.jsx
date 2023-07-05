@@ -18,27 +18,27 @@ const Projects = () => {
       <div className="grid sm:grid-cols-2 gap-12">
         <ProjectItem
           bg={BLINK}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
+          name="Google's Blink"
+          description="super simple rewrite of google chrome's rendering engine in rust"
+          hyperlink="https://github.com/Yehdar/ghetto-blink-rewrite"
         />
         <ProjectItem
           bg={REDIS}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
+          name="Redis LRU Cache"
+          description=" simple rewrite of the caching system in redis using Go. No algorithms, just data structures"
+          hyperlink="https://github.com/Yehdar/ghetto-redis-LRU-cache-rewrite"
         />
         <ProjectItem
           bg={NMAP}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
+          name="NMAP Port Sniffer"
+          description="simple rewrite of the pentesting tool, nmap's port sniffer in rust"
+          hyperlink="https://github.com/Yehdar/ghetto-nmap-rewrite"
         />
         <ProjectItem
           bg={NGINX}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
+          name="NGINX Loadbalancer"
+          description="recreating a super simple version of NGINX's loadbalancer in Go"
+          hyperlink="https://github.com/Yehdar/ghetto-nginx-loadbalancer-rewrite"
         />
       </div>
     </div>
