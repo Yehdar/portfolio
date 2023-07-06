@@ -1,10 +1,11 @@
 import React from "react";
 import ProjectItem from "./ProjectItem";
 import TCP from "../assets/projectbg/tcp_messager_working.png";
-import BLINK from "../assets/projectbg/blink.jpeg";
-import REDIS from "../assets/projectbg/redis.png";
-import NMAP from "../assets/projectbg/nmap.jpeg";
-import NGINX from "../assets/projectbg/nginx.png";
+import EMAIL from "../assets/projectbg/email.png";
+import RAINCHECK from "../assets/projectbg/raincheck.png";
+import REMINDME from "../assets/projectbg/remindme.png";
+import PORTFOLIO from "../assets/projectbg/portfolio.jpeg";
+import WEBCRAWLER from "../assets/projectbg/webcrawler.jpeg";
 
 const Projects = () => {
   return (
@@ -23,31 +24,31 @@ const Projects = () => {
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
-          bg={TCP}
+          bg={EMAIL}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
-          bg={TCP}
+          bg={RAINCHECK}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
-          bg={TCP}
+          bg={REMINDME}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
-          bg={TCP}
+          bg={PORTFOLIO}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
-          bg={TCP}
+          bg={WEBCRAWLER}
           name="LAN Chat"
           description="local network chatting app in Python"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
