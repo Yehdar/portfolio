@@ -45,7 +45,7 @@ const Projects = () => {
           bg={PORTFOLIO}
           name="Portfolio"
           description="place to showcase myself"
-          hyperlink="https://github.com/Yehdar/portfolio"
+          hyperlink="https://github.com/Yehdar/yehdar.github.io"
         />
         <ProjectItem
           bg={WEBCRAWLER}
