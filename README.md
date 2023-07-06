@@ -5,4 +5,4 @@ Got the opportunity to finally use ViteJS on a project. Basically, ViteJS provid
 ## Future Reminders
 
 - Remember to `npm run dev` to start the app on a localhost
-- If the page does not deploy, keep bumping pushes
+- If the github page does not deploy, keep bumping pushes (still a theory) by updating readme
