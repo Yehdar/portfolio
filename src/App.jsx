@@ -11,6 +11,7 @@ function App() {
     <div className="bg-gray-900">
       <Sidenav />
       <Main />
+      <Work />
       <Rewrites />
       <Projects />
       <Footer />
