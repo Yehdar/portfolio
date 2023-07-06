@@ -20,38 +20,38 @@ const Projects = () => {
         <ProjectItem
           bg={TCP}
           name="LAN Chat"
-          description="local network chatting app in Python"
+          description="lightweight local network chatting app"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
           bg={EMAIL}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
+          name="Email Address Validator"
+          description="validated domain names by checking TXT records"
+          hyperlink="https://github.com/Yehdar/email-address-validator"
         />
         <ProjectItem
           bg={RAINCHECK}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
+          name="Raincheck"
+          description="faster alternative to exiting-terminal solutions"
+          hyperlink="https://github.com/Yehdar/raincheck"
         />
         <ProjectItem
           bg={REMINDME}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
+          name="RemindMe"
+          description="set a reminder using the Ubuntu native alert box"
+          hyperlink="https://github.com/Yehdar/remindme"
         />
         <ProjectItem
           bg={PORTFOLIO}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
+          name="Portfolio"
+          description="place to showcase myself"
+          hyperlink="https://github.com/Yehdar/portfolio"
         />
         <ProjectItem
           bg={WEBCRAWLER}
-          name="LAN Chat"
-          description="local network chatting app in Python"
-          hyperlink="https://github.com/Yehdar/LAN-party-chat"
+          name="Web Crawler"
+          description="different take on web crawlers that search for broken links instead"
+          hyperlink="https://github.com/Yehdar/broken-link-web-crawler"
         />
       </div>
     </div>

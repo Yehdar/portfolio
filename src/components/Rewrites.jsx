@@ -37,7 +37,7 @@ const Projects = () => {
         <ProjectItem
           bg={NGINX}
           name="NGINX Loadbalancer"
-          description="recreating a super simple version of NGINX's loadbalancer in Go"
+          description="recreated a super simple version of NGINX's loadbalancer in Go"
           hyperlink="https://github.com/Yehdar/ghetto-nginx-loadbalancer-rewrite"
         />
       </div>
