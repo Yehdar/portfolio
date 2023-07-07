@@ -20,7 +20,7 @@ export default defineConfig({
       onBeforeReconnect({ server }) {
         server.middlewareManager.middlewares.use((req, res, next) => {
           if (req.originalUrl === '/index.jsx') {
-            res.type('text/jsx');
+            res.type('text/javascript');
           }
           next();
         });
