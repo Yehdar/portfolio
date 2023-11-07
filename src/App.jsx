@@ -11,7 +11,7 @@ function App() {
     <div className="bg-gray-900">
       <Sidenav />
       <Main />
-      <Rewrites />
+      {/* <Rewrites /> */}
       <Projects />
       <Footer />
     </div>
