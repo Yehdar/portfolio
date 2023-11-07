@@ -4,6 +4,10 @@ import TCP from "../assets/projectbg/tcp_messager_working.png";
 import EMAIL from "../assets/projectbg/email.png";
 import RAINCHECK from "../assets/projectbg/raincheck.png";
 import REMINDME from "../assets/projectbg/remindme.png";
+import WATCHDOGS from "../assets/projectbg/watchdogs.png";
+import LRUCACHE from "../assets/projectbg/lru_cache.png";
+import STREAM from "../assets/projectbg/stream.png";
+import BROBLOX from "../assets/projectbg/broblox.png";
 import PORTFOLIO from "../assets/projectbg/portfolio.jpeg";
 import WEBCRAWLER from "../assets/projectbg/webcrawler.jpeg";
 
@@ -20,37 +24,61 @@ const Projects = () => {
         <ProjectItem
           bg={TCP}
           name="LAN Chat"
-          description="lightweight local network chatting app"
+          description="Chat App"
           hyperlink="https://github.com/Yehdar/LAN-party-chat"
         />
         <ProjectItem
           bg={EMAIL}
           name="Email Address Validator"
-          description="validated domain names by checking TXT records"
+          description="CLI App"
           hyperlink="https://github.com/Yehdar/email-address-validator"
         />
         <ProjectItem
           bg={RAINCHECK}
           name="Raincheck"
-          description="faster alternative to exiting-terminal solutions"
+          description="CLI App"
           hyperlink="https://github.com/Yehdar/raincheck"
         />
         <ProjectItem
           bg={REMINDME}
           name="RemindMe"
-          description="set a reminder using the Ubuntu native alert box"
+          description="CLI App"
           hyperlink="https://github.com/Yehdar/remindme"
+        />
+        <ProjectItem
+          bg={WATCHDOGS}
+          name="WatchDogs"
+          description="gRPC App"
+          hyperlink="https://github.com/Yehdar/watchdogs"
+        />
+        <ProjectItem
+          bg={LRUCACHE}
+          name="LRU Cache"
+          description="Database Feat"
+          hyperlink="https://github.com/The-Golang-Way/LRU-cache"
+        />
+        <ProjectItem
+          bg={STREAM}
+          name="Stream"
+          description="Web App"
+          hyperlink="https://github.com/Yehdar/stream"
+        />
+        <ProjectItem
+          bg={BROBLOX}
+          name="Broblox"
+          description="Web App"
+          hyperlink="https://github.com/Yehdar/broblox"
         />
         <ProjectItem
           bg={PORTFOLIO}
           name="Portfolio"
-          description="place to showcase myself"
+          description="Web App"
           hyperlink="https://github.com/Yehdar/yehdar.github.io"
         />
         <ProjectItem
           bg={WEBCRAWLER}
           name="Web Crawler"
-          description="different take on web crawlers that search for broken links instead"
+          description="CLI App"
           hyperlink="https://github.com/Yehdar/broken-link-web-crawler"
         />
       </div>
