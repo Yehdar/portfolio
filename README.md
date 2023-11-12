@@ -7,4 +7,6 @@ Got the opportunity to finally use ViteJS on a project. Basically, ViteJS provid
 
 ## Notes
 - Remember to `npm run dev` to start the app on a localhost
+- If cloned, remember to `npm install`
+- To test deployment, do `npm run build` and then `npm run preview` 
 - If the github page does not deploy, keep bumping pushes (still a theory) by updating readme
