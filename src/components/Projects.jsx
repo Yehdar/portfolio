@@ -29,7 +29,7 @@ const Projects = () => {
         />
         <ProjectItem
           bg={EMAIL}
-          name="Email Address Validator"
+          name="Email Validator"
           description="CLI App"
           hyperlink="https://github.com/Yehdar/email-address-validator"
         />
