@@ -1,5 +1,3 @@
-import React from "react";
-
 const ProjectItem = ({ bg, name, description, hyperlink }) => {
   return (
     <div className="border-solid border-4 border-yellow-500 relative flex justify-center h-auto w-full shadow-xl shadow-gray-400 rounded-2xl group hover:bg-gradient-to-r from-yellow-400 to-yellow-400">
