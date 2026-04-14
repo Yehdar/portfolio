@@ -8,37 +8,28 @@ import ProjectsCard from "./cards/ProjectsCard";
 import ConnectionsCard from "./cards/ConnectionsCard";
 
 const CARDS: CardDef[] = [
-  { id: "about",       label: "About Me",    gradient: "from-slate-900 to-indigo-950"   },
-  { id: "experience",  label: "Experience",  gradient: "from-blue-900 to-slate-900"     },
-  { id: "projects",    label: "Projects",    gradient: "from-purple-950 to-emerald-950"  },
-  { id: "connections", label: "Connections", gradient: "from-orange-700 to-red-700"      },
+  { id: "about",       label: "About Me",    gradient: "from-slate-900 to-indigo-950"  },
+  { id: "experience",  label: "Experience",  gradient: "from-blue-800 to-blue-950"     },
+  { id: "projects",    label: "Projects",    gradient: "from-violet-900 to-emerald-950" },
+  { id: "connections", label: "Connections", gradient: "from-orange-700 to-red-800"    },
 ];
 
 // ─── Stack layout constants ────────────────────────────────────────────────────
-/**
- * How many pixels of each underlying card peek below the card above it.
- * Smaller = tighter stack; larger = more card-fan effect.
- */
-const PEEK = 58;
 
-/**
- * Distance (px) from the container top to the top of the frontmost card.
- * This creates space for the "Portfolio" header.
- */
+/** Pixels each card peeks below the one above it. */
+const PEEK = 54;
+
+/** Distance (px) from container top to the top of the frontmost card. */
 const STACK_TOP = 68;
 
-/**
- * The card height as a fraction of the container height.
- * Chosen so the bottommost peek sits a comfortable margin from the screen bottom.
- */
-const CARD_HEIGHT_RATIO = 0.82;
+/** Gap between the last card peek and the container bottom. */
+const BOTTOM_MARGIN = 24;
 
 // ──────────────────────────────────────────────────────────────────────────────
 
 export default function WalletStack() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  // Measure the container so we can compute pixel positions for framer-motion
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerHeight, setContainerHeight] = useState(800);
 
@@ -52,45 +43,35 @@ export default function WalletStack() {
     return () => ro.disconnect();
   }, []);
 
-  const cardHeight = Math.floor(containerHeight * CARD_HEIGHT_RATIO);
+  /**
+   * Derived so every peek fits on screen:
+   *   STACK_TOP + cardHeight + (N-1)*PEEK + BOTTOM_MARGIN = containerHeight
+   *   → cardHeight = containerHeight - STACK_TOP - (N-1)*PEEK - BOTTOM_MARGIN
+   */
+  const cardHeight = Math.max(
+    260,
+    Math.floor(containerHeight - STACK_TOP - (CARDS.length - 1) * PEEK - BOTTOM_MARGIN)
+  );
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-full overflow-hidden bg-black"
-    >
+    <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-black">
       {/* ── Header ─────────────────────────────────────────────────── */}
       <div className="absolute top-0 left-0 right-0 h-[68px] flex items-center px-6 z-10 pointer-events-none">
-        <span
-          className="text-white text-2xl font-semibold tracking-tight"
-          style={{ fontFamily: "var(--font-geist-sans)" }}
-        >
+        <span className="text-white text-2xl font-semibold tracking-tight"
+          style={{ fontFamily: "var(--font-geist-sans)" }}>
           Portfolio
         </span>
       </div>
 
-      {/* ── Backdrop (tap outside to close) ────────────────────────── */}
+      {/* ── Backdrop (tap outside expanded card to close) ──────────── */}
       {expandedId && (
-        <div
-          className="absolute inset-0 z-40"
-          onClick={() => setExpandedId(null)}
-        />
+        <div className="absolute inset-0 z-40" onClick={() => setExpandedId(null)} />
       )}
 
       {/* ── Cards ──────────────────────────────────────────────────── */}
       {CARDS.map((card, index) => {
-        /**
-         * Stack position maths
-         * ─────────────────────
-         * Card 0 (top/front, highest z-index) sits at y = STACK_TOP.
-         * Each subsequent card is PEEK px lower, so only PEEK px of it
-         * are visible below the card above — identical to Apple Wallet.
-         *
-         * z-index is inverted: card 0 = highest, card N-1 = lowest,
-         * so each card properly covers the ones "behind" it.
-         */
         const stackedY = STACK_TOP + index * PEEK;
-        const zIndex = CARDS.length - index;          // 4, 3, 2, 1
+        const zIndex   = index + 1; // 1 (back/top of fan) → 4 (front/bottom of fan)
 
         return (
           <WalletCard
@@ -105,9 +86,9 @@ export default function WalletStack() {
             onClick={() => setExpandedId(card.id)}
             onClose={() => setExpandedId(null)}
           >
-            {card.id === "about" && <AboutCard />}
-            {card.id === "experience" && <ExperienceCard />}
-            {card.id === "projects" && <ProjectsCard />}
+            {card.id === "about"       && <AboutCard />}
+            {card.id === "experience"  && <ExperienceCard />}
+            {card.id === "projects"    && <ProjectsCard />}
             {card.id === "connections" && <ConnectionsCard />}
           </WalletCard>
         );

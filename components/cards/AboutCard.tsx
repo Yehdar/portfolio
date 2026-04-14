@@ -62,7 +62,7 @@ export default function AboutCard() {
   return (
     <div className="w-full h-full flex flex-col bg-zinc-950 overflow-hidden">
       {/* ── Hero / Image Section ──────────────────────────────────── */}
-      <div className="relative flex-shrink-0 h-[45%] bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-900">
+      <div className="relative flex-shrink-0 h-[210px] bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-900">
         {/*
           Drop your own photo here:
           <Image src="/profile.jpg" alt="Radhey Patel" fill className="object-cover opacity-40" />

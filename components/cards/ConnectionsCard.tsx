@@ -28,49 +28,28 @@ interface Link {
   iconColor: string;
 }
 
-// ─── Data — update hrefs with your real URLs ────────────────────────────────
+// ─── Data — replace hrefs with your real URLs ──────────────────────────────────
 const LINKS: Link[] = [
-  {
-    icon: GithubIcon,
-    label: "GitHub",
-    handle: "github.com/radhey-patel",
-    href: "https://github.com/radhey-patel",
-    iconColor: "text-white",
-  },
-  {
-    icon: LinkedinIcon,
-    label: "LinkedIn",
-    handle: "linkedin.com/in/radhey-patel",
-    href: "https://linkedin.com/in/radhey-patel",
-    iconColor: "text-sky-400",
-  },
+  { icon: GithubIcon,   label: "GitHub",   handle: "github.com/radhey-patel",      href: "https://github.com/radhey-patel",      iconColor: "text-white"    },
+  { icon: LinkedinIcon, label: "LinkedIn", handle: "linkedin.com/in/radhey-patel", href: "https://linkedin.com/in/radhey-patel", iconColor: "text-sky-400"  },
 ];
 
-// ─── Credit Card Graphic ───────────────────────────────────────────────────────
-function CreditCard() {
+// ─── Full-bleed credit card face ───────────────────────────────────────────────
+function CardFace() {
   return (
-    <div className="mx-5 mt-10 rounded-2xl overflow-hidden shadow-2xl h-[196px] relative bg-gradient-to-br from-[#7c1a00] via-[#c0390a] to-[#e85d04]">
-      {/* Decorative glare */}
-      <div className="absolute -top-16 -right-16 w-60 h-60 rounded-full bg-yellow-400/10" />
-      <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full bg-red-900/30" />
-      <div className="absolute top-8 left-1/2 w-32 h-32 rounded-full bg-orange-300/5" />
-
-      {/* Shimmer */}
+    <div className="w-full h-[210px] relative flex-shrink-0 bg-gradient-to-br from-[#7c1a00] via-[#c0390a] to-[#e85d04] overflow-hidden">
+      {/* Glare */}
+      <div className="absolute -top-14 -right-14 w-56 h-56 rounded-full bg-yellow-300/[0.10]" />
+      <div className="absolute -bottom-8  -left-8  w-44 h-44 rounded-full bg-red-900/30"       />
       <div className="absolute inset-0 bg-gradient-to-b from-white/[0.06] via-transparent to-black/20" />
 
       <div className="relative h-full flex flex-col justify-between p-5">
-        {/* Top row */}
+        {/* Top */}
         <div className="flex items-start justify-between">
           <span className="text-white text-xl font-black tracking-[0.15em]">LINKS</span>
-          {/* Contactless rings */}
-          <svg width="24" height="24" viewBox="0 0 24 24" className="text-white/60 mt-0.5">
-            <path
-              d="M6.5 12a5.5 5.5 0 0 1 5.5-5.5M9 12a3 3 0 0 1 3-3M11.5 12a.5.5 0 0 1 .5-.5"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              fill="none"
-            />
+          <svg width="22" height="22" viewBox="0 0 24 24" className="text-white/60 mt-0.5">
+            <path d="M6.5 12a5.5 5.5 0 0 1 5.5-5.5M9 12a3 3 0 0 1 3-3M11.5 12a.5.5 0 0 1 .5-.5"
+              stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" fill="none" />
           </svg>
         </div>
 
@@ -84,16 +63,12 @@ function CreditCard() {
         </div>
 
         {/* Bottom */}
-        <div className="space-y-2">
-          <p className="text-white/40 text-[13px] tracking-[0.25em] font-mono">
-            •••• &nbsp;•••• &nbsp;•••• &nbsp;2025
-          </p>
+        <div className="space-y-1.5">
+          <p className="text-white/40 text-[12px] tracking-[0.25em] font-mono">•••• &nbsp;•••• &nbsp;•••• &nbsp;2025</p>
           <div className="flex items-end justify-between">
             <div>
               <p className="text-white/30 text-[8px] tracking-[0.2em] uppercase">Card Holder</p>
-              <p className="text-white/80 text-[11px] font-semibold tracking-[0.12em] uppercase">
-                Radhey Patel
-              </p>
+              <p className="text-white/80 text-[11px] font-semibold tracking-[0.12em] uppercase">Radhey Patel</p>
             </div>
             <span className="text-white/70 text-lg font-black italic tracking-tight">VISA</span>
           </div>
@@ -106,55 +81,30 @@ function CreditCard() {
 // ─── Link Row ──────────────────────────────────────────────────────────────────
 function LinkRow({ icon: Icon, label, handle, href, iconColor }: Link) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+    <a href={href} target="_blank" rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      className="flex items-center gap-4 py-4 border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 px-2 -mx-2 rounded-xl transition-colors cursor-pointer"
-    >
-      {/* Icon bubble */}
+      className="flex items-center gap-4 py-3.5 border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 px-2 -mx-2 rounded-xl transition-colors cursor-pointer">
       <div className="w-10 h-10 rounded-full bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center shrink-0 transition-colors">
         <Icon className={`w-[17px] h-[17px] ${iconColor}`} />
       </div>
-
-      {/* Text */}
       <div className="flex-1 min-w-0">
         <p className="text-white text-sm font-semibold leading-tight">{label}</p>
-        <p className="text-zinc-400 text-xs leading-snug truncate mt-0.5 group-hover:text-zinc-300 transition-colors">
-          {handle}
-        </p>
+        <p className="text-zinc-400 text-xs leading-snug truncate mt-0.5 group-hover:text-zinc-300 transition-colors">{handle}</p>
       </div>
-
-      {/* External link indicator */}
-      <ExternalLink
-        size={15}
-        className="text-zinc-600 group-hover:text-orange-400 shrink-0 transition-colors"
-        strokeWidth={1.8}
-      />
+      <ExternalLink size={15} className="text-zinc-600 group-hover:text-orange-400 shrink-0 transition-colors" strokeWidth={1.8} />
     </a>
   );
 }
 
-// ─── Main Component ────────────────────────────────────────────────────────────
 export default function ConnectionsCard() {
   return (
     <div className="w-full h-full flex flex-col bg-zinc-950 overflow-hidden">
-      {/* Credit card graphic */}
-      <CreditCard />
-
-      {/* Section header */}
-      <div className="px-6 pt-5 pb-1 shrink-0">
-        <p className="text-zinc-500 text-[10px] font-bold tracking-[0.25em] uppercase">
-          Latest Transactions
-        </p>
+      <CardFace />
+      <div className="px-5 pt-4 pb-1 shrink-0">
+        <p className="text-zinc-500 text-[10px] font-bold tracking-[0.25em] uppercase">Latest Transactions</p>
       </div>
-
-      {/* Links list */}
       <div className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-6">
-        {LINKS.map((link) => (
-          <LinkRow key={link.label} {...link} />
-        ))}
+        {LINKS.map((link) => <LinkRow key={link.label} {...link} />)}
       </div>
     </div>
   );
