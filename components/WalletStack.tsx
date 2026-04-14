@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import WalletCard, { CardDef } from "./WalletCard";
+import AboutCard from "./cards/AboutCard";
 
-// ─── Card definitions (placeholder content for Phase 1) ───────────────────────
 const CARDS: CardDef[] = [
-  { id: "about",       label: "About Me",    gradient: "from-sky-400 to-blue-600"      },
+  { id: "about",       label: "About Me",    gradient: "from-slate-900 to-indigo-950"   },
   { id: "experience",  label: "Experience",  gradient: "from-indigo-500 to-violet-700"  },
   { id: "projects",    label: "Projects",    gradient: "from-slate-600 to-zinc-900"     },
   { id: "connections", label: "Connections", gradient: "from-orange-400 to-rose-500"    },
@@ -101,7 +101,9 @@ export default function WalletStack() {
             hasAnyExpanded={expandedId !== null}
             onClick={() => setExpandedId(card.id)}
             onClose={() => setExpandedId(null)}
-          />
+          >
+            {card.id === "about" && <AboutCard />}
+          </WalletCard>
         );
       })}
     </div>

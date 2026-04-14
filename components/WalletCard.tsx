@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 export interface CardDef {
   id: string;
   label: string;
+  /** Tailwind gradient classes used for the placeholder and stack-peek colour */
   gradient: string;
 }
 
@@ -40,12 +41,6 @@ export default function WalletCard({
   onClose,
   children,
 }: WalletCardProps) {
-  /**
-   * Three animation states:
-   *  expanded  – card fills the full container
-   *  hidden    – another card is expanded; slide off-screen below
-   *  stacked   – default wallet pile position
-   */
   const animate = isExpanded
     ? { y: 0, height: containerHeight }
     : hasAnyExpanded
@@ -54,44 +49,43 @@ export default function WalletCard({
 
   return (
     <motion.div
+      // `absolute` makes this a positioning context for the Done button
       className="absolute left-0 right-0 top-0 rounded-3xl overflow-hidden shadow-2xl"
       style={{ zIndex: isExpanded ? 50 : zIndex, cursor: isExpanded ? "default" : "pointer" }}
       animate={animate}
       transition={SPRING}
       onClick={!isExpanded ? onClick : undefined}
     >
-      <div className={`w-full h-full bg-gradient-to-br ${card.gradient} flex flex-col`}>
-        {/* Done button — only visible when expanded */}
-        {isExpanded && (
-          <div className="flex justify-end px-5 pt-5 shrink-0">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onClose();
-              }}
-              className="bg-black/30 backdrop-blur-sm text-white text-sm font-semibold px-4 py-1.5 rounded-full hover:bg-black/50 transition-colors"
-            >
-              Done
-            </button>
+      {/* ── Scrollable card body ──────────────────────────────────── */}
+      <div
+        className={`w-full h-full hide-scrollbar ${
+          isExpanded ? "overflow-y-auto" : "overflow-hidden"
+        }`}
+      >
+        {children ?? (
+          /* Phase-1 / fallback gradient placeholder */
+          <div
+            className={`w-full h-full bg-gradient-to-br ${card.gradient} flex items-start p-6`}
+          >
+            <span className="text-white/90 text-2xl font-bold tracking-tight">
+              {card.label}
+            </span>
           </div>
         )}
-
-        {/* Card content */}
-        <div
-          className={`flex-1 hide-scrollbar ${
-            isExpanded ? "overflow-y-auto" : "overflow-hidden"
-          }`}
-        >
-          {children ?? (
-            /* Placeholder shown in Phase 1 */
-            <div className="h-full flex items-start p-6">
-              <span className="text-white/90 text-2xl font-bold tracking-tight">
-                {card.label}
-              </span>
-            </div>
-          )}
-        </div>
       </div>
+
+      {/* ── Done button — pinned top-right, never scrolls away ───── */}
+      {isExpanded && (
+        <button
+          className="absolute top-5 right-5 z-20 bg-black/30 backdrop-blur-md text-white text-sm font-semibold px-4 py-1.5 rounded-full hover:bg-black/50 transition-colors"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+        >
+          Done
+        </button>
+      )}
     </motion.div>
   );
 }
