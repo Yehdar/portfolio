@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import WalletCard, { CardDef } from "./WalletCard";
 import AboutCard from "./cards/AboutCard";
+import ExperienceCard from "./cards/ExperienceCard";
 
 const CARDS: CardDef[] = [
   { id: "about",       label: "About Me",    gradient: "from-slate-900 to-indigo-950"   },
-  { id: "experience",  label: "Experience",  gradient: "from-indigo-500 to-violet-700"  },
+  { id: "experience",  label: "Experience",  gradient: "from-blue-900 to-slate-900"     },
   { id: "projects",    label: "Projects",    gradient: "from-slate-600 to-zinc-900"     },
   { id: "connections", label: "Connections", gradient: "from-orange-400 to-rose-500"    },
 ];
@@ -103,6 +104,7 @@ export default function WalletStack() {
             onClose={() => setExpandedId(null)}
           >
             {card.id === "about" && <AboutCard />}
+            {card.id === "experience" && <ExperienceCard />}
           </WalletCard>
         );
       })}
