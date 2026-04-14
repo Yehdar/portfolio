@@ -5,12 +5,13 @@ import WalletCard, { CardDef } from "./WalletCard";
 import AboutCard from "./cards/AboutCard";
 import ExperienceCard from "./cards/ExperienceCard";
 import ProjectsCard from "./cards/ProjectsCard";
+import ConnectionsCard from "./cards/ConnectionsCard";
 
 const CARDS: CardDef[] = [
   { id: "about",       label: "About Me",    gradient: "from-slate-900 to-indigo-950"   },
   { id: "experience",  label: "Experience",  gradient: "from-blue-900 to-slate-900"     },
   { id: "projects",    label: "Projects",    gradient: "from-purple-950 to-emerald-950"  },
-  { id: "connections", label: "Connections", gradient: "from-orange-400 to-rose-500"    },
+  { id: "connections", label: "Connections", gradient: "from-orange-700 to-red-700"      },
 ];
 
 // ─── Stack layout constants ────────────────────────────────────────────────────
@@ -107,6 +108,7 @@ export default function WalletStack() {
             {card.id === "about" && <AboutCard />}
             {card.id === "experience" && <ExperienceCard />}
             {card.id === "projects" && <ProjectsCard />}
+            {card.id === "connections" && <ConnectionsCard />}
           </WalletCard>
         );
       })}
