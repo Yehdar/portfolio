@@ -2,10 +2,9 @@ import WalletStack from "@/components/WalletStack";
 
 export default function Home() {
   return (
-    <main className="h-dvh w-full bg-black flex items-center justify-center">
-      {/* On desktop: simulate a phone viewport centred on screen.
-          On mobile: take up full screen. */}
-      <div className="relative w-full max-w-[430px] h-dvh">
+    <main className="h-dvh w-full bg-[#0a0f1e] flex items-center justify-center">
+      {/* Mobile: full width. md: wider card. lg: dashboard width. */}
+      <div className="relative w-full max-w-[430px] md:max-w-[680px] lg:max-w-[820px] h-dvh">
         <WalletStack />
       </div>
     </main>

@@ -7,14 +7,15 @@ interface Transaction {
   company: string;
   role: string;
   date: string;
+  href: string;
   current?: boolean;
 }
 
 const TRANSACTIONS: Transaction[] = [
-  { icon: Briefcase, company: "Manulife",              role: "Technology Intern",              date: "Winter 2026", current: true },
-  { icon: Landmark,  company: "RBC",                   role: "Software Engineering Intern",    date: "Past" },
-  { icon: Building2, company: "Citi",                  role: "Software Engineering Intern",    date: "Past" },
-  { icon: Building,  company: "Government of Canada",  role: "Software Engineering Intern",    date: "Past" },
+  { icon: Briefcase, company: "Manulife",              role: "Technology Intern",              date: "Winter 2026", href: "https://www.linkedin.com/company/manulife/",               current: true },
+  { icon: Landmark,  company: "RBC",                   role: "Software Engineering Intern",    date: "Past",        href: "https://www.linkedin.com/company/rbc/"                               },
+  { icon: Building2, company: "Citi",                  role: "Software Engineering Intern",    date: "Past",        href: "https://www.linkedin.com/company/citi/"                              },
+  { icon: Building,  company: "Government of Canada",  role: "Software Engineering Intern",    date: "Past",        href: "https://www.linkedin.com/company/government-of-canada/"              },
 ];
 
 // ─── Full-bleed credit card face ───────────────────────────────────────────────
@@ -63,9 +64,15 @@ function CardFace() {
 }
 
 // ─── Transaction Row ───────────────────────────────────────────────────────────
-function TransactionRow({ icon: Icon, company, role, date, current }: Transaction) {
+function TransactionRow({ icon: Icon, company, role, date, href, current }: Transaction) {
   return (
-    <div className="flex items-center gap-4 py-3.5 border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 px-2 -mx-2 rounded-xl transition-colors">
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className="flex items-center gap-4 py-3.5 border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer"
+    >
       <div className="w-10 h-10 rounded-full bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center shrink-0 transition-colors">
         <Icon size={17} className="text-blue-400" strokeWidth={1.8} />
       </div>
@@ -78,7 +85,7 @@ function TransactionRow({ icon: Icon, company, role, date, current }: Transactio
       }`}>
         {date}
       </span>
-    </div>
+    </a>
   );
 }
 

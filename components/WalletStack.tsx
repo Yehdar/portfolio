@@ -8,10 +8,10 @@ import ProjectsCard from "./cards/ProjectsCard";
 import ConnectionsCard from "./cards/ConnectionsCard";
 
 const CARDS: CardDef[] = [
-  { id: "about",       label: "About Me",    gradient: "from-slate-900 to-indigo-950"  },
-  { id: "experience",  label: "Experience",  gradient: "from-blue-800 to-blue-950"     },
-  { id: "projects",    label: "Projects",    gradient: "from-violet-900 to-emerald-950" },
-  { id: "connections", label: "Connections", gradient: "from-orange-700 to-red-800"    },
+  { id: "connections", label: "Links",        gradient: "from-orange-700 to-red-800"    },
+  { id: "projects",    label: "Projects",     gradient: "from-violet-900 to-emerald-950" },
+  { id: "experience",  label: "Career",       gradient: "from-blue-800 to-blue-950"     },
+  { id: "about",       label: "Introduction", gradient: "from-slate-900 to-indigo-950"  },
 ];
 
 // ─── Stack layout constants ────────────────────────────────────────────────────
@@ -54,7 +54,7 @@ export default function WalletStack() {
   );
 
   return (
-    <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-black">
+    <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-[#0a0f1e]">
       {/* ── Header ─────────────────────────────────────────────────── */}
       <div className="absolute top-0 left-0 right-0 h-[68px] flex items-center px-6 z-10 pointer-events-none">
         <span className="text-white text-2xl font-semibold tracking-tight"
@@ -71,7 +71,7 @@ export default function WalletStack() {
       {/* ── Cards ──────────────────────────────────────────────────── */}
       {CARDS.map((card, index) => {
         const stackedY = STACK_TOP + index * PEEK;
-        const zIndex   = index + 1; // 1 (back/top of fan) → 4 (front/bottom of fan)
+        const zIndex   = index + 1; // Links=1 (back/top-tab) → Introduction=4 (front)
 
         return (
           <WalletCard

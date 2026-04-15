@@ -7,12 +7,13 @@ interface Project {
   name: string;
   description: string;
   tech: string;
+  href: string;
 }
 
 const PROJECTS: Project[] = [
-  { icon: Code2, name: "Arsenal (Fintech App)",  description: "AI Credit Card Optimizer",  tech: "Go / Next.js" },
-  { icon: Globe,  name: "Student Gov Website",   description: "Centralized Resource Portal", tech: "React"       },
-  { icon: Cpu,    name: "FIRST Robotics",         description: "Lead & Fundraiser",          tech: "Leadership"  },
+  { icon: Code2, name: "Arsenal (Fintech App)",  description: "AI Credit Card Optimizer",   tech: "Go / Next.js", href: "https://github.com/radhey-patel/arsenal"       },
+  { icon: Globe,  name: "Student Gov Website",   description: "Centralized Resource Portal", tech: "React",        href: "https://github.com/radhey-patel/student-gov"  },
+  { icon: Cpu,    name: "FIRST Robotics",         description: "Lead & Fundraiser",           tech: "Leadership",   href: "https://www.firstinspires.org/"               },
 ];
 
 // ─── Full-bleed credit card face ───────────────────────────────────────────────
@@ -61,9 +62,15 @@ function CardFace() {
 }
 
 // ─── Project Row ───────────────────────────────────────────────────────────────
-function ProjectRow({ icon: Icon, name, description, tech }: Project) {
+function ProjectRow({ icon: Icon, name, description, tech, href }: Project) {
   return (
-    <div className="flex items-center gap-4 py-3.5 border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 px-2 -mx-2 rounded-xl transition-colors">
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className="flex items-center gap-4 py-3.5 border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer"
+    >
       <div className="w-10 h-10 rounded-full bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center shrink-0 transition-colors">
         <Icon size={17} className="text-emerald-400" strokeWidth={1.8} />
       </div>
@@ -74,7 +81,7 @@ function ProjectRow({ icon: Icon, name, description, tech }: Project) {
       <span className="text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 bg-purple-500/15 text-purple-300 whitespace-nowrap">
         {tech}
       </span>
-    </div>
+    </a>
   );
 }
 

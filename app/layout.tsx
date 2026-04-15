@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geist.variable} h-dvh overflow-hidden antialiased`}>
-      <body className="h-dvh overflow-hidden bg-black" suppressHydrationWarning>
+      <body className="h-dvh overflow-hidden bg-[#0a0f1e]" suppressHydrationWarning>
         {children}
       </body>
     </html>
