@@ -108,14 +108,54 @@ export default function WalletStack() {
 
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-white">
-      {/* ── Header (temporary — replaced in Phase 3) ───────────────── */}
-      <div className="absolute top-0 left-0 right-0 h-[110px] flex items-end px-6 pb-3 z-10 pointer-events-none">
+      {/* ── iOS Status Bar ─────────────────────────────────────────── */}
+      <div className="absolute top-0 left-0 right-0 h-[44px] flex items-center justify-between px-6 z-10 pointer-events-none">
+        {/* Time */}
+        <span className="text-black text-[15px] font-semibold" style={{ fontFamily: "var(--font-geist-sans)" }}>
+          9:41
+        </span>
+        {/* Right icons: signal · wifi · battery */}
+        <div className="flex items-center gap-[6px]">
+          {/* Cellular signal */}
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="black">
+            <rect x="0"  y="7" width="3" height="5" rx="0.8" opacity="1"   />
+            <rect x="4"  y="5" width="3" height="7" rx="0.8" opacity="1"   />
+            <rect x="8"  y="3" width="3" height="9" rx="0.8" opacity="1"   />
+            <rect x="12" y="0" width="3" height="12" rx="0.8" opacity="0.3"/>
+          </svg>
+          {/* Wi-Fi */}
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="black" strokeWidth="1.5" strokeLinecap="round">
+            <path d="M8 10.5h.01" strokeWidth="2.5" />
+            <path d="M5.2 7.8a4 4 0 0 1 5.6 0"      opacity="1"   />
+            <path d="M2.4 5a7.6 7.6 0 0 1 11.2 0"   opacity="1"   />
+            <path d="M0 2.3A11.1 11.1 0 0 1 16 2.3" opacity="0.3" />
+          </svg>
+          {/* Battery */}
+          <div className="flex items-center gap-[2px]">
+            <div className="relative w-[25px] h-[12px] rounded-[3px] border-[1.5px] border-black">
+              <div className="absolute inset-[1.5px] right-[1.5px] bg-black rounded-[1.5px]" />
+            </div>
+            <div className="w-[2px] h-[5px] rounded-r-[2px] bg-black opacity-40" />
+          </div>
+        </div>
+      </div>
+
+      {/* ── iOS Nav Bar ────────────────────────────────────────────── */}
+      <div className="absolute top-[44px] left-0 right-0 h-[66px] flex items-center justify-between px-5 z-10">
+        {/* "Wallet" large title */}
         <span
-          className="text-black text-[34px] font-bold tracking-tight"
+          className="text-black text-[34px] font-bold tracking-tight leading-none"
           style={{ fontFamily: "var(--font-geist-sans)" }}
         >
-          Portfolio
+          Wallet
         </span>
+        {/* "+" circular button */}
+        <button className="w-9 h-9 rounded-full bg-[#e5e5ea] flex items-center justify-center active:bg-[#d1d1d6] transition-colors">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round">
+            <line x1="8" y1="2" x2="8" y2="14" />
+            <line x1="2" y1="8" x2="14" y2="8" />
+          </svg>
+        </button>
       </div>
 
       {/* ── Backdrop (tap outside expanded card to close) ──────────── */}
