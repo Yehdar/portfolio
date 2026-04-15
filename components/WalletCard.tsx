@@ -58,7 +58,7 @@ export default function WalletCard({
   return (
     <motion.div
       // No `top-*` Tailwind class here — framer-motion owns `top` via animate
-      className="absolute left-0 right-0 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/20"
+      className="absolute left-0 right-0 rounded-3xl overflow-hidden shadow-xl shadow-black/15 ring-1 ring-black/8"
       style={{
         zIndex: isExpanded ? 50 : zIndex,
         cursor: isExpanded ? "default" : "pointer",

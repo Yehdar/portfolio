@@ -54,10 +54,10 @@ export default function WalletStack() {
   );
 
   return (
-    <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-[#0a0f1e]">
+    <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-white">
       {/* ── Header ─────────────────────────────────────────────────── */}
       <div className="absolute top-0 left-0 right-0 h-[68px] flex items-center px-6 z-10 pointer-events-none">
-        <span className="text-white text-2xl font-semibold tracking-tight"
+        <span className="text-black text-2xl font-semibold tracking-tight"
           style={{ fontFamily: "var(--font-geist-sans)" }}>
           Portfolio
         </span>
