@@ -25,7 +25,11 @@ interface WalletCardProps {
   children?: React.ReactNode;
 }
 
-const SPRING = { type: "spring", damping: 32, stiffness: 280 } as const;
+const SPRING = { type: "spring", damping: 30, stiffness: 300 } as const;
+
+/** Border radius in px: rounded when stacked, flush when filling the screen. */
+const R_STACKED  = 24;
+const R_EXPANDED = 0;
 
 export default function WalletCard({
   card,
@@ -46,14 +50,14 @@ export default function WalletCard({
    *  stacked   – normal wallet pile position
    */
   const animate = isExpanded
-    ? { top: 0,                    height: containerHeight }
+    ? { top: 0,                    height: containerHeight, borderRadius: R_EXPANDED }
     : hasAnyExpanded
-    ? { top: containerHeight + 40, height: cardHeight      }
-    : { top: stackedY,             height: cardHeight      };
+    ? { top: containerHeight + 40, height: cardHeight,      borderRadius: R_STACKED  }
+    : { top: stackedY,             height: cardHeight,      borderRadius: R_STACKED  };
 
   return (
     <motion.div
-      className="absolute left-0 right-0 rounded-3xl overflow-hidden shadow-xl shadow-black/15 ring-1 ring-black/8"
+      className="absolute left-0 right-0 overflow-hidden shadow-xl shadow-black/15 ring-1 ring-black/8"
       style={{
         zIndex: isExpanded ? 50 : zIndex,
         cursor: isExpanded || card.placeholder ? "default" : "pointer",
@@ -61,9 +65,9 @@ export default function WalletCard({
       initial={false}
       animate={animate}
       transition={SPRING}
-      // Placeholder cards: subtle scale pulse instead of expand
-      whileHover={!isExpanded && card.placeholder ? { scale: 1.015 } : undefined}
-      whileTap={!isExpanded && card.placeholder ? { scale: 0.98 } : undefined}
+      // All non-expanded cards get a subtle lift; only non-placeholders expand on click
+      whileHover={!isExpanded ? { scale: 1.012 } : undefined}
+      whileTap={!isExpanded ? { scale: 0.98 } : undefined}
       onClick={!isExpanded && !card.placeholder ? onClick : undefined}
     >
       {/* ── Scrollable card body ──────────────────────────────────── */}

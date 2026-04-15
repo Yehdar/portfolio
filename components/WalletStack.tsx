@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import WalletCard, { CardDef } from "./WalletCard";
 import AboutCard from "./cards/AboutCard";
 import ExperienceCard from "./cards/ExperienceCard";
@@ -159,9 +160,18 @@ export default function WalletStack() {
       </div>
 
       {/* ── Backdrop (tap outside expanded card to close) ──────────── */}
-      {expandedId && (
-        <div className="absolute inset-0 z-40" onClick={() => setExpandedId(null)} />
-      )}
+      <AnimatePresence>
+        {expandedId && (
+          <motion.div
+            className="absolute inset-0 z-40 bg-black/20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setExpandedId(null)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* ── Cards ──────────────────────────────────────────────────── */}
       {CARDS.map((card, index) => {
