@@ -85,7 +85,7 @@ function ActionButton({
 }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
-export default function AboutCard() {
+export default function AboutCard({ desktop }: { desktop?: boolean }) {
   return (
     <div className="w-full h-full flex flex-col bg-[#1c1c1e] overflow-hidden">
       <CardFace />
@@ -98,7 +98,7 @@ export default function AboutCard() {
       </div>
 
       {/* ── Role label ───────────────────────────────────────────── */}
-      <div className="px-6 pt-6 pb-2">
+      <div className={`px-6 pb-2 ${desktop ? "pt-8" : "pt-6"}`}>
         <p className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
           Software Engineer
         </p>
@@ -107,7 +107,7 @@ export default function AboutCard() {
       <div className="flex-1" />
 
       {/* ── Action Buttons ───────────────────────────────────────── */}
-      <div className="flex gap-3 px-6 pb-8">
+      <div className={`flex gap-3 px-6 pb-8 ${desktop ? "gap-5 px-8 pb-10" : ""}`}>
         <ActionButton href="/resume.pdf"                    icon={FileText} title="Resume"  sub="View PDF"  />
         <ActionButton href="mailto:radheypatel@example.com" icon={Mail}     title="Contact" sub="Email Me" />
       </div>

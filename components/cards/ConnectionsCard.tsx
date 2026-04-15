@@ -40,7 +40,6 @@ function CardFace() {
       className="w-full h-[210px] relative flex-shrink-0 overflow-hidden"
       style={{ background: "linear-gradient(145deg, #c5cdd8 0%, #a8b3bf 35%, #8d9baa 65%, #7a8899 100%)" }}
     >
-      {/* Horizontal line texture */}
       <div
         className="absolute inset-0 opacity-[0.12]"
         style={{
@@ -48,23 +47,19 @@ function CardFace() {
             "repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255,255,255,0.5) 4px, rgba(255,255,255,0.5) 5px)",
         }}
       />
-      {/* Glare */}
       <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-white/20" />
       <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/15" />
 
       <div className="relative h-full flex flex-col justify-between p-5">
-        {/* Top: AMEX wordmark */}
         <div className="flex items-start justify-between">
           <span className="text-white font-black tracking-[0.35em] text-sm uppercase drop-shadow-sm">
             AMEX
           </span>
-          {/* Centurion silhouette */}
           <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white/30 mt-0.5">
             <path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z" />
           </svg>
         </div>
 
-        {/* Chip */}
         <div className="w-10 h-7 rounded-md bg-gradient-to-br from-yellow-100 via-yellow-300 to-yellow-500 shadow-md">
           <div className="w-full h-full rounded-md grid grid-cols-3 p-0.5 gap-0.5">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -73,7 +68,6 @@ function CardFace() {
           </div>
         </div>
 
-        {/* Bottom: cardholder + WORLD badge */}
         <div className="flex items-end justify-between">
           <div>
             <p className="text-white/50 text-[8px] tracking-[0.25em] uppercase">Card Holder</p>
@@ -90,7 +84,7 @@ function CardFace() {
   );
 }
 
-// ─── Link Row ──────────────────────────────────────────────────────────────────
+// ─── Mobile list row ───────────────────────────────────────────────────────────
 function LinkRow({ icon: Icon, label, handle, href, iconColor }: Link) {
   return (
     <a
@@ -109,27 +103,84 @@ function LinkRow({ icon: Icon, label, handle, href, iconColor }: Link) {
           {handle}
         </p>
       </div>
-      <ExternalLink
-        size={15}
-        className="text-zinc-600 group-hover:text-zinc-400 shrink-0 transition-colors"
-        strokeWidth={1.8}
-      />
+      <ExternalLink size={15} className="text-zinc-600 group-hover:text-zinc-400 shrink-0 transition-colors" strokeWidth={1.8} />
     </a>
   );
 }
 
-export default function ConnectionsCard() {
+// ─── Desktop bento box ─────────────────────────────────────────────────────────
+function BentoLink({
+  icon: Icon,
+  label,
+  handle,
+  href,
+  bg,
+  iconClass,
+  textClass,
+  subClass,
+}: Link & { bg: string; iconClass: string; textClass: string; subClass: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className={`${bg} rounded-3xl p-8 flex flex-col justify-between
+        min-h-[220px] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer`}
+    >
+      <Icon className={`w-12 h-12 ${iconClass}`} />
+      <div>
+        <p className={`text-xl font-bold leading-tight ${textClass}`}>{label}</p>
+        <p className={`text-sm mt-1 break-all ${subClass}`}>{handle}</p>
+      </div>
+    </a>
+  );
+}
+
+const BENTO_META = [
+  { id: "GitHub",   bg: "bg-zinc-900",     iconClass: "text-white",         textClass: "text-white",         subClass: "text-zinc-400"  },
+  { id: "LinkedIn", bg: "bg-[#0a66c2]",    iconClass: "text-white",         textClass: "text-white",         subClass: "text-blue-200"  },
+];
+
+// ─── Main Component ────────────────────────────────────────────────────────────
+export default function ConnectionsCard({ desktop }: { desktop?: boolean }) {
   return (
     <div className="w-full h-full flex flex-col bg-zinc-950 overflow-hidden">
       <CardFace />
-      <div className="px-5 pt-4 pb-1 shrink-0">
-        <p className="text-zinc-500 text-[10px] font-bold tracking-[0.25em] uppercase">Links</p>
-      </div>
-      <div className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-6">
-        {LINKS.map((link) => (
-          <LinkRow key={link.label} {...link} />
-        ))}
-      </div>
+
+      {desktop ? (
+        /* ── Desktop: bento grid ───────────────────────────────── */
+        <div className="flex-1 px-6 pt-6 pb-8 overflow-y-auto hide-scrollbar">
+          <p className="text-zinc-500 text-[10px] font-bold tracking-[0.25em] uppercase mb-5">Links</p>
+          <div className="grid grid-cols-2 gap-4">
+            {LINKS.map((link) => {
+              const meta = BENTO_META.find((m) => m.id === link.label)!;
+              return (
+                <BentoLink
+                  key={link.label}
+                  {...link}
+                  bg={meta.bg}
+                  iconClass={meta.iconClass}
+                  textClass={meta.textClass}
+                  subClass={meta.subClass}
+                />
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        /* ── Mobile: list rows ─────────────────────────────────── */
+        <>
+          <div className="px-5 pt-4 pb-1 shrink-0">
+            <p className="text-zinc-500 text-[10px] font-bold tracking-[0.25em] uppercase">Links</p>
+          </div>
+          <div className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-6">
+            {LINKS.map((link) => (
+              <LinkRow key={link.label} {...link} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

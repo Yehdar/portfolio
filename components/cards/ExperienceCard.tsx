@@ -67,26 +67,28 @@ function CardFace() {
 }
 
 // ─── Transaction Row (light theme) ────────────────────────────────────────────
-function TransactionRow({ icon: Icon, company, role, date, href, current }: Transaction) {
+function TransactionRow({
+  icon: Icon, company, role, date, href, current, desktop,
+}: Transaction & { desktop?: boolean }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      className="flex items-center gap-4 py-3.5 border-b border-zinc-100 last:border-0 group hover:bg-zinc-50 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer"
+      className={`flex items-center gap-4 border-b border-zinc-100 last:border-0 group hover:bg-zinc-50 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer
+        ${desktop ? "py-5 gap-5" : "py-3.5"}`}
     >
-      <div className="w-10 h-10 rounded-full bg-zinc-100 group-hover:bg-zinc-200 flex items-center justify-center shrink-0 transition-colors">
-        <Icon size={17} className="text-[#0070ba]" strokeWidth={1.8} />
+      <div className={`rounded-full bg-zinc-100 group-hover:bg-zinc-200 flex items-center justify-center shrink-0 transition-colors
+        ${desktop ? "w-12 h-12" : "w-10 h-10"}`}>
+        <Icon size={desktop ? 20 : 17} className="text-[#0070ba]" strokeWidth={1.8} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-zinc-900 text-sm font-semibold leading-tight truncate">{company}</p>
-        <p className="text-zinc-500 text-xs leading-snug truncate mt-0.5">{role}</p>
+        <p className={`text-zinc-900 font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`}>{company}</p>
+        <p className={`text-zinc-500 leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`}>{role}</p>
       </div>
-      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${
-        current
-          ? "bg-green-100 text-green-700"
-          : "bg-zinc-100 text-zinc-500"
+      <span className={`font-semibold px-2 py-0.5 rounded-full shrink-0 ${desktop ? "text-sm" : "text-xs"} ${
+        current ? "bg-green-100 text-green-700" : "bg-zinc-100 text-zinc-500"
       }`}>
         {date}
       </span>
@@ -94,18 +96,18 @@ function TransactionRow({ icon: Icon, company, role, date, href, current }: Tran
   );
 }
 
-export default function ExperienceCard() {
+export default function ExperienceCard({ desktop }: { desktop?: boolean }) {
   return (
     <div className="w-full h-full flex flex-col bg-white overflow-hidden">
       <CardFace />
-      <div className="px-5 pt-4 pb-1 shrink-0">
+      <div className={`shrink-0 ${desktop ? "px-6 pt-6 pb-2" : "px-5 pt-4 pb-1"}`}>
         <p className="text-zinc-400 text-[10px] font-bold tracking-[0.25em] uppercase">
           Experience
         </p>
       </div>
-      <div className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-6">
+      <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
         {TRANSACTIONS.map((tx) => (
-          <TransactionRow key={tx.company} {...tx} />
+          <TransactionRow key={tx.company} {...tx} desktop={desktop} />
         ))}
       </div>
     </div>
