@@ -204,9 +204,9 @@ const LEDGER_LABEL: Record<string, string> = {
 
 // ─── Stack geometry (left mini-wallet) ────────────────────────────────────────
 
-const PEEK       = 40;
-const FRONT_SHOW = 52;
-const FACE_H     = 210;
+const PEEK       = 52;
+const FRONT_SHOW = 64;
+const FACE_H     = 270;
 const stackH     = (CARDS.length - 1) * PEEK + FRONT_SHOW + FACE_H;
 
 // ─── Left column: NavCard ──────────────────────────────────────────────────────
@@ -399,7 +399,7 @@ export default function DesktopLayout({
   const detailItem  = DETAIL_DATA.find((d) => d.id === selectedItem) ?? null;
 
   return (
-    <div className="w-full h-dvh bg-white grid overflow-hidden" style={{ gridTemplateColumns: "400px 1fr 1fr" }}>
+    <div className="w-full h-dvh bg-white grid overflow-hidden" style={{ gridTemplateColumns: "480px 1fr 1fr" }}>
 
       {/* ── Col 1: Mini-Wallet navigation ──────────────────────────── */}
       <div className="border-r border-slate-100 flex flex-col overflow-hidden">
@@ -411,7 +411,7 @@ export default function DesktopLayout({
         </div>
 
         {/* Card stack */}
-        <div className="flex-1 flex items-center justify-center px-6 pb-8">
+        <div className="flex-1 flex items-center justify-center px-10 pb-6">
           <div className="relative w-full" style={{ height: stackH }}>
             {CARDS.map((card, index) => (
               <NavCard
@@ -426,34 +426,22 @@ export default function DesktopLayout({
         </div>
       </div>
 
-      {/* ── Col 2: Ledger ──────────────────────────────────────────── */}
-      <div className="border-r border-slate-100 flex flex-col overflow-hidden">
-        {/* Header */}
-        <div className="h-[72px] flex flex-col justify-center px-8 border-b border-slate-100 flex-shrink-0">
-          <p className="text-[10px] font-bold tracking-[0.25em] text-zinc-400 uppercase">
-            {LEDGER_LABEL[activeCard]}
-          </p>
-          <h2 className="text-xl font-bold text-zinc-900 mt-0.5">Latest Transactions</h2>
-        </div>
-
-        {/* Rows */}
-        <div className="flex-1 overflow-y-auto hide-scrollbar py-2">
+      {/* ── Col 2: Expanded card (pop animation) ──────────────────── */}
+      <div className="border-r border-slate-100 flex flex-col overflow-hidden p-4">
+        <div className="flex-1 relative overflow-hidden rounded-3xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeCard}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
+              initial={{ opacity: 0, scale: 0.96, y: 18 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: -12 }}
+              transition={{ type: "spring", damping: 22, stiffness: 300 }}
+              className="absolute inset-0 overflow-hidden"
             >
-              {ledgerItems.map((item) => (
-                <LedgerRow
-                  key={item.id}
-                  item={item}
-                  isSelected={selectedItem === item.id}
-                  onClick={() => onItemSelect(selectedItem === item.id ? null : item.id)}
-                />
-              ))}
+              {activeCard === "about"       && <AboutCard       desktop onRowClick={onItemSelect} />}
+              {activeCard === "experience"  && <ExperienceCard  desktop onRowClick={onItemSelect} />}
+              {activeCard === "projects"    && <ProjectsCard    desktop onRowClick={onItemSelect} />}
+              {activeCard === "connections" && <ConnectionsCard desktop onRowClick={onItemSelect} />}
             </motion.div>
           </AnimatePresence>
         </div>

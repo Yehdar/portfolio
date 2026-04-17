@@ -68,14 +68,14 @@ function CardFace() {
 
 // ─── Transaction Row (light theme) ────────────────────────────────────────────
 function TransactionRow({
-  icon: Icon, company, role, date, href, current, desktop,
-}: Transaction & { desktop?: boolean }) {
+  icon: Icon, company, role, date, href, current, desktop, onRowClick,
+}: Transaction & { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(company); } }}
       className={`flex items-center gap-4 border-b border-zinc-100 last:border-0 group hover:bg-zinc-50 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer
         ${desktop ? "py-5 gap-5" : "py-3.5"}`}
     >
@@ -96,7 +96,7 @@ function TransactionRow({
   );
 }
 
-export default function ExperienceCard({ desktop }: { desktop?: boolean }) {
+export default function ExperienceCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <div className="w-full h-full flex flex-col bg-white overflow-hidden">
       <CardFace />
@@ -107,7 +107,7 @@ export default function ExperienceCard({ desktop }: { desktop?: boolean }) {
       </div>
       <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
         {TRANSACTIONS.map((tx) => (
-          <TransactionRow key={tx.company} {...tx} desktop={desktop} />
+          <TransactionRow key={tx.company} {...tx} desktop={desktop} onRowClick={onRowClick} />
         ))}
       </div>
     </div>

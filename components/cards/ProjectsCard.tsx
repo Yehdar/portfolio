@@ -67,13 +67,13 @@ function CardFace() {
 }
 
 // ─── Project Row ───────────────────────────────────────────────────────────────
-function ProjectRow({ icon: Icon, name, description, tech, href, desktop }: Project & { desktop?: boolean }) {
+function ProjectRow({ icon: Icon, name, description, tech, href, desktop, onRowClick }: Project & { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(name); } }}
       className={`flex items-center border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer
         ${desktop ? "py-5 gap-5" : "py-3.5 gap-4"}`}
     >
@@ -92,7 +92,7 @@ function ProjectRow({ icon: Icon, name, description, tech, href, desktop }: Proj
   );
 }
 
-export default function ProjectsCard({ desktop }: { desktop?: boolean }) {
+export default function ProjectsCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <div className="w-full h-full flex flex-col bg-zinc-950 overflow-hidden">
       <CardFace />
@@ -103,7 +103,7 @@ export default function ProjectsCard({ desktop }: { desktop?: boolean }) {
       </div>
       <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
         {PROJECTS.map((p) => (
-          <ProjectRow key={p.name} {...p} desktop={desktop} />
+          <ProjectRow key={p.name} {...p} desktop={desktop} onRowClick={onRowClick} />
         ))}
       </div>
     </div>

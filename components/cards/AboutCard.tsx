@@ -61,18 +61,22 @@ function ActionButton({
   icon: Icon,
   title,
   sub,
+  onRowClick,
+  id,
 }: {
   href: string;
   icon: React.ElementType;
   title: string;
   sub: string;
+  onRowClick?: (id: string) => void;
+  id?: string;
 }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => { e.stopPropagation(); if (onRowClick && id) { e.preventDefault(); onRowClick(id); } }}
       className="flex-1 flex flex-col items-center justify-center gap-2 bg-white/[0.08] hover:bg-white/[0.13] active:scale-95 transition-all rounded-2xl py-5 px-3"
     >
       <Icon className="text-white" size={26} strokeWidth={1.6} />
@@ -85,7 +89,7 @@ function ActionButton({
 }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
-export default function AboutCard({ desktop }: { desktop?: boolean }) {
+export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <div className="w-full h-full flex flex-col bg-[#1c1c1e] overflow-hidden">
       <CardFace />
@@ -108,8 +112,8 @@ export default function AboutCard({ desktop }: { desktop?: boolean }) {
 
       {/* ── Action Buttons ───────────────────────────────────────── */}
       <div className={`flex gap-3 px-6 pb-8 ${desktop ? "gap-5 px-8 pb-10" : ""}`}>
-        <ActionButton href="/resume.pdf"                    icon={FileText} title="Resume"  sub="View PDF"  />
-        <ActionButton href="mailto:radheypatel@example.com" icon={Mail}     title="Contact" sub="Email Me" />
+        <ActionButton href="/resume.pdf"                    icon={FileText} title="Resume"  sub="View PDF"  id="resume"  onRowClick={onRowClick} />
+        <ActionButton href="mailto:radheypatel@example.com" icon={Mail}     title="Contact" sub="Email Me" id="contact" onRowClick={onRowClick} />
       </div>
     </div>
   );

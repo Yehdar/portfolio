@@ -53,7 +53,7 @@ function CardFace() {
       <div className="relative h-full flex flex-col justify-between p-5">
         <div className="flex items-start justify-between">
           <span className="text-white font-black tracking-[0.35em] text-sm uppercase drop-shadow-sm">
-            AMEX
+            CONTACT
           </span>
           <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white/30 mt-0.5">
             <path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z" />
@@ -85,13 +85,13 @@ function CardFace() {
 }
 
 // ─── Mobile list row ───────────────────────────────────────────────────────────
-function LinkRow({ icon: Icon, label, handle, href, iconColor }: Link) {
+function LinkRow({ icon: Icon, label, handle, href, iconColor, onRowClick }: Link & { onRowClick?: (id: string) => void }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(label); } }}
       className="flex items-center gap-4 py-3.5 border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer"
     >
       <div className="w-10 h-10 rounded-full bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center shrink-0 transition-colors">
@@ -118,13 +118,14 @@ function BentoLink({
   iconClass,
   textClass,
   subClass,
-}: Link & { bg: string; iconClass: string; textClass: string; subClass: string }) {
+  onRowClick,
+}: Link & { bg: string; iconClass: string; textClass: string; subClass: string; onRowClick?: (id: string) => void }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(label); } }}
       className={`${bg} rounded-3xl p-8 flex flex-col justify-between
         min-h-[220px] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer`}
     >
@@ -143,7 +144,7 @@ const BENTO_META = [
 ];
 
 // ─── Main Component ────────────────────────────────────────────────────────────
-export default function ConnectionsCard({ desktop }: { desktop?: boolean }) {
+export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <div className="w-full h-full flex flex-col bg-zinc-950 overflow-hidden">
       <CardFace />
@@ -163,6 +164,7 @@ export default function ConnectionsCard({ desktop }: { desktop?: boolean }) {
                   iconClass={meta.iconClass}
                   textClass={meta.textClass}
                   subClass={meta.subClass}
+                  onRowClick={onRowClick}
                 />
               );
             })}
@@ -176,7 +178,7 @@ export default function ConnectionsCard({ desktop }: { desktop?: boolean }) {
           </div>
           <div className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-6">
             {LINKS.map((link) => (
-              <LinkRow key={link.label} {...link} />
+              <LinkRow key={link.label} {...link} onRowClick={onRowClick} />
             ))}
           </div>
         </>
