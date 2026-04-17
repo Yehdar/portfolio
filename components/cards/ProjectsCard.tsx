@@ -10,7 +10,7 @@ interface Project {
   href: string;
 }
 
-const PROJECTS: Project[] = [
+export const PROJECTS: Project[] = [
   { icon: Code2, name: "Arsenal (Fintech App)", description: "AI Credit Card Optimizer",    tech: "Go / Next.js", href: "https://github.com/radhey-patel/arsenal"      },
   { icon: Globe, name: "Student Gov Website",   description: "Centralized Resource Portal", tech: "React",        href: "https://github.com/radhey-patel/student-gov" },
   { icon: Cpu,   name: "FIRST Robotics",         description: "Lead & Fundraiser",           tech: "Leadership",   href: "https://www.firstinspires.org/"              },
@@ -67,41 +67,43 @@ function CardFace() {
 }
 
 // ─── Project Row ───────────────────────────────────────────────────────────────
-function ProjectRow({ icon: Icon, name, description, tech, href }: Project) {
+function ProjectRow({ icon: Icon, name, description, tech, href, desktop }: Project & { desktop?: boolean }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      className="flex items-center gap-4 py-3.5 border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer"
+      className={`flex items-center border-b border-zinc-800/60 last:border-0 group hover:bg-zinc-900/40 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer
+        ${desktop ? "py-5 gap-5" : "py-3.5 gap-4"}`}
     >
-      <div className="w-10 h-10 rounded-full bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center shrink-0 transition-colors">
-        <Icon size={17} className="text-blue-400" strokeWidth={1.8} />
+      <div className={`rounded-full bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center shrink-0 transition-colors
+        ${desktop ? "w-12 h-12" : "w-10 h-10"}`}>
+        <Icon size={desktop ? 20 : 17} className="text-blue-400" strokeWidth={1.8} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-white text-sm font-semibold leading-tight truncate">{name}</p>
-        <p className="text-zinc-400 text-xs leading-snug truncate mt-0.5">{description}</p>
+        <p className={`text-white font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`}>{name}</p>
+        <p className={`text-zinc-400 leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`}>{description}</p>
       </div>
-      <span className="text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 bg-blue-500/15 text-blue-300 whitespace-nowrap">
+      <span className={`font-semibold px-2 py-0.5 rounded-full shrink-0 bg-blue-500/15 text-blue-300 whitespace-nowrap ${desktop ? "text-sm" : "text-xs"}`}>
         {tech}
       </span>
     </a>
   );
 }
 
-export default function ProjectsCard() {
+export default function ProjectsCard({ desktop }: { desktop?: boolean }) {
   return (
     <div className="w-full h-full flex flex-col bg-zinc-950 overflow-hidden">
       <CardFace />
-      <div className="px-5 pt-4 pb-1 shrink-0">
+      <div className={`shrink-0 ${desktop ? "px-6 pt-6 pb-2" : "px-5 pt-4 pb-1"}`}>
         <p className="text-zinc-500 text-[10px] font-bold tracking-[0.25em] uppercase">
           Projects
         </p>
       </div>
-      <div className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-6">
+      <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
         {PROJECTS.map((p) => (
-          <ProjectRow key={p.name} {...p} />
+          <ProjectRow key={p.name} {...p} desktop={desktop} />
         ))}
       </div>
     </div>
