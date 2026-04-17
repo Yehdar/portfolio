@@ -11,7 +11,7 @@ interface Transaction {
   current?: boolean;
 }
 
-const TRANSACTIONS: Transaction[] = [
+export const TRANSACTIONS: Transaction[] = [
   { icon: Briefcase, company: "Manulife",             role: "Technology Intern",           date: "Winter 2026", href: "https://www.linkedin.com/company/manulife/",              current: true },
   { icon: Landmark,  company: "RBC",                  role: "Software Engineering Intern", date: "Past",        href: "https://www.linkedin.com/company/rbc/"                              },
   { icon: Building2, company: "Citi",                 role: "Software Engineering Intern", date: "Past",        href: "https://www.linkedin.com/company/citi/"                             },

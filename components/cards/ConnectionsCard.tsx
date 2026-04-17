@@ -28,7 +28,7 @@ interface Link {
   iconColor: string;
 }
 
-const LINKS: Link[] = [
+export const LINKS: Link[] = [
   { icon: GithubIcon,   label: "GitHub",   handle: "github.com/radhey-patel",      href: "https://github.com/radhey-patel",      iconColor: "text-zinc-900" },
   { icon: LinkedinIcon, label: "LinkedIn", handle: "linkedin.com/in/radhey-patel", href: "https://linkedin.com/in/radhey-patel", iconColor: "text-sky-400"  },
 ];

@@ -32,11 +32,20 @@ const BOTTOM_MARGIN = 24;
 // ──────────────────────────────────────────────────────────────────────────────
 
 export default function WalletStack() {
-  // Unified selection state — drives expandedId on mobile, active viewport on desktop
+  // Desktop: activeCard drives the ledger column; selectedItem drives the deep-dive column
+  const [activeCard, setActiveCard]     = useState<string>("experience");
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
+  // Mobile: single selection drives card expansion
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
+  const handleCardSelect = (id: string) => {
+    setActiveCard(id);
+    setSelectedItem(null);
+  };
+
   // Desktop breakpoint detection (useLayoutEffect → fires before paint to minimise flash)
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
   useLayoutEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     setIsDesktop(mq.matches);
@@ -46,11 +55,14 @@ export default function WalletStack() {
   }, []);
 
   // ── Desktop layout ──────────────────────────────────────────────────────────
+  if (isDesktop === null) return null;   // wait for breakpoint detection before any render
   if (isDesktop) {
     return (
       <DesktopLayout
-        selectedId={selectedId ?? "about"}
-        onSelect={setSelectedId}
+        activeCard={activeCard}
+        selectedItem={selectedItem}
+        onCardSelect={handleCardSelect}
+        onItemSelect={setSelectedItem}
       />
     );
   }

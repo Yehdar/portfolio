@@ -10,7 +10,7 @@ interface Project {
   href: string;
 }
 
-const PROJECTS: Project[] = [
+export const PROJECTS: Project[] = [
   { icon: Code2, name: "Arsenal (Fintech App)", description: "AI Credit Card Optimizer",    tech: "Go / Next.js", href: "https://github.com/radhey-patel/arsenal"      },
   { icon: Globe, name: "Student Gov Website",   description: "Centralized Resource Portal", tech: "React",        href: "https://github.com/radhey-patel/student-gov" },
   { icon: Cpu,   name: "FIRST Robotics",         description: "Lead & Fundraiser",           tech: "Leadership",   href: "https://www.firstinspires.org/"              },
