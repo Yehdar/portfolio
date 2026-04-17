@@ -265,22 +265,22 @@ function LedgerRow({
   const Icon = item.icon;
   return (
     <motion.button
-      className="w-full flex items-center gap-4 px-8 py-4 text-left transition-colors relative focus:outline-none"
+      className="w-full flex items-center gap-5 px-8 py-5 text-left transition-colors relative focus:outline-none"
       style={{ borderLeft: isSelected ? "2px solid #000" : "2px solid transparent" }}
       animate={{ backgroundColor: isSelected ? "rgb(248,248,248)" : "rgb(255,255,255)" }}
       whileHover={{ backgroundColor: "rgb(248,248,248)" }}
       transition={{ duration: 0.12 }}
       onClick={onClick}
     >
-      <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center shrink-0">
-        <Icon size={17} className="text-zinc-600" strokeWidth={1.8} />
+      <div className="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center shrink-0">
+        <Icon size={20} className="text-zinc-600" strokeWidth={1.8} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-zinc-900 text-sm font-semibold leading-tight truncate">{item.title}</p>
-        <p className="text-zinc-400 text-xs leading-snug mt-0.5 truncate">{item.subtitle}</p>
+        <p className="text-zinc-900 text-base font-semibold leading-tight truncate">{item.title}</p>
+        <p className="text-zinc-400 text-sm leading-snug mt-0.5 truncate">{item.subtitle}</p>
       </div>
       {item.badge && (
-        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap ${
+        <span className={`text-sm font-semibold px-3 py-1 rounded-full shrink-0 whitespace-nowrap ${
           item.badgeActive ? "bg-green-100 text-green-700" : "bg-zinc-100 text-zinc-500"
         }`}>
           {item.badge}
@@ -322,46 +322,46 @@ function ItemDetail({ item }: { item: ItemDetail }) {
   const Icon = iconMap[item.id] ?? Briefcase;
 
   return (
-    <div className="h-full overflow-y-auto hide-scrollbar px-10 py-10">
+    <div className="h-full overflow-y-auto hide-scrollbar px-12 py-12">
       {/* Header */}
-      <div className="flex items-center gap-5 mb-8">
-        <div className="w-16 h-16 rounded-2xl bg-zinc-100 flex items-center justify-center shrink-0">
-          <Icon size={28} className="text-zinc-700" strokeWidth={1.6} />
+      <div className="flex items-center gap-6 mb-10">
+        <div className="w-20 h-20 rounded-2xl bg-zinc-100 flex items-center justify-center shrink-0">
+          <Icon size={36} className="text-zinc-700" strokeWidth={1.6} />
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 leading-tight">{item.title}</h1>
-          <p className="text-zinc-500 mt-1 text-sm">{item.subtitle}</p>
+          <h1 className="text-4xl font-bold text-zinc-900 leading-tight">{item.title}</h1>
+          <p className="text-zinc-500 mt-1.5 text-base">{item.subtitle}</p>
         </div>
       </div>
 
       {/* Badges */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="flex flex-wrap gap-2 mb-10">
         {item.tech.map((t) => (
-          <span key={t} className="text-xs font-semibold px-3 py-1 rounded-full bg-zinc-100 text-zinc-600">
+          <span key={t} className="text-sm font-semibold px-4 py-1.5 rounded-full bg-zinc-100 text-zinc-600">
             {t}
           </span>
         ))}
-        <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
+        <span className={`text-sm font-semibold px-4 py-1.5 rounded-full ${
           item.status === "Active" ? "bg-green-100 text-green-700" : "bg-zinc-100 text-zinc-500"
         }`}>
           {item.status}
         </span>
         {item.date && (
-          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-zinc-100 text-zinc-500">
+          <span className="text-sm font-semibold px-4 py-1.5 rounded-full bg-zinc-100 text-zinc-500">
             {item.date}
           </span>
         )}
       </div>
 
       {/* Divider */}
-      <div className="border-t border-zinc-100 mb-8" />
+      <div className="border-t border-zinc-100 mb-10" />
 
       {/* Bullet points */}
-      <div className="space-y-4 mb-10">
+      <div className="space-y-5 mb-12">
         {item.bullets.map((b, i) => (
-          <div key={i} className="flex gap-3 items-start">
-            <div className="w-1.5 h-1.5 rounded-full bg-zinc-300 mt-[9px] flex-shrink-0" />
-            <p className="text-zinc-700 leading-relaxed text-sm">{b}</p>
+          <div key={i} className="flex gap-4 items-start">
+            <div className="w-1.5 h-1.5 rounded-full bg-zinc-300 mt-[11px] flex-shrink-0" />
+            <p className="text-zinc-700 leading-relaxed text-base">{b}</p>
           </div>
         ))}
       </div>
@@ -371,10 +371,10 @@ function ItemDetail({ item }: { item: ItemDetail }) {
         href={item.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-700 active:bg-zinc-800 text-white text-sm font-semibold px-5 py-3 rounded-xl transition-colors"
+        className="inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-700 active:bg-zinc-800 text-white text-base font-semibold px-6 py-3.5 rounded-xl transition-colors"
       >
         {item.hrefLabel}
-        <ExternalLink size={14} strokeWidth={2} />
+        <ExternalLink size={16} strokeWidth={2} />
       </a>
     </div>
   );

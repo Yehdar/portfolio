@@ -33,7 +33,7 @@ const BOTTOM_MARGIN = 24;
 
 export default function WalletStack() {
   // Desktop: activeCard drives the ledger column; selectedItem drives the deep-dive column
-  const [activeCard, setActiveCard]     = useState<string>("experience");
+  const [activeCard, setActiveCard]     = useState<string>("about");
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   // Mobile: single selection drives card expansion
