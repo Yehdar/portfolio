@@ -2,8 +2,9 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ExternalLink, X } from "lucide-react";
 import WalletCard, { CardDef } from "./WalletCard";
-import DesktopLayout from "./DesktopLayout";
+import DesktopLayout, { DETAIL_DATA, ItemDetail } from "./DesktopLayout";
 import AboutCard from "./cards/AboutCard";
 import ExperienceCard from "./cards/ExperienceCard";
 import ProjectsCard from "./cards/ProjectsCard";
@@ -80,6 +81,79 @@ export default function WalletStack() {
 
 // ─── Mobile wallet stack ───────────────────────────────────────────────────────
 
+function MobileDetailSheet({ item, onClose }: { item: ItemDetail; onClose: () => void }) {
+  return (
+    <motion.div
+      className="absolute inset-x-4 z-60 rounded-3xl overflow-hidden shadow-2xl"
+      style={{
+        top: "50%",
+        background: "rgba(255,255,255,0.92)",
+        backdropFilter: "blur(28px)",
+        WebkitBackdropFilter: "blur(28px)",
+      }}
+      initial={{ opacity: 0, y: "-35%", scale: 0.95 }}
+      animate={{ opacity: 1, y: "-50%", scale: 1 }}
+      exit={{ opacity: 0, y: "-35%", scale: 0.95 }}
+      transition={{ type: "spring", damping: 28, stiffness: 340 }}
+    >
+      <div className="max-h-[72vh] overflow-y-auto hide-scrollbar px-6 py-6">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <h2 className="text-xl font-bold text-zinc-900 leading-tight">{item.title}</h2>
+            <p className="text-zinc-500 text-sm mt-0.5">{item.subtitle}</p>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center shrink-0 active:bg-zinc-200 transition-colors"
+          >
+            <X size={14} className="text-zinc-600" strokeWidth={2} />
+          </button>
+        </div>
+
+        {/* Badges */}
+        <div className="flex flex-wrap gap-2 mb-5">
+          {item.tech.map((t) => (
+            <span key={t} className="text-xs font-semibold px-3 py-1 rounded-full bg-zinc-100/80 text-zinc-600">{t}</span>
+          ))}
+          <span className={`text-xs font-semibold px-3 py-1 rounded-full ${item.status === "Active" ? "bg-green-100 text-green-700" : "bg-zinc-100 text-zinc-500"}`}>
+            {item.status}
+          </span>
+          {item.date && (
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-zinc-100 text-zinc-500">{item.date}</span>
+          )}
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-zinc-200/60 mb-5" />
+
+        {/* Bullets */}
+        <div className="space-y-3 mb-6">
+          {item.bullets.map((b, i) => (
+            <div key={i} className="flex gap-3 items-start">
+              <div className="w-1.5 h-1.5 rounded-full bg-zinc-300 mt-[7px] flex-shrink-0" />
+              <p className="text-zinc-700 text-sm leading-relaxed">{b}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="flex justify-end">
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+          >
+            {item.hrefLabel}
+            <ExternalLink size={13} strokeWidth={2} />
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function MobileStack({
   selectedId,
   setSelectedId,
@@ -89,6 +163,9 @@ function MobileStack({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerHeight, setContainerHeight] = useState(800);
+  const [mobileSelectedItem, setMobileSelectedItem] = useState<string | null>(null);
+
+  const detailItem = DETAIL_DATA.find((d) => d.id === mobileSelectedItem) ?? null;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -123,7 +200,7 @@ function MobileStack({
         </button>
       </div>
 
-      {/* ── Backdrop ─────────────────────────────────────────────── */}
+      {/* ── Backdrop: dims cards when any card is expanded ────────── */}
       <AnimatePresence>
         {selectedId && (
           <motion.div
@@ -132,7 +209,21 @@ function MobileStack({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            onClick={() => setSelectedId(null)}
+            onClick={() => { if (!mobileSelectedItem) setSelectedId(null); }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── Backdrop: blurs expanded card when detail sheet is open ── */}
+      <AnimatePresence>
+        {mobileSelectedItem && (
+          <motion.div
+            className="absolute inset-0 z-55 bg-black/30 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setMobileSelectedItem(null)}
           />
         )}
       </AnimatePresence>
@@ -155,13 +246,20 @@ function MobileStack({
             onClick={() => setSelectedId(card.id)}
             onClose={() => setSelectedId(null)}
           >
-            {card.id === "connections" && <ConnectionsCard />}
-            {card.id === "projects"    && <ProjectsCard />}
-            {card.id === "experience"  && <ExperienceCard />}
-            {card.id === "about"       && <AboutCard />}
+            {card.id === "connections" && <ConnectionsCard onRowClick={setMobileSelectedItem} />}
+            {card.id === "projects"    && <ProjectsCard    onRowClick={setMobileSelectedItem} />}
+            {card.id === "experience"  && <ExperienceCard  onRowClick={setMobileSelectedItem} />}
+            {card.id === "about"       && <AboutCard       onRowClick={setMobileSelectedItem} />}
           </WalletCard>
         );
       })}
+
+      {/* ── Mobile detail sheet ───────────────────────────────────── */}
+      <AnimatePresence>
+        {detailItem && (
+          <MobileDetailSheet item={detailItem} onClose={() => setMobileSelectedItem(null)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

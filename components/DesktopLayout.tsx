@@ -29,7 +29,7 @@ interface LedgerItem {
   badgeActive?: boolean;
 }
 
-interface ItemDetail {
+export interface ItemDetail {
   id: string;
   category: string;
   title: string;
@@ -44,7 +44,7 @@ interface ItemDetail {
 
 // ─── Rich detail data ──────────────────────────────────────────────────────────
 
-const DETAIL_DATA: ItemDetail[] = [
+export const DETAIL_DATA: ItemDetail[] = [
   {
     id: "Manulife", category: "experience", title: "Manulife",
     subtitle: "Technology Intern", date: "Winter 2026", status: "Active",
@@ -98,7 +98,7 @@ const DETAIL_DATA: ItemDetail[] = [
       "Full-stack: Go REST API backend with a Next.js + Tailwind frontend",
       "Detects recurring charges, subscription creep, and spending anomalies",
     ],
-    href: "https://github.com/radhey-patel/arsenal", hrefLabel: "View on GitHub",
+    href: "https://github.com/yehdar/arsenal", hrefLabel: "View on GitHub",
   },
   {
     id: "Student Gov Website", category: "projects", title: "Student Gov Website",
@@ -109,7 +109,7 @@ const DETAIL_DATA: ItemDetail[] = [
       "Resource hub serving 4,000+ students with events and job postings",
       "Reduced admin content-update time from hours to minutes",
     ],
-    href: "https://github.com/radhey-patel/student-gov", hrefLabel: "View on GitHub",
+    href: "https://github.com/yehdar/student-gov", hrefLabel: "View on GitHub",
   },
   {
     id: "FIRST Robotics", category: "projects", title: "FIRST Robotics",
@@ -124,23 +124,23 @@ const DETAIL_DATA: ItemDetail[] = [
   },
   {
     id: "GitHub", category: "connections", title: "GitHub",
-    subtitle: "github.com/radhey-patel", date: "", status: "Active",
+    subtitle: "github.com/yehdar", date: "", status: "Active",
     tech: [],
     bullets: [
       "Open-source contributions and personal projects",
       "Primarily Go, TypeScript, and Python repositories",
     ],
-    href: "https://github.com/radhey-patel", hrefLabel: "Open GitHub",
+    href: "https://github.com/yehdar", hrefLabel: "Open GitHub",
   },
   {
     id: "LinkedIn", category: "connections", title: "LinkedIn",
-    subtitle: "linkedin.com/in/radhey-patel", date: "", status: "Active",
+    subtitle: "linkedin.com/in/radhey-patel-", date: "", status: "Active",
     tech: [],
     bullets: [
       "500+ connections across tech and finance",
       "Regular posts on engineering and internship experiences",
     ],
-    href: "https://linkedin.com/in/radhey-patel", hrefLabel: "Open LinkedIn",
+    href: "https://linkedin.com/in/radhey-patel-", hrefLabel: "Open LinkedIn",
   },
   {
     id: "resume", category: "about", title: "Resume",

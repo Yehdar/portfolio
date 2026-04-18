@@ -49,15 +49,19 @@ export default function WalletCard({
    *  hidden    – another card is expanded; slide below the fold
    *  stacked   – normal wallet pile position
    */
+  const CARD_PAD   = 12;
+  const CARD_TOP   = 10;
+  const STACK_PAD  = 12;
+
   const animate = isExpanded
-    ? { top: 0,                    height: containerHeight, borderRadius: R_EXPANDED }
+    ? { top: CARD_TOP, left: CARD_PAD, right: CARD_PAD, height: containerHeight - CARD_TOP - CARD_PAD, borderRadius: R_STACKED }
     : hasAnyExpanded
-    ? { top: containerHeight + 40, height: cardHeight,      borderRadius: R_STACKED  }
-    : { top: stackedY,             height: cardHeight,      borderRadius: R_STACKED  };
+    ? { top: containerHeight + 40, left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R_STACKED }
+    : { top: stackedY, left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R_STACKED };
 
   return (
     <motion.div
-      className="absolute left-0 right-0 overflow-hidden shadow-xl shadow-black/15 ring-1 ring-black/8"
+      className="absolute overflow-hidden shadow-xl shadow-black/15 ring-1 ring-black/8"
       style={{
         zIndex: isExpanded ? 50 : zIndex,
         cursor: isExpanded || card.placeholder ? "default" : "pointer",
