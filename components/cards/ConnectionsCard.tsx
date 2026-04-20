@@ -39,152 +39,36 @@ export const LINKS: Link[] = [
 // ─── Mountain view SVG ────────────────────────────────────────────────────────
 function MountainLandscape() {
   return (
-    <svg
-      viewBox="0 0 400 210"
-      preserveAspectRatio="xMidYMid slice"
-      className="absolute inset-0 w-full h-full"
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/yeti.png"
+      alt=""
       aria-hidden
-    >
-      <defs>
-        <linearGradient id="mt-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#052e16" />
-          <stop offset="30%" stopColor="#065f46" />
-          <stop offset="65%" stopColor="#0f766e" />
-          <stop offset="100%" stopColor="#134e4a" />
-        </linearGradient>
-        <linearGradient id="mt-lake" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#0f766e" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#052e16" />
-        </linearGradient>
-        <linearGradient id="mt-peak1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#f1f5f9" />
-          <stop offset="30%" stopColor="#94a3b8" />
-          <stop offset="100%" stopColor="#334155" />
-        </linearGradient>
-        <linearGradient id="mt-peak2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#e2e8f0" />
-          <stop offset="25%" stopColor="#64748b" />
-          <stop offset="100%" stopColor="#1e293b" />
-        </linearGradient>
-      </defs>
-
-      {/* Sky */}
-      <rect width="400" height="210" fill="url(#mt-sky)" />
-
-      {/* Stars */}
-      {[[25,12],[60,6],[95,18],[135,8],[170,22],[210,10],[250,16],[290,7],[330,20],[370,11],[45,35],[110,28],[190,38],[270,30],[350,36]].map(([cx,cy],i) => (
-        <circle key={i} cx={cx} cy={cy} r={i % 3 === 0 ? 1.1 : 0.7} fill="white" opacity={0.5 + (i % 3) * 0.15} />
-      ))}
-
-      {/* Aurora borealis */}
-      <path d="M0 40 Q100 20 200 35 Q300 50 400 30" stroke="#4ade80" strokeWidth="12" fill="none" opacity="0.08" />
-      <path d="M0 50 Q120 30 220 45 Q320 58 400 38" stroke="#34d399" strokeWidth="8" fill="none" opacity="0.06" />
-      <path d="M50 60 Q150 40 250 55 Q350 68 400 50" stroke="#6ee7b7" strokeWidth="6" fill="none" opacity="0.05" />
-
-      {/* ── Far background mountains (palest) ── */}
-      <path d="M0 120 L40 75 L80 100 L120 60 L170 90 L220 55 L270 85 L320 58 L370 82 L400 65 L400 210 L0 210Z"
-        fill="#1e3a5f" opacity="0.4" />
-
-      {/* ── Main mountain range ── */}
-      {/* Left peak */}
-      <path d="M-10 160 L60 65 L130 160Z" fill="url(#mt-peak2)" />
-      {/* Snow cap */}
-      <path d="M60 65 L45 90 L75 90Z" fill="white" opacity="0.85" />
-      <path d="M60 65 L50 82 L70 82Z" fill="white" opacity="0.6" />
-
-      {/* Center dominant peak */}
-      <path d="M120 160 L200 30 L280 160Z" fill="url(#mt-peak1)" />
-      {/* Snow cap */}
-      <path d="M200 30 L178 72 L222 72Z" fill="white" opacity="0.9" />
-      <path d="M200 30 L185 60 L215 60Z" fill="white" opacity="0.7" />
-      {/* Rock face shadow */}
-      <path d="M200 30 L200 160 L280 160Z" fill="#0f172a" opacity="0.25" />
-
-      {/* Right peak */}
-      <path d="M265 160 L340 70 L400 160Z" fill="url(#mt-peak2)" />
-      {/* Snow cap */}
-      <path d="M340 70 L323 98 L357 98Z" fill="white" opacity="0.8" />
-
-      {/* ── Foreground forest ── */}
-      <path d="M0 175 Q40 162 80 170 Q120 178 160 165 Q200 152 240 168 Q280 182 320 168 Q360 156 400 168 L400 210 L0 210Z"
-        fill="#052e16" />
-
-      {/* Pine trees foreground */}
-      {[15, 40, 70, 105, 135, 165, 200, 235, 268, 300, 330, 362, 390].map((x, i) => (
-        <g key={i} transform={`translate(${x}, ${158 + (i % 3) * 5})`}>
-          <polygon points="0,-28 7,0 -7,0" fill="#064e3b" opacity="0.9" />
-          <polygon points="0,-38 9,0 -9,0" fill="#065f46" opacity="0.7" />
-          <rect x="-2" y="0" width="4" height="8" fill="#78350f" opacity="0.6" />
-        </g>
-      ))}
-
-      {/* ── Alpine lake reflection ── */}
-      <ellipse cx="200" cy="195" rx="120" ry="18" fill="url(#mt-lake)" />
-      {/* Mountain reflection in lake */}
-      <path d="M130 195 Q200 185 270 195 Q230 205 200 210 Q170 205 130 195Z" fill="#0f766e" opacity="0.2" />
-      {/* Lake shimmer */}
-      {[140,170,200,230,260].map((x,i) => (
-        <line key={i} x1={x} y1={192 + (i%2)*4} x2={x+20} y2={192 + (i%2)*4} stroke="#4ade80" strokeWidth="0.6" opacity="0.15" />
-      ))}
-
-      {/* Mist at mountain base */}
-      <ellipse cx="200" cy="162" rx="180" ry="14" fill="white" opacity="0.04" />
-      <ellipse cx="80" cy="158" rx="70" ry="10" fill="white" opacity="0.03" />
-    </svg>
+      className="absolute inset-0 w-full h-full object-cover"
+    />
   );
 }
 
 // ─── State Seal ────────────────────────────────────────────────────────────────
-function StateSeal({ color }: { color: string }) {
-  return (
-    <svg viewBox="0 0 44 44" className="w-10 h-10" aria-hidden>
-      <circle cx="22" cy="22" r="20" fill="none" stroke={color} strokeWidth="1.5" opacity="0.7" />
-      <circle cx="22" cy="22" r="15" fill="none" stroke={color} strokeWidth="0.8" opacity="0.4" />
-      <text x="22" y="19" textAnchor="middle" fill={color} fontSize="7" fontWeight="bold" fontFamily="sans-serif" opacity="0.85">YORK</text>
-      <text x="22" y="27" textAnchor="middle" fill={color} fontSize="6" fontFamily="sans-serif" opacity="0.7">UNIV.</text>
-      <text x="22" y="34" textAnchor="middle" fill={color} fontSize="5" fontFamily="sans-serif" opacity="0.5">EST. 1959</text>
-    </svg>
-  );
-}
-
 // ─── ID Card Face ──────────────────────────────────────────────────────────────
 function CardFace() {
   return (
-    <div className="w-full h-[210px] relative flex-shrink-0 overflow-hidden">
+    <div className="w-full h-[300px] relative flex-shrink-0 overflow-hidden">
       <MountainLandscape />
 
-      <div className="absolute inset-0 flex flex-col justify-between p-4">
-        {/* Top */}
+      <div className="absolute inset-0 flex flex-col p-4">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-[8px] tracking-[0.35em] font-bold uppercase text-white/60 leading-none mb-1">
+            <p className="text-[8px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
               {theme.category}
-            </p>
-            <p className="text-white text-[15px] font-bold tracking-wide leading-none drop-shadow-sm">
-              ALPINE PEAKS
             </p>
           </div>
           <div
             className="px-2 py-0.5 rounded text-[7px] font-bold tracking-widest uppercase"
             style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#6ee7b7" }}
           >
-            ID CARD
+            4
           </div>
-        </div>
-
-        {/* Bottom */}
-        <div className="flex items-end justify-between">
-          <div
-            className="rounded-lg px-3 py-2"
-            style={{ background: "rgba(0,0,0,0.25)", backdropFilter: "blur(8px)" }}
-          >
-            <p className="text-white/60 text-[7px] tracking-[0.2em] uppercase mb-0.5">CARDHOLDER</p>
-            <p className="text-white font-bold text-[15px] tracking-tight leading-none drop-shadow">
-              Radhey Patel
-            </p>
-            <p className="text-white/55 text-[8px] tracking-wider mt-0.5 uppercase">Software Engineer</p>
-          </div>
-          <StateSeal color="#4ade80" />
         </div>
       </div>
     </div>

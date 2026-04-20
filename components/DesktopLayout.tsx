@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ExternalLink, Briefcase, Landmark, Building2, Building, Code2, Globe, Cpu, FileText, Mail } from "lucide-react";
+import { ExternalLink, FileText, Mail, X } from "lucide-react";
 import AboutCard from "./cards/AboutCard";
 import ExperienceCard from "./cards/ExperienceCard";
 import ProjectsCard from "./cards/ProjectsCard";
@@ -198,7 +198,7 @@ const LEDGER_MAP: Record<string, LedgerItem[]> = {
 
 // ─── Stack geometry (left mini-wallet) ────────────────────────────────────────
 
-const PEEK       = 52;
+const PEEK       = 80;
 const FRONT_SHOW = 64;
 const FACE_H     = 270;
 const stackH     = (CARDS.length - 1) * PEEK + FRONT_SHOW + FACE_H;
@@ -292,114 +292,121 @@ function LedgerRow({
   );
 }
 
-// ─── Right column: Empty state ─────────────────────────────────────────────────
+// ─── Desktop detail modal ─────────────────────────────────────────────────────
 
-function EmptyState() {
+function DesktopDetailModal({
+  item,
+  accentColor,
+  onClose,
+}: {
+  item: ItemDetail;
+  accentColor: string;
+  onClose: () => void;
+}) {
   return (
-    <div className="h-full flex flex-col items-center justify-center gap-3 select-none">
-      <svg viewBox="0 0 24 24" className="w-14 h-14" style={{ fill: "rgba(255,255,255,0.12)" }}>
-        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
-      </svg>
-      <p className="text-white/30 text-sm font-medium">Select a record to view details</p>
-    </div>
-  );
-}
+    <>
+      {/* Backdrop */}
+      <motion.div
+        className="absolute inset-0 z-20 bg-black/40 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        onClick={onClose}
+      />
 
-// ─── Right column: Item detail ─────────────────────────────────────────────────
-
-function ItemDetail({ item, accentColor }: { item: ItemDetail; accentColor: string }) {
-  const iconMap: Record<string, React.ElementType> = {
-    Manulife: Briefcase,
-    RBC: Landmark,
-    Citi: Building2,
-    "Government of Canada": Building,
-    "Arsenal (Fintech App)": Code2,
-    "Student Gov Website": Globe,
-    "FIRST Robotics": Cpu,
-    GitHub: Code2,
-    LinkedIn: Globe,
-    resume: FileText,
-    contact: Mail,
-  };
-  const Icon = iconMap[item.id] ?? Briefcase;
-
-  return (
-    <div className="h-full overflow-y-auto hide-scrollbar px-12 py-12">
-      {/* Header */}
-      <div className="flex items-center gap-6 mb-10">
-        <div
-          className="w-20 h-20 rounded-2xl flex items-center justify-center shrink-0"
-          style={{ background: accentColor + "22" }}
-        >
-          <Icon size={36} style={{ color: accentColor }} strokeWidth={1.6} />
-        </div>
-        <div>
-          <h1 className="text-4xl font-bold text-white leading-tight">{item.title}</h1>
-          <p className="text-white/40 mt-1.5 text-base">{item.subtitle}</p>
-        </div>
-      </div>
-
-      {/* Badges */}
-      <div className="flex flex-wrap gap-2 mb-10">
-        {item.tech.map((t) => (
-          <span
-            key={t}
-            className="text-sm font-semibold px-4 py-1.5 rounded-full"
-            style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
-          >
-            {t}
-          </span>
-        ))}
-        <span
-          className="text-sm font-semibold px-4 py-1.5 rounded-full"
-          style={item.status === "Active"
-            ? { background: accentColor + "33", color: accentColor }
-            : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}
-        >
-          {item.status}
-        </span>
-        {item.date && (
-          <span
-            className="text-sm font-semibold px-4 py-1.5 rounded-full"
-            style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}
-          >
-            {item.date}
-          </span>
-        )}
-      </div>
-
-      {/* Divider */}
-      <div className="border-t mb-10" style={{ borderColor: "rgba(255,255,255,0.08)" }} />
-
-      {/* Bullets */}
-      <div className="space-y-5 mb-12">
-        {item.bullets.map((b, i) => (
-          <div key={i} className="flex gap-4 items-start">
-            <div
-              className="w-1.5 h-1.5 rounded-full mt-[11px] flex-shrink-0"
-              style={{ background: accentColor }}
-            />
-            <p className="text-white/70 leading-relaxed text-base">{b}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* CTA */}
-      <a
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-white text-base font-semibold px-6 py-3.5 rounded-xl transition-all active:scale-95"
-        style={{ background: accentColor + "33", border: `1px solid ${accentColor}55` }}
+      {/* Modal */}
+      <motion.div
+        className="absolute z-30 rounded-3xl overflow-hidden shadow-2xl"
+        style={{
+          top: "50%",
+          left: "50%",
+          width: "min(560px, 90%)",
+          background: "rgba(10,10,18,0.92)",
+          backdropFilter: "blur(32px)",
+          WebkitBackdropFilter: "blur(32px)",
+          border: `1px solid ${accentColor}33`,
+        }}
+        initial={{ opacity: 0, x: "-50%", y: "-44%", scale: 0.96 }}
+        animate={{ opacity: 1, x: "-50%", y: "-50%", scale: 1 }}
+        exit={{ opacity: 0, x: "-50%", y: "-44%", scale: 0.96 }}
+        transition={{ type: "spring", damping: 28, stiffness: 340 }}
       >
-        {item.hrefLabel}
-        <ExternalLink size={16} strokeWidth={2} />
-      </a>
-    </div>
+        <div className="max-h-[78vh] overflow-y-auto hide-scrollbar px-8 py-8">
+          {/* Header */}
+          <div className="flex items-start justify-between gap-4 mb-6">
+            <div>
+              <p className="text-[9px] tracking-[0.3em] uppercase mb-1" style={{ color: accentColor + "99" }}>
+                {item.category.toUpperCase()}
+              </p>
+              <h2 className="text-2xl font-bold text-white leading-tight">{item.title}</h2>
+              <p className="text-white/50 text-sm mt-1">{item.subtitle}</p>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 active:scale-95 transition-all mt-0.5"
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.12)",
+              }}
+            >
+              <X size={15} className="text-white" strokeWidth={2} />
+            </button>
+          </div>
+
+          {/* Badges */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {item.tech.map((t) => (
+              <span key={t} className="text-xs font-semibold px-3 py-1 rounded-full"
+                style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}>
+                {t}
+              </span>
+            ))}
+            <span className="text-xs font-semibold px-3 py-1 rounded-full"
+              style={item.status === "Active"
+                ? { background: accentColor + "33", color: accentColor }
+                : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
+              {item.status}
+            </span>
+            {item.date && (
+              <span className="text-xs font-semibold px-3 py-1 rounded-full"
+                style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
+                {item.date}
+              </span>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="border-t mb-6" style={{ borderColor: "rgba(255,255,255,0.08)" }} />
+
+          {/* Bullets */}
+          <div className="space-y-4 mb-8">
+            {item.bullets.map((b, i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <div className="w-1.5 h-1.5 rounded-full mt-[9px] flex-shrink-0" style={{ background: accentColor }} />
+                <p className="text-white/70 text-sm leading-relaxed">{b}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-white text-sm font-semibold px-5 py-3 rounded-xl transition-all active:scale-95"
+            style={{ background: accentColor + "33", border: `1px solid ${accentColor}55` }}
+          >
+            {item.hrefLabel}
+            <ExternalLink size={14} strokeWidth={2} />
+          </a>
+        </div>
+      </motion.div>
+    </>
   );
 }
 
-// ─── Desktop 3-column layout ───────────────────────────────────────────────────
+// ─── Desktop layout ───────────────────────────────────────────────────────────
 
 interface DesktopLayoutProps {
   activeCard: string;
@@ -419,7 +426,7 @@ export default function DesktopLayout({
   const theme       = ID_THEMES[activeCard] ?? ID_THEMES.about;
 
   return (
-    <div className="w-full h-dvh relative overflow-hidden" style={{ gridTemplateColumns: "480px 1fr 1fr" }}>
+    <div className="w-full h-dvh relative overflow-hidden">
 
       {/* ── Animated background ─────────────────────────────────────── */}
       <motion.div
@@ -431,8 +438,8 @@ export default function DesktopLayout({
         style={{ background: theme.dominantBg }}
       />
 
-      {/* ── 3-column grid (on top of background) ────────────────────── */}
-      <div className="relative z-10 w-full h-full grid overflow-hidden" style={{ gridTemplateColumns: "480px 1fr 1fr" }}>
+      {/* ── 2-column grid (on top of background) ────────────────────── */}
+      <div className="relative z-10 w-full h-full grid overflow-hidden" style={{ gridTemplateColumns: "480px 1fr" }}>
 
         {/* ── Col 1: Mini-Wallet navigation ──────────────────────────── */}
         <div className="border-r flex flex-col overflow-hidden" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
@@ -460,11 +467,7 @@ export default function DesktopLayout({
         </div>
 
         {/* ── Col 2: Expanded card (pop animation) ──────────────────── */}
-        <div className="border-r flex flex-col overflow-hidden p-4" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-          {/* Section header */}
-          <div className="h-10 flex items-center px-2 flex-shrink-0 mb-1">
-            <span className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">ID Records</span>
-          </div>
+        <div className="flex flex-col overflow-hidden p-4">
           <div className="flex-1 relative overflow-hidden rounded-3xl">
             <AnimatePresence mode="wait">
               <motion.div
@@ -484,33 +487,19 @@ export default function DesktopLayout({
           </div>
         </div>
 
-        {/* ── Col 3: Digital Identity ────────────────────────────────── */}
-        <div className="flex flex-col overflow-hidden">
-          {/* Header */}
-          <div className="h-[72px] flex items-center px-8 flex-shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-            <h2 className="text-xl font-bold text-white">Digital Identity</h2>
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 relative overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={selectedItem ?? "__empty__"}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                className="absolute inset-0"
-              >
-                {detailItem
-                  ? <ItemDetail item={detailItem} accentColor={theme.accentColor} />
-                  : <EmptyState />}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
       </div>
+
+      {/* ── Detail modal (overlays entire layout) ───────────────────── */}
+      <AnimatePresence>
+        {detailItem && (
+          <DesktopDetailModal
+            item={detailItem}
+            accentColor={theme.accentColor}
+            onClose={() => onItemSelect(null)}
+          />
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }

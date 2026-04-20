@@ -33,16 +33,9 @@ export default function WalletStack() {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [selectedId, setSelectedId]     = useState<string | null>(null);
 
-  const FIRST_ITEM: Record<string, string> = {
-    about:       "resume",
-    experience:  "Manulife",
-    projects:    "Arsenal (Fintech App)",
-    connections: "GitHub",
-  };
-
   const handleCardSelect = (id: string) => {
     setActiveCard(id);
-    setSelectedItem(FIRST_ITEM[id] ?? null);
+    setSelectedItem(null);
   };
 
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
