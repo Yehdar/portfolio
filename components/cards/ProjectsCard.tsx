@@ -26,22 +26,23 @@ function SpaceLandscape() {
       src="/pirates.png"
       alt=""
       aria-hidden
-      className="absolute inset-0 w-full h-full object-cover"
+      className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 70%" }}
     />
   );
 }
 
 // ─── State Seal ────────────────────────────────────────────────────────────────
 // ─── ID Card Face ──────────────────────────────────────────────────────────────
-function CardFace() {
+function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
   return (
-    <div className="w-full h-[300px] relative flex-shrink-0 overflow-hidden">
+    <div className={`w-full relative overflow-hidden ${fill ? "flex-1" : "h-[300px] flex-shrink-0"}`}>
       <SpaceLandscape />
+      {desktop && <div className="absolute inset-0 bg-black/50" />}
 
       <div className="absolute inset-0 flex flex-col p-4">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-[8px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
+            <p className="text-[12px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
               {theme.category}
             </p>
           </div>
@@ -91,18 +92,18 @@ function ProjectRow({ icon: Icon, name, description, tech, href, desktop, onRowC
 
 export default function ProjectsCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
-    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: theme.rowBg }}>
-      <CardFace />
-      <div className={`shrink-0 ${desktop ? "px-6 pt-6 pb-2" : "px-5 pt-4 pb-1"}`}>
-        <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: theme.rowSubtext }}>
-          ID Records
-        </p>
-      </div>
-      <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
-        {PROJECTS.map((p) => (
-          <ProjectRow key={p.name} {...p} desktop={desktop} onRowClick={onRowClick} />
-        ))}
-      </div>
+    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
+      <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
+      {(desktop || onRowClick) && (<>
+        <div className={`shrink-0 ${desktop ? "px-6 pt-6 pb-2" : "px-5 pt-4 pb-1"}`}>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: theme.rowSubtext }}>ID Records</p>
+        </div>
+        <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
+          {PROJECTS.map((p) => (
+            <ProjectRow key={p.name} {...p} desktop={desktop} onRowClick={onRowClick} />
+          ))}
+        </div>
+      </>)}
     </div>
   );
 }

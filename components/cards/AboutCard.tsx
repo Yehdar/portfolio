@@ -12,7 +12,7 @@ function TorontoLandscape() {
       src="/toronto.png"
       alt=""
       aria-hidden
-      className="absolute inset-0 w-full h-full object-cover"
+      className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 25%" }}
     />
   );
 }
@@ -54,40 +54,33 @@ function ActionButton({
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
-    <div className="w-full h-full relative overflow-hidden">
-      {/* Landscape fills the full card */}
-      <TorontoLandscape />
-
-      {/* All content overlaid on top */}
-      <div className="absolute inset-0 flex flex-col justify-between p-4">
-        {/* Top: category + state name + badge */}
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-[8px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
+    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
+      {/* Image section — same fixed height as other cards */}
+      <div className={`w-full relative overflow-hidden ${(desktop || onRowClick) ? "h-[300px] flex-shrink-0" : "flex-1"}`}>
+        <TorontoLandscape />
+        {desktop && <div className="absolute inset-0 bg-black/50" />}
+        <div className="absolute inset-0 flex flex-col p-4">
+          <div className="flex items-start justify-between">
+            <p className="text-[12px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
               {theme.category}
             </p>
-            <p className="text-white text-[15px] font-bold tracking-wide leading-none drop-shadow-sm">
-              {/* ABOUT ME */}
-            </p>
-          </div>
-          <div
-            className="px-2 py-0.5 rounded text-[7px] font-bold tracking-widest uppercase"
-            style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#7dd3fc" }}
-          >
-            1
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-3">
-          {/* Action Buttons — hidden in nav stack (no onRowClick and not desktop) */}
-          {(desktop || onRowClick) && (
-            <div className={`flex gap-3 ${desktop ? "gap-4" : ""}`}>
-              <ActionButton href="/resume.pdf"                    icon={FileText} title="Resume"  sub="View PDF"  id="resume"  onRowClick={onRowClick} />
-              <ActionButton href="mailto:radheypatel@example.com" icon={Mail}     title="Contact" sub="Email Me" id="contact" onRowClick={onRowClick} />
+            <div
+              className="px-2 py-0.5 rounded text-[7px] font-bold tracking-widest uppercase"
+              style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#7dd3fc" }}
+            >
+              1
             </div>
-          )}
+          </div>
         </div>
       </div>
+
+      {/* Action buttons below image */}
+      {(desktop || onRowClick) && (
+        <div className={`flex gap-3 p-4 ${desktop ? "px-5 pt-6" : ""}`}>
+          <ActionButton href="/resume.pdf"                    icon={FileText} title="Resume"  sub="View PDF"  id="resume"  onRowClick={onRowClick} />
+          <ActionButton href="mailto:radheypatel@example.com" icon={Mail}     title="Contact" sub="Email Me" id="contact" onRowClick={onRowClick} />
+        </div>
+      )}
     </div>
   );
 }

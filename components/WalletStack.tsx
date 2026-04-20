@@ -22,8 +22,8 @@ export const CARDS: CardDef[] = [
 
 // ─── Stack layout constants ────────────────────────────────────────────────────
 
-const PEEK         = 54;
-const STACK_TOP    = 66;
+const PEEK         = 72;
+const MIN_TOP      = 24;
 const BOTTOM_MARGIN = 24;
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -188,10 +188,11 @@ function MobileStack({
     return () => ro.disconnect();
   }, []);
 
-  const cardHeight = Math.max(
-    260,
-    Math.floor(containerHeight - STACK_TOP - (CARDS.length - 1) * PEEK - BOTTOM_MARGIN)
-  );
+  const cardHeight = Math.min(360, Math.max(220, Math.floor(
+    (containerHeight - BOTTOM_MARGIN - MIN_TOP - (CARDS.length - 1) * PEEK) * 0.85
+  )));
+  const totalStackHeight = (CARDS.length - 1) * PEEK + cardHeight;
+  const stackTop = Math.max(MIN_TOP, Math.floor((containerHeight - totalStackHeight) / 2));
 
   const handleCardClick = (id: string) => {
     setSelectedId(id);
@@ -246,7 +247,7 @@ function MobileStack({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            onClick={() => { if (!mobileSelectedItem) setSelectedId(null); }}
+            onClick={() => { if (!mobileSelectedItem) { setSelectedId(null); setActiveCard("about"); } }}
           />
         )}
       </AnimatePresence>
@@ -267,7 +268,7 @@ function MobileStack({
 
       {/* ── Cards ────────────────────────────────────────────────── */}
       {CARDS.map((card, index) => {
-        const stackedY = STACK_TOP + index * PEEK;
+        const stackedY = stackTop + index * PEEK;
         const zIndex   = index + 1;
 
         return (
@@ -281,12 +282,12 @@ function MobileStack({
             isExpanded={selectedId === card.id}
             hasAnyExpanded={selectedId !== null}
             onClick={() => handleCardClick(card.id)}
-            onClose={() => setSelectedId(null)}
+            onClose={() => { setSelectedId(null); setActiveCard("about"); }}
           >
-            {card.id === "connections" && <ConnectionsCard onRowClick={setMobileSelectedItem} />}
-            {card.id === "projects"    && <ProjectsCard    onRowClick={setMobileSelectedItem} />}
-            {card.id === "experience"  && <ExperienceCard  onRowClick={setMobileSelectedItem} />}
-            {card.id === "about"       && <AboutCard       onRowClick={setMobileSelectedItem} />}
+            {card.id === "connections" && <ConnectionsCard onRowClick={selectedId === card.id ? setMobileSelectedItem : undefined} />}
+            {card.id === "projects"    && <ProjectsCard    onRowClick={selectedId === card.id ? setMobileSelectedItem : undefined} />}
+            {card.id === "experience"  && <ExperienceCard  onRowClick={selectedId === card.id ? setMobileSelectedItem : undefined} />}
+            {card.id === "about"       && <AboutCard       onRowClick={selectedId === card.id ? setMobileSelectedItem : undefined} />}
           </WalletCard>
         );
       })}

@@ -44,22 +44,23 @@ function MountainLandscape() {
       src="/yeti.png"
       alt=""
       aria-hidden
-      className="absolute inset-0 w-full h-full object-cover"
+      className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 90%" }}
     />
   );
 }
 
 // ─── State Seal ────────────────────────────────────────────────────────────────
 // ─── ID Card Face ──────────────────────────────────────────────────────────────
-function CardFace() {
+function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
   return (
-    <div className="w-full h-[300px] relative flex-shrink-0 overflow-hidden">
+    <div className={`w-full relative overflow-hidden ${fill ? "flex-1" : "h-[300px] flex-shrink-0"}`}>
       <MountainLandscape />
+      {desktop && <div className="absolute inset-0 bg-black/50" />}
 
       <div className="absolute inset-0 flex flex-col p-4">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-[8px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
+            <p className="text-[12px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
               {theme.category}
             </p>
           </div>
@@ -142,10 +143,10 @@ const BENTO_META = [
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
-    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: theme.rowBg }}>
-      <CardFace />
+    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
+      <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
 
-      {desktop ? (
+      {(desktop || onRowClick) && (desktop ? (
         <div className="flex-1 px-6 pt-6 pb-8 overflow-y-auto hide-scrollbar">
           <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-5" style={{ color: theme.rowSubtext }}>ID Records</p>
           <div className="grid grid-cols-2 gap-4">
@@ -176,7 +177,7 @@ export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boo
             ))}
           </div>
         </>
-      )}
+      ))}
     </div>
   );
 }
