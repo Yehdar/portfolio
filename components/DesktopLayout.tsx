@@ -297,10 +297,12 @@ function LedgerRow({
 function DesktopDetailModal({
   item,
   accentColor,
+  detailBg,
   onClose,
 }: {
   item: ItemDetail;
   accentColor: string;
+  detailBg: string;
   onClose: () => void;
 }) {
   return (
@@ -322,7 +324,7 @@ function DesktopDetailModal({
           top: "50%",
           left: "50%",
           width: "min(560px, 90%)",
-          background: "rgba(10,10,18,0.92)",
+          background: detailBg,
           backdropFilter: "blur(32px)",
           WebkitBackdropFilter: "blur(32px)",
           border: `1px solid ${accentColor}33`,
@@ -444,10 +446,11 @@ export default function DesktopLayout({
         {/* ── Col 1: Mini-Wallet navigation ──────────────────────────── */}
         <div className="border-r flex flex-col overflow-hidden" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
           {/* Nav bar */}
-          <div className="h-[72px] flex items-center px-8 flex-shrink-0">
-            <span className="text-white text-3xl font-bold tracking-tight leading-none" style={{ fontFamily: "var(--font-geist-sans)" }}>
-              Welcome!
-            </span>
+          <div className="h-[90px] flex items-end px-12 pb-4 pt-24 flex-shrink-0">
+            <div style={{ fontFamily: "var(--font-geist-sans)" }}>
+              <p className="text-white text-[36px] font-bold tracking-tight leading-tight">Welcome!</p>
+              <p className="text-white/60 text-[15px] font-medium leading-tight">Press a card to learn more about me</p>
+            </div>
           </div>
 
           {/* Card stack */}
@@ -495,6 +498,7 @@ export default function DesktopLayout({
           <DesktopDetailModal
             item={detailItem}
             accentColor={theme.accentColor}
+            detailBg={theme.detailBg}
             onClose={() => onItemSelect(null)}
           />
         )}

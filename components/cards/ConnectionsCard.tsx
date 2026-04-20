@@ -65,7 +65,7 @@ function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
             </p>
           </div>
           <div
-            className="px-2 py-0.5 rounded text-[7px] font-bold tracking-widest uppercase"
+              className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
             style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#6ee7b7" }}
           >
             4
@@ -86,6 +86,8 @@ function LinkRow({ icon: Icon, label, handle, href, onRowClick }: Link & { onRow
       onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(label); } }}
       className="flex items-center gap-4 py-3.5 border-b last:border-0 group active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer"
       style={{ borderColor: theme.rowBorder }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = ""; }}
     >
       <div
         className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors"
@@ -112,7 +114,7 @@ function BentoLink({
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(label); } }}
-      className={`${bg} rounded-3xl p-8 flex flex-col justify-between min-h-[220px] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer`}
+      className={`${bg} rounded-3xl p-8 flex flex-col justify-between min-h-[220px] hover:scale-[1.02] hover:brightness-125 active:scale-[0.98] transition-all cursor-pointer`}
     >
       <Icon className="w-12 h-12" style={iconStyle} />
       <div>
@@ -148,7 +150,7 @@ export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boo
 
       {(desktop || onRowClick) && (desktop ? (
         <div className="flex-1 px-6 pt-6 pb-8 overflow-y-auto hide-scrollbar">
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-5" style={{ color: theme.rowSubtext }}>ID Records</p>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-5" style={{ color: theme.rowSubtext }}>Social Medias</p>
           <div className="grid grid-cols-2 gap-4">
             {LINKS.map((link) => {
               const meta = BENTO_META.find((m) => m.id === link.label)!;
@@ -169,7 +171,7 @@ export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boo
       ) : (
         <>
           <div className="px-5 pt-4 pb-1 shrink-0">
-            <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: theme.rowSubtext }}>ID Records</p>
+            <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: theme.rowSubtext }}>Social Medias</p>
           </div>
           <div className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-6">
             {LINKS.map((link) => (

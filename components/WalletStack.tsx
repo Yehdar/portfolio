@@ -64,13 +64,13 @@ export default function WalletStack() {
 
 // ─── Mobile wallet stack ───────────────────────────────────────────────────────
 
-function MobileDetailSheet({ item, onClose, accentColor }: { item: ItemDetail; onClose: () => void; accentColor: string }) {
+function MobileDetailSheet({ item, onClose, accentColor, detailBg }: { item: ItemDetail; onClose: () => void; accentColor: string; detailBg: string }) {
   return (
     <motion.div
       className="absolute inset-x-4 z-60 rounded-3xl overflow-hidden shadow-2xl"
       style={{
         top: "50%",
-        background: "rgba(15,15,20,0.88)",
+        background: detailBg,
         backdropFilter: "blur(28px)",
         WebkitBackdropFilter: "blur(28px)",
         border: `1px solid ${accentColor}33`,
@@ -216,26 +216,11 @@ function MobileStack({
       </AnimatePresence>
 
       {/* ── Nav Bar ──────────────────────────────────────────────── */}
-      <div className="absolute top-0 left-0 right-0 h-[66px] flex items-center justify-between px-5 z-10">
-        <span
-          className="text-white text-[34px] font-bold tracking-tight leading-none"
-          style={{ fontFamily: "var(--font-geist-sans)" }}
-        >
-          Welcome!
-        </span>
-        <button
-          className="w-9 h-9 rounded-full flex items-center justify-center active:scale-95 transition-all"
-          style={{
-            background: "rgba(255,255,255,0.12)",
-            backdropFilter: "blur(12px)",
-            border: "1px solid rgba(255,255,255,0.2)",
-          }}
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
-            <line x1="8" y1="2" x2="8" y2="14" />
-            <line x1="2" y1="8" x2="14" y2="8" />
-          </svg>
-        </button>
+      <div className="absolute top-0 left-0 right-0 h-[90px] pt-14 flex items-center justify-between px-5 z-10">
+        <div style={{ fontFamily: "var(--font-geist-sans)" }}>
+          <p className="text-white text-[36px] font-bold tracking-tight leading-tight">Welcome!</p>
+          <p className="text-white/60 text-[15px] font-medium leading-tight">Press a card to learn more about me</p>
+        </div>
       </div>
 
       {/* ── Backdrop: dims cards when any card is expanded ────────── */}
@@ -299,6 +284,7 @@ function MobileStack({
             item={detailItem}
             onClose={() => setMobileSelectedItem(null)}
             accentColor={theme.accentColor}
+            detailBg={theme.detailBg}
           />
         )}
       </AnimatePresence>

@@ -41,6 +41,8 @@ function ActionButton({
         WebkitBackdropFilter: "blur(12px)",
         border: "1px solid rgba(255,255,255,0.12)",
       }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(0,0,0,0.35)"; }}
     >
       <Icon style={{ color: theme.accentColor }} size={22} strokeWidth={1.6} />
       <div className="flex flex-col items-center">
@@ -65,7 +67,7 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
               {theme.category}
             </p>
             <div
-              className="px-2 py-0.5 rounded text-[7px] font-bold tracking-widest uppercase"
+              className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
               style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#7dd3fc" }}
             >
               1
@@ -74,11 +76,19 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
         </div>
       </div>
 
-      {/* Action buttons below image */}
+      {/* Bio text + action buttons */}
       {(desktop || onRowClick) && (
-        <div className={`flex gap-3 p-4 ${desktop ? "px-5 pt-6" : ""}`}>
-          <ActionButton href="/resume.pdf"                    icon={FileText} title="Resume"  sub="View PDF"  id="resume"  onRowClick={onRowClick} />
-          <ActionButton href="mailto:radheypatel@example.com" icon={Mail}     title="Contact" sub="Email Me" id="contact" onRowClick={onRowClick} />
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <div className={`flex-1 overflow-y-auto hide-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}>
+            <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: theme.rowSubtext }}>About Me</p>
+            <p className={`leading-relaxed ${desktop ? "text-xl" : "text-lg"}`} style={{ color: "rgba(255,255,255,0.85)" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            </p>
+          </div>
+          <div className={`flex gap-3 p-4 shrink-0 ${desktop ? "px-5 pb-6" : ""}`}>
+            <ActionButton href="/resume.pdf"                    icon={FileText} title="Resume"  sub="View PDF"  id="resume"  onRowClick={onRowClick} />
+            <ActionButton href="mailto:radheypatel@example.com" icon={Mail}     title="Contact" sub="Email Me" id="contact" onRowClick={onRowClick} />
+          </div>
         </div>
       )}
     </div>

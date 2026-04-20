@@ -47,7 +47,7 @@ function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
             </p>
           </div>
           <div
-            className="px-2 py-0.5 rounded text-[7px] font-bold tracking-widest uppercase"
+              className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
             style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#a5b4fc" }}
           >
             3
@@ -69,6 +69,8 @@ function ProjectRow({ icon: Icon, name, description, tech, href, desktop, onRowC
       className={`flex items-center border-b last:border-0 group active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer
         ${desktop ? "py-5 gap-5" : "py-3.5 gap-4"}`}
       style={{ borderColor: theme.rowBorder }}
+      onMouseEnter={desktop ? (e) => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; } : undefined}
+      onMouseLeave={desktop ? (e) => { e.currentTarget.style.background = ""; } : undefined}
     >
       <div
         className={`rounded-full flex items-center justify-center shrink-0 transition-colors ${desktop ? "w-12 h-12" : "w-10 h-10"}`}
@@ -96,7 +98,7 @@ export default function ProjectsCard({ desktop, onRowClick }: { desktop?: boolea
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
       {(desktop || onRowClick) && (<>
         <div className={`shrink-0 ${desktop ? "px-6 pt-6 pb-2" : "px-5 pt-4 pb-1"}`}>
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: theme.rowSubtext }}>ID Records</p>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: theme.rowSubtext }}>Projects</p>
         </div>
         <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
           {PROJECTS.map((p) => (
