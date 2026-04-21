@@ -1,12 +1,11 @@
 "use client";
 
-import { Briefcase, Landmark, Building2, Building } from "lucide-react";
 import { ID_THEMES } from "../idThemes";
 
 const theme = ID_THEMES.experience;
 
 interface Transaction {
-  icon: React.ElementType;
+  logo: string;
   company: string;
   role: string;
   date: string;
@@ -15,10 +14,12 @@ interface Transaction {
 }
 
 export const TRANSACTIONS: Transaction[] = [
-  { icon: Briefcase, company: "Manulife",             role: "Technology Intern",           date: "Winter 2026", href: "https://www.linkedin.com/company/manulife/",              current: true },
-  { icon: Landmark,  company: "RBC",                  role: "Software Engineering Intern", date: "Past",        href: "https://www.linkedin.com/company/rbc/"                              },
-  { icon: Building2, company: "Citi",                 role: "Software Engineering Intern", date: "Past",        href: "https://www.linkedin.com/company/citi/"                             },
-  { icon: Building,  company: "Government of Canada", role: "Software Engineering Intern", date: "Past",        href: "https://www.linkedin.com/company/government-of-canada/"             },
+  { logo: "/citi.png",     company: "Citi",                 role: "Software Engineer Intern", date: "Current",        href: "https://www.linkedin.com/company/citi/",                             current: true},
+  { logo: "/manulife.png", company: "Manulife",             role: "Software Engineer Intern",           date: "Jan 2026 - Apr 2026", href: "https://www.linkedin.com/company/manulife/",              },
+  { logo: "/johnhancock.jpg", company: "John Hancock",                   role: "Software Engineer Intern", date: "May 2025 - Aug 2025",        href: "https://www.linkedin.com/company/rbc/"                              },
+  { logo: "/rbc.png",      company: "Royal Bank of Canada",              role: "Software Engineer Intern",           date: "Jan 2025 - Apr 2025", href: "https://www.linkedin.com/company/john-hancock/",              },
+  { logo: "/canada.png",   company: "Government of Canada", role: "Software Engineer Intern", date: "Sep 2024 - Dec 2024",        href: "https://www.linkedin.com/company/government-of-canada/"             },
+  { logo: "/yorku.jpg",   company: "York University",      role: "Undergraduate Research Assistant", date: "Jul 2024 - Aug 2024",        href: "https://www.linkedin.com/company/york-university/"                    },
 ];
 
 function OceanLandscape() {
@@ -33,14 +34,11 @@ function OceanLandscape() {
   );
 }
 
-// ─── State Seal ────────────────────────────────────────────────────────────────
-// ─── ID Card Face ──────────────────────────────────────────────────────────────
 function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
   return (
     <div className={`w-full relative overflow-hidden ${fill ? "flex-1" : "h-[300px] flex-shrink-0"}`}>
       <OceanLandscape />
       {desktop && <div className="absolute inset-0 bg-black/50" />}
-
       <div className="absolute inset-0 flex flex-col p-4">
         <div className="flex items-start justify-between">
           <div>
@@ -49,7 +47,7 @@ function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
             </p>
           </div>
           <div
-              className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
+            className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
             style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#fca5a5" }}
           >
             2
@@ -62,7 +60,7 @@ function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
 
 // ─── Transaction Row ───────────────────────────────────────────────────────────
 function TransactionRow({
-  icon: Icon, company, role, date, href, current, desktop, onRowClick,
+  logo, company, role, date, href, current, desktop, onRowClick,
 }: Transaction & { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <a
@@ -70,17 +68,18 @@ function TransactionRow({
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(company); } }}
-      className={`flex items-center border-b last:border-0 group active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer
-        ${desktop ? "py-5 gap-5" : "py-3.5 gap-4"}`}
+      className={`flex items-center border-b-2 last:border-0 group active:scale-[0.98] px-3 rounded-none transition-all cursor-pointer
+        ${desktop ? "py-7 gap-5" : "py-5 gap-4"}`}
       style={{ borderColor: theme.rowBorder }}
       onMouseEnter={desktop ? (e) => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; } : undefined}
       onMouseLeave={desktop ? (e) => { e.currentTarget.style.background = ""; } : undefined}
     >
       <div
-        className={`rounded-full flex items-center justify-center shrink-0 transition-colors ${desktop ? "w-12 h-12" : "w-10 h-10"}`}
+        className={`shrink-0 overflow-hidden ${desktop ? "w-12 h-12" : "w-10 h-10"}`}
         style={{ background: "rgba(255,255,255,0.07)" }}
       >
-        <Icon size={desktop ? 20 : 17} style={{ color: theme.rowIconColor }} strokeWidth={1.8} />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={logo} alt={company} className="w-full h-full object-contain" />
       </div>
       <div className="flex-1 min-w-0">
         <p className={`font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`} style={{ color: theme.rowText }}>{company}</p>
@@ -103,8 +102,8 @@ export default function ExperienceCard({ desktop, onRowClick }: { desktop?: bool
     <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
       {(desktop || onRowClick) && (<>
-        <div className={`shrink-0 ${desktop ? "px-6 pt-6 pb-2" : "px-5 pt-4 pb-1"}`}>
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: theme.rowSubtext }}>Professional Experience</p>
+        <div className={`shrink-0 ${desktop ? "px-5 pt-6 pb-2" : "px-4 pt-4 pb-1"}`}>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: "rgba(255,255,255,0.5)" }}>Click on them to find more details</p>
         </div>
         <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
           {TRANSACTIONS.map((tx) => (

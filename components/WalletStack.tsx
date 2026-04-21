@@ -83,9 +83,17 @@ function MobileDetailSheet({ item, onClose, accentColor, detailBg }: { item: Ite
       <div className="max-h-[72vh] overflow-y-auto hide-scrollbar px-6 py-6">
         {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-4">
-          <div>
-            <h2 className="text-xl font-bold text-white leading-tight">{item.title}</h2>
-            <p className="text-white/50 text-sm mt-0.5">{item.subtitle}</p>
+          <div className="flex items-center gap-3">
+            {item.logo && (
+              <div className="w-12 h-12 shrink-0 overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={item.logo} alt={item.title} className="w-full h-full object-contain" />
+              </div>
+            )}
+            <div>
+              <h2 className="text-xl font-bold text-white leading-tight">{item.title}</h2>
+              <p className="text-white/50 text-sm mt-0.5">{item.subtitle}</p>
+            </div>
           </div>
           <button
             onClick={onClose}

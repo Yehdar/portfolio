@@ -1,11 +1,10 @@
 "use client";
 
-import { ExternalLink } from "lucide-react";
 import { ID_THEMES } from "../idThemes";
 
 const theme = ID_THEMES.connections;
 
-// ─── Brand SVG icons ───────────────────────────────────────────────────────────
+// ─── Brand SVG icons (fallback) ────────────────────────────────────────────────
 function GithubIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor">
@@ -24,7 +23,8 @@ function LinkedinIcon({ className }: { className?: string }) {
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 interface Link {
-  icon: React.ElementType;
+  icon?: React.ElementType;
+  logo?: string;
   label: string;
   handle: string;
   href: string;
@@ -32,11 +32,11 @@ interface Link {
 }
 
 export const LINKS: Link[] = [
-  { icon: GithubIcon,   label: "GitHub",   handle: "github.com/yehdar",              href: "https://github.com/yehdar",           iconColor: "text-white"    },
-  { icon: LinkedinIcon, label: "LinkedIn", handle: "linkedin.com/in/radhey-patel-",  href: "https://linkedin.com/in/radhey-patel-", iconColor: "text-sky-400" },
+  { logo: "/github.png",   label: "GitHub",   handle: "github.com/yehdar",             href: "https://github.com/yehdar",            iconColor: "text-white"    },
+  { logo: "/linkedin.png", label: "LinkedIn", handle: "linkedin.com/in/radhey-patel-", href: "https://linkedin.com/in/radhey-patel-", iconColor: "text-sky-400" },
 ];
 
-// ─── Mountain view SVG ────────────────────────────────────────────────────────
+// ─── Landscape ────────────────────────────────────────────────────────────────
 function MountainLandscape() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -49,23 +49,19 @@ function MountainLandscape() {
   );
 }
 
-// ─── State Seal ────────────────────────────────────────────────────────────────
 // ─── ID Card Face ──────────────────────────────────────────────────────────────
 function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
   return (
     <div className={`w-full relative overflow-hidden ${fill ? "flex-1" : "h-[300px] flex-shrink-0"}`}>
       <MountainLandscape />
       {desktop && <div className="absolute inset-0 bg-black/50" />}
-
       <div className="absolute inset-0 flex flex-col p-4">
         <div className="flex items-start justify-between">
-          <div>
-            <p className="text-[12px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
-              {theme.category}
-            </p>
-          </div>
+          <p className="text-[12px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
+            {theme.category}
+          </p>
           <div
-              className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
+            className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
             style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#6ee7b7" }}
           >
             4
@@ -76,71 +72,37 @@ function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
   );
 }
 
-// ─── Mobile list row ───────────────────────────────────────────────────────────
-function LinkRow({ icon: Icon, label, handle, href, onRowClick }: Link & { onRowClick?: (id: string) => void }) {
+// ─── Link Row ─────────────────────────────────────────────────────────────────
+function LinkRow({ icon: Icon, logo, label, handle, href, desktop, onRowClick }: Link & { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(label); } }}
-      className="flex items-center gap-4 py-3.5 border-b last:border-0 group active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer"
+      className={`flex items-center border-b-2 last:border-0 group active:scale-[0.98] px-3 rounded-none transition-all cursor-pointer
+        ${desktop ? "py-7 gap-5" : "py-5 gap-4"}`}
       style={{ borderColor: theme.rowBorder }}
       onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}
       onMouseLeave={(e) => { e.currentTarget.style.background = ""; }}
     >
       <div
-        className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors"
+        className={`shrink-0 overflow-hidden flex items-center justify-center ${desktop ? "w-12 h-12" : "w-10 h-10"}`}
         style={{ background: "rgba(255,255,255,0.07)" }}
       >
-        <Icon className="w-[17px] h-[17px]" style={{ color: theme.rowIconColor }} />
+        {logo
+          // eslint-disable-next-line @next/next/no-img-element
+          ? <img src={logo} alt={label} className="w-full h-full object-contain" />
+          : Icon && <Icon className={desktop ? "w-6 h-6" : "w-[17px] h-[17px]"} style={{ color: theme.rowIconColor }} />
+        }
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold leading-tight" style={{ color: theme.rowText }}>{label}</p>
-        <p className="text-xs leading-snug truncate mt-0.5" style={{ color: theme.rowSubtext }}>{handle}</p>
-      </div>
-      <ExternalLink size={15} style={{ color: theme.rowSubtext }} strokeWidth={1.8} />
-    </a>
-  );
-}
-
-// ─── Desktop bento box ─────────────────────────────────────────────────────────
-function BentoLink({
-  icon: Icon, label, handle, href, bg, iconStyle, textStyle, subStyle, onRowClick,
-}: Link & { bg: string; iconStyle: React.CSSProperties; textStyle: React.CSSProperties; subStyle: React.CSSProperties; onRowClick?: (id: string) => void }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(label); } }}
-      className={`${bg} rounded-3xl p-8 flex flex-col justify-between min-h-[220px] hover:scale-[1.02] hover:brightness-125 active:scale-[0.98] transition-all cursor-pointer`}
-    >
-      <Icon className="w-12 h-12" style={iconStyle} />
-      <div>
-        <p className="text-xl font-bold leading-tight" style={textStyle}>{label}</p>
-        <p className="text-sm mt-1 break-all" style={subStyle}>{handle}</p>
+        <p className={`font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`} style={{ color: theme.rowText }}>{label}</p>
+        <p className={`leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`} style={{ color: theme.rowSubtext }}>{handle}</p>
       </div>
     </a>
   );
 }
-
-const BENTO_META = [
-  {
-    id: "GitHub",
-    bg: "bg-zinc-900",
-    iconStyle: { color: "white" },
-    textStyle: { color: "white" },
-    subStyle: { color: "#71717a" },
-  },
-  {
-    id: "LinkedIn",
-    bg: "bg-[#0a66c2]",
-    iconStyle: { color: "white" },
-    textStyle: { color: "white" },
-    subStyle: { color: "#bfdbfe" },
-  },
-];
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
@@ -148,38 +110,16 @@ export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boo
     <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
 
-      {(desktop || onRowClick) && (desktop ? (
-        <div className="flex-1 px-6 pt-6 pb-8 overflow-y-auto hide-scrollbar">
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-5" style={{ color: theme.rowSubtext }}>Social Medias</p>
-          <div className="grid grid-cols-2 gap-4">
-            {LINKS.map((link) => {
-              const meta = BENTO_META.find((m) => m.id === link.label)!;
-              return (
-                <BentoLink
-                  key={link.label}
-                  {...link}
-                  bg={meta.bg}
-                  iconStyle={meta.iconStyle}
-                  textStyle={meta.textStyle}
-                  subStyle={meta.subStyle}
-                  onRowClick={onRowClick}
-                />
-              );
-            })}
-          </div>
+      {(desktop || onRowClick) && (<>
+        <div className={`shrink-0 ${desktop ? "px-5 pt-6 pb-2" : "px-4 pt-4 pb-1"}`}>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: "rgba(255,255,255,0.5)" }}>Click on them to find more details</p>
         </div>
-      ) : (
-        <>
-          <div className="px-5 pt-4 pb-1 shrink-0">
-            <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: theme.rowSubtext }}>Social Medias</p>
-          </div>
-          <div className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-6">
-            {LINKS.map((link) => (
-              <LinkRow key={link.label} {...link} onRowClick={onRowClick} />
-            ))}
-          </div>
-        </>
-      ))}
+        <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
+          {LINKS.map((link) => (
+            <LinkRow key={link.label} {...link} desktop={desktop} onRowClick={onRowClick} />
+          ))}
+        </div>
+      </>)}
     </div>
   );
 }

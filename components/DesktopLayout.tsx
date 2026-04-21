@@ -23,7 +23,8 @@ const CARDS = [
 
 interface LedgerItem {
   id: string;
-  icon: React.ElementType;
+  icon?: React.ElementType;
+  logo?: string;
   title: string;
   subtitle: string;
   badge: string;
@@ -41,13 +42,14 @@ export interface ItemDetail {
   bullets: string[];
   href: string;
   hrefLabel: string;
+  logo?: string;
 }
 
 // ─── Rich detail data ──────────────────────────────────────────────────────────
 
 export const DETAIL_DATA: ItemDetail[] = [
   {
-    id: "Manulife", category: "experience", title: "Manulife",
+    id: "Manulife", category: "experience", title: "Manulife", logo: "/manulife.png",
     subtitle: "Technology Intern", date: "Winter 2026", status: "Active",
     tech: ["Go", "AWS", "Kafka"],
     bullets: [
@@ -58,7 +60,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://www.linkedin.com/company/manulife/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "RBC", category: "experience", title: "RBC",
+    id: "RBC", category: "experience", title: "RBC", logo: "/rbc.png",
     subtitle: "Software Engineering Intern", date: "Past", status: "Completed",
     tech: ["Java", "Spring Boot", "SQL"],
     bullets: [
@@ -69,7 +71,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://www.linkedin.com/company/rbc/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "Citi", category: "experience", title: "Citi",
+    id: "Citi", category: "experience", title: "Citi", logo: "/citi.png",
     subtitle: "Software Engineering Intern", date: "Past", status: "Completed",
     tech: ["Python", "React", "PostgreSQL"],
     bullets: [
@@ -80,7 +82,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://www.linkedin.com/company/citi/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "Government of Canada", category: "experience", title: "Government of Canada",
+    id: "Government of Canada", category: "experience", title: "Government of Canada", logo: "/canada.png",
     subtitle: "Software Engineering Intern", date: "Past", status: "Completed",
     tech: ["Node.js", "TypeScript", "GCP"],
     bullets: [
@@ -91,8 +93,8 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://www.linkedin.com/company/government-of-canada/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "Arsenal (Fintech App)", category: "projects", title: "Arsenal",
-    subtitle: "AI Credit Card Statement Analyzer", date: "2024", status: "Active",
+    id: "Points Optimizer", category: "projects", title: "Points Optimizer", logo: "/pointsoptimizer.png",
+    subtitle: "AI Credit Card Points Optimizer", date: "2024", status: "Active",
     tech: ["Go", "Next.js", "OpenAI"],
     bullets: [
       "Parses multi-bank PDF statements and categorizes spend using GPT-4o",
@@ -102,29 +104,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://github.com/yehdar/arsenal", hrefLabel: "View on GitHub",
   },
   {
-    id: "Student Gov Website", category: "projects", title: "Student Gov Website",
-    subtitle: "Centralized Resource Portal", date: "2023", status: "Completed",
-    tech: ["React", "Vite", "Firebase"],
-    bullets: [
-      "Built official site for York University engineering student government",
-      "Resource hub serving 4,000+ students with events and job postings",
-      "Reduced admin content-update time from hours to minutes",
-    ],
-    href: "https://github.com/yehdar/student-gov", hrefLabel: "View on GitHub",
-  },
-  {
-    id: "FIRST Robotics", category: "projects", title: "FIRST Robotics",
-    subtitle: "Team Lead & Fundraiser", date: "2022", status: "Completed",
-    tech: ["Leadership", "Java", "FRC"],
-    bullets: [
-      "Led a 20-person robotics team to regional competition finals",
-      "Raised $12k in sponsorships through targeted outreach and grant applications",
-      "Programmed autonomous drive routines in Java using WPILib",
-    ],
-    href: "https://www.firstinspires.org/", hrefLabel: "View on FIRST",
-  },
-  {
-    id: "GitHub", category: "connections", title: "GitHub",
+    id: "GitHub", category: "connections", title: "GitHub", logo: "/github.png",
     subtitle: "github.com/yehdar", date: "", status: "Active",
     tech: [],
     bullets: [
@@ -134,7 +114,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://github.com/yehdar", hrefLabel: "Open GitHub",
   },
   {
-    id: "LinkedIn", category: "connections", title: "LinkedIn",
+    id: "LinkedIn", category: "connections", title: "LinkedIn", logo: "/linkedin.png",
     subtitle: "linkedin.com/in/radhey-patel-", date: "", status: "Active",
     tech: [],
     bullets: [
@@ -170,7 +150,7 @@ export const DETAIL_DATA: ItemDetail[] = [
 const LEDGER_MAP: Record<string, LedgerItem[]> = {
   experience: TRANSACTIONS.map((t) => ({
     id: t.company,
-    icon: t.icon,
+    logo: t.logo,
     title: t.company,
     subtitle: t.role,
     badge: t.date,
@@ -179,6 +159,7 @@ const LEDGER_MAP: Record<string, LedgerItem[]> = {
   projects: PROJECTS.map((p) => ({
     id: p.name,
     icon: p.icon,
+    logo: p.logo,
     title: p.name,
     subtitle: p.description,
     badge: p.tech,
@@ -186,6 +167,7 @@ const LEDGER_MAP: Record<string, LedgerItem[]> = {
   connections: LINKS.map((l) => ({
     id: l.label,
     icon: l.icon,
+    logo: l.logo,
     title: l.label,
     subtitle: l.handle,
     badge: "",
@@ -269,10 +251,14 @@ function LedgerRow({
       onClick={onClick}
     >
       <div
-        className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+        className="w-12 h-12 flex items-center justify-center shrink-0 overflow-hidden"
         style={{ background: "rgba(255,255,255,0.08)" }}
       >
-        <Icon size={20} style={{ color: accentColor }} strokeWidth={1.8} />
+        {item.logo
+          // eslint-disable-next-line @next/next/no-img-element
+          ? <img src={item.logo} alt={item.title} className="w-full h-full object-contain" />
+          : Icon && <Icon size={20} style={{ color: accentColor }} strokeWidth={1.8} />
+        }
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-white text-base font-semibold leading-tight truncate">{item.title}</p>
@@ -337,12 +323,20 @@ function DesktopDetailModal({
         <div className="max-h-[78vh] overflow-y-auto hide-scrollbar px-8 py-8">
           {/* Header */}
           <div className="flex items-start justify-between gap-4 mb-6">
-            <div>
-              <p className="text-[9px] tracking-[0.3em] uppercase mb-1" style={{ color: accentColor + "99" }}>
-                {item.category.toUpperCase()}
-              </p>
-              <h2 className="text-2xl font-bold text-white leading-tight">{item.title}</h2>
-              <p className="text-white/50 text-sm mt-1">{item.subtitle}</p>
+            <div className="flex items-center gap-4">
+              {item.logo && (
+                <div className="w-14 h-14 shrink-0 overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={item.logo} alt={item.title} className="w-full h-full object-contain" />
+                </div>
+              )}
+              <div>
+                <p className="text-[9px] tracking-[0.3em] uppercase mb-1" style={{ color: accentColor + "99" }}>
+                  {item.category.toUpperCase()}
+                </p>
+                <h2 className="text-2xl font-bold text-white leading-tight">{item.title}</h2>
+                <p className="text-white/50 text-sm mt-1">{item.subtitle}</p>
+              </div>
             </div>
             <button
               onClick={onClose}
