@@ -15,19 +15,19 @@ interface Transaction {
 }
 
 export const TRANSACTIONS: Transaction[] = [
-  { logo: "/citi.png",     company: "Citi",                 role: "Software Engineer Intern", date: "Current",        href: "https://www.linkedin.com/company/citi/",                             current: true},
-  { logo: "/manulife.png", company: "Manulife",             role: "Software Engineer Intern",           date: "2026", href: "https://www.linkedin.com/company/manulife/",              },
-  { logo: "/johnhancock.jpg", company: "John Hancock",                   role: "Software Engineer Intern", date: "2025",        href: "https://www.linkedin.com/company/rbc/"                              },
-  { logo: "/rbc.png",      company: "Royal Bank of Canada",              role: "Software Engineer Intern",           date: "2025", href: "https://www.linkedin.com/company/john-hancock/",              },
-  { logo: "/canada.png",   company: "Government of Canada", role: "Software Engineer Intern", date: "2024",        href: "https://www.linkedin.com/company/government-of-canada/"             },
-  { logo: "/yorku.jpg",   company: "York University",      role: "Undergraduate Research Assistant", date: "2024",        href: "https://www.linkedin.com/company/york-university/"                    },
+  { logo: "/experience/citi.png",        company: "Citi",                 role: "Software Engineer Intern",         date: "Current", href: "https://www.linkedin.com/company/citi/",                 current: true },
+  { logo: "/experience/manulife.png",    company: "Manulife",             role: "Software Engineer Intern",         date: "2026",    href: "https://www.linkedin.com/company/manulife/"                         },
+  { logo: "/experience/johnhancock.jpg", company: "John Hancock",         role: "Software Engineer Intern",         date: "2025",    href: "https://www.linkedin.com/company/rbc/"                              },
+  { logo: "/experience/rbc.png",         company: "Royal Bank of Canada", role: "Software Engineer Intern",         date: "2025",    href: "https://www.linkedin.com/company/john-hancock/"                     },
+  { logo: "/experience/canada.png",      company: "Government of Canada", role: "Software Engineer Intern",         date: "2024",    href: "https://www.linkedin.com/company/government-of-canada/"             },
+  { logo: "/experience/yorku.jpg",       company: "York University",      role: "Undergraduate Research Assistant", date: "2024",    href: "https://www.linkedin.com/company/york-university/"                  },
 ];
 
 function OceanLandscape() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/space.png"
+      src="/cards/space.png"
       alt=""
       aria-hidden
       className="absolute inset-0 w-full h-full object-cover"
@@ -37,7 +37,10 @@ function OceanLandscape() {
 
 function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
   return (
-    <div className={`w-full relative overflow-hidden ${fill ? "flex-1" : "h-[300px] flex-shrink-0"}`}>
+    <div
+      className={`w-full relative overflow-hidden ${fill ? "flex-1" : "flex-shrink-0"}`}
+      style={!fill ? { height: desktop ? "clamp(160px, 30dvh, 300px)" : "300px" } : undefined}
+    >
       <OceanLandscape />
       {desktop && <div className="absolute inset-0 bg-black/50" />}
       <div className="absolute inset-0 flex flex-col p-4">

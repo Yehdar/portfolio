@@ -14,8 +14,8 @@ interface Link {
 }
 
 export const LINKS: Link[] = [
-  { logo: "/linkedin.png", label: "LinkedIn", handle: "linkedin.com/in/radhey-patel-", href: "https://linkedin.com/in/radhey-patel-" },
-  { logo: "/github.png",   label: "GitHub",   handle: "github.com/yehdar",             href: "https://github.com/yehdar"            },
+  { logo: "/links/linkedin.png", label: "LinkedIn", handle: "linkedin.com/in/radhey-patel-", href: "https://linkedin.com/in/radhey-patel-" },
+  { logo: "/links/github.png",   label: "GitHub",   handle: "github.com/yehdar",             href: "https://github.com/yehdar"            },
 ];
 
 // ─── Landscape ────────────────────────────────────────────────────────────────
@@ -23,7 +23,7 @@ function MountainLandscape() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/yeti.png"
+      src="/cards/yeti.png"
       alt=""
       aria-hidden
       className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 90%" }}
@@ -34,7 +34,10 @@ function MountainLandscape() {
 // ─── ID Card Face ──────────────────────────────────────────────────────────────
 function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
   return (
-    <div className={`w-full relative overflow-hidden ${fill ? "flex-1" : "h-[300px] flex-shrink-0"}`}>
+    <div
+      className={`w-full relative overflow-hidden ${fill ? "flex-1" : "flex-shrink-0"}`}
+      style={!fill ? { height: desktop ? "clamp(160px, 30dvh, 300px)" : "300px" } : undefined}
+    >
       <MountainLandscape />
       {desktop && <div className="absolute inset-0 bg-black/50" />}
       <div className="absolute inset-0 flex flex-col p-4">

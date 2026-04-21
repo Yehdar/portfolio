@@ -9,7 +9,7 @@ function TorontoLandscape() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/toronto.png"
+      src="/cards/toronto.png"
       alt=""
       aria-hidden
       className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 25%" }}
@@ -58,7 +58,10 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
       {/* Image section — same fixed height as other cards */}
-      <div className={`w-full relative overflow-hidden ${(desktop || onRowClick) ? "h-[300px] flex-shrink-0" : "flex-1"}`}>
+      <div
+        className={`w-full relative overflow-hidden ${(desktop || onRowClick) ? "flex-shrink-0" : "flex-1"}`}
+        style={(desktop || onRowClick) ? { height: desktop ? "clamp(160px, 30dvh, 300px)" : "300px" } : undefined}
+      >
         <TorontoLandscape />
         {desktop && <div className="absolute inset-0 bg-black/50" />}
         <div className="absolute inset-0 flex flex-col p-4">
@@ -82,17 +85,24 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
           <div className={`flex-1 overflow-y-auto hide-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}>
             <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>Who I Am</p>
             <p className={`leading-relaxed ${desktop ? "text-2xl" : "text-lg"}`} style={{ color: "rgba(255,255,255,0.85)" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              Hey, I'm Radhey (aka Rod)!
+              <br></br>
+              Fintech enthusiast, software engineer, and lifelong learner.
               <br></br><br></br>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-                  <br></br><br></br>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Currently, I'm interning as a software engineer at Citibank, leading the data engineering pipelines for consumer banking.
+              <br></br><br></br>
+              Before that, I was fortunate enough to stay in the finance and technology world by interning as an engineer at Manulife and Royal Bank of Canada.
+              <br></br><br></br>
+              Outside of work, you can find me building cool projects, learning new skills, and exploring the world with my loved ones.
+              <br></br><br></br>
+              Anyway, feel free to explore the rest of the site and reach out if you want to connect!
             </p>
           </div>
-          <div className={`flex gap-3 p-4 shrink-0 ${desktop ? "px-5 pb-6" : ""}`}>
+          {/* DONT DELETE THIS */}
+          {/* <div className={`flex gap-3 p-4 shrink-0 ${desktop ? "px-5 pb-6" : ""}`}>
             <ActionButton href="/resume.pdf"                    icon={FileText} title="Resume"  sub="View PDF"  id="resume"  onRowClick={onRowClick} />
             <ActionButton href="mailto:radheypatel@example.com" icon={Mail}     title="Contact" sub="Email Me" id="contact" onRowClick={onRowClick} />
-          </div>
+          </div> */}
         </div>
       )}
     </div>

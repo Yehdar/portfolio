@@ -15,16 +15,33 @@ interface Project {
 }
 
 export const PROJECTS: Project[] = [
-  { icon: Code2, logo: "/pointsoptimizer.png", name: "Points Optimizer", description: "AI Credit Card Points Optimizer", tech: "Next.js / Kotlin", href: "https://github.com/Yehdar/Canadian-Credit-Card-Points-Optimizer" },
-  { icon: Code2, logo: "/emailaddressvalidator.png", name: "Email Address Validator", description: "Email Address Validator", tech: "Golang", href: "https://github.com/The-Golang-Way/Email-Address-Validator"},
-  { icon: Code2, logo: "/hermes.png", name: "Hermes", description: "Network Chat Application", tech: "Python", href: "https://github.com/The-Golang-Way/Yehdar/hermes"},
+  { icon: Code2, logo: "/projects/pointsoptimizer.png",     name: "Points Optimizer",      description: "AI Credit Card Points Optimizer",                            tech: "Next.js / Kotlin", href: "https://github.com/Yehdar/Canadian-Credit-Card-Points-Optimizer" },
+  { icon: Code2, logo: "/projects/lsc.png",                name: "lascongress.ca",         description: "Website for York University's engineering student government", tech: "React",            href: "https://github.com/lascongress/lascongress.github.io"            },
+  { icon: Code2, logo: "/projects/aws.png",                name: "Polyglot",               description: "Help students in translating machine code",                   tech: "Python / AWS",     href: "https://github.com/Yehdar/Polyglot"                              },
+  { icon: Code2, logo: "/projects/emailaddressvalidator.png", name: "Email Address Validator", description: "Email Address Validator",                                 tech: "Golang",           href: "https://github.com/The-Golang-Way/Email-Address-Validator"       },
+  { icon: Code2, logo: "/projects/steady.png",             name: "Steady",                 description: "JIRA Clone",                                                  tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/hermes.png",             name: "Hermes",                 description: "Network Chat Application",                                    tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/google.png",             name: "Google Photos Script",   description: "Script to modify Google Photo filenames with JSON",            tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/watchdogs.png",          name: "Watchdogs",              description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/overseer.png",           name: "Overseer",               description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/vaultmonster.png",       name: "Vault Monster",          description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/broblox.png",            name: "Broblox",                description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/raincheck.png",          name: "Rain Check",             description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/remindme.png",           name: "Remind Me",              description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/stream.png",             name: "Stream",                 description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/kanine.png",             name: "Kanine",                 description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/sentient.png",           name: "Sentient",               description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/slither.jpeg",           name: "Slither",                description: "Social Media Monitoring Tool",                                tech: "Python",           href: "https://github.com/The-Golang-Way/Yehdar/hermes"                 },
 ];
+
+
+
 
 function SpaceLandscape() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/pirates.png"
+      src="/cards/pirates.png"
       alt=""
       aria-hidden
       className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 70%" }}
@@ -34,7 +51,10 @@ function SpaceLandscape() {
 
 function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
   return (
-    <div className={`w-full relative overflow-hidden ${fill ? "flex-1" : "h-[300px] flex-shrink-0"}`}>
+    <div
+      className={`w-full relative overflow-hidden ${fill ? "flex-1" : "flex-shrink-0"}`}
+      style={!fill ? { height: desktop ? "clamp(160px, 30dvh, 300px)" : "300px" } : undefined}
+    >
       <SpaceLandscape />
       {desktop && <div className="absolute inset-0 bg-black/50" />}
       <div className="absolute inset-0 flex flex-col p-4">
@@ -44,7 +64,7 @@ function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
           </p>
           <div
             className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
-            style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#a5b4fc" }}
+            style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#d7dbf0" }}
           >
             3
           </div>
