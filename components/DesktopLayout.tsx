@@ -225,56 +225,6 @@ function NavCard({
   );
 }
 
-// ─── Middle column: Ledger row ─────────────────────────────────────────────────
-
-function LedgerRow({
-  item,
-  isSelected,
-  onClick,
-  accentColor,
-}: {
-  item: LedgerItem;
-  isSelected: boolean;
-  onClick: () => void;
-  accentColor: string;
-}) {
-  const Icon = item.icon;
-  return (
-    <motion.button
-      className="w-full flex items-center gap-5 px-8 py-5 text-left transition-colors relative focus:outline-none"
-      style={{ borderLeft: isSelected ? `2px solid ${accentColor}` : "2px solid transparent" }}
-      animate={{ backgroundColor: isSelected ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0)" }}
-      whileHover={{ backgroundColor: "rgba(255,255,255,0.04)" }}
-      transition={{ duration: 0.12 }}
-      onClick={onClick}
-    >
-      <div
-        className="w-12 h-12 flex items-center justify-center shrink-0 overflow-hidden"
-        style={{ background: "rgba(255,255,255,0.08)" }}
-      >
-        {item.logo
-          // eslint-disable-next-line @next/next/no-img-element
-          ? <img src={item.logo} alt={item.title} className="w-full h-full object-contain" />
-          : Icon && <Icon size={20} style={{ color: accentColor }} strokeWidth={1.8} />
-        }
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-white text-base font-semibold leading-tight truncate">{item.title}</p>
-        <p className="text-white/40 text-sm leading-snug mt-0.5 truncate">{item.subtitle}</p>
-      </div>
-      {item.badge && (
-        <span
-          className="text-sm font-semibold px-3 py-1 rounded-full shrink-0 whitespace-nowrap"
-          style={item.badgeActive
-            ? { background: accentColor + "33", color: accentColor }
-            : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}
-        >
-          {item.badge}
-        </span>
-      )}
-    </motion.button>
-  );
-}
 
 // ─── Desktop detail modal ─────────────────────────────────────────────────────
 
