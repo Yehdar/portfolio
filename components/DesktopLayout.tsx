@@ -318,7 +318,7 @@ function DesktopDetailModal({
         exit={{ opacity: 0, x: "-50%", y: "-44%", scale: 0.96 }}
         transition={{ type: "spring", damping: 28, stiffness: 340 }}
       >
-        <div className="max-h-[78vh] overflow-y-auto hide-scrollbar px-8 py-8">
+        <div className="max-h-[78vh] overflow-y-auto card-scrollbar px-8 py-8">
           {/* Header */}
           <div className="flex items-start justify-between gap-4 mb-6">
             <div className="flex items-center gap-4">

@@ -58,13 +58,13 @@ function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
 }
 
 // ─── Link Row ─────────────────────────────────────────────────────────────────
-function LinkRow({ icon: Icon, logo, label, handle, href, desktop, onRowClick }: Link & { desktop?: boolean; onRowClick?: (id: string) => void }) {
+function LinkRow({ icon: Icon, logo, label, handle, href, desktop }: Link & { desktop?: boolean }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(label); } }}
+      onClick={(e) => e.stopPropagation()}
       className={`flex items-center border-b-2 last:border-0 group active:scale-[0.98] px-3 rounded-none transition-all cursor-pointer
         ${desktop ? "py-7 gap-5" : "py-5 gap-4"}`}
       style={{ borderColor: theme.rowBorder }}
@@ -84,7 +84,7 @@ function LinkRow({ icon: Icon, logo, label, handle, href, desktop, onRowClick }:
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1">
           <p className={`font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`} style={{ color: theme.rowText }}>{label}</p>
-          {onRowClick && <ArrowUpRight size={14} className="shrink-0 text-white/50" strokeWidth={2} />}
+          <ArrowUpRight size={14} className="shrink-0 text-white/50" strokeWidth={2} />
         </div>
         <p className={`leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`} style={{ color: theme.rowSubtext }}>{handle}</p>
       </div>
@@ -99,10 +99,10 @@ export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boo
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
 
       {(desktop || onRowClick) && (<>
-        <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"} ${desktop ? "pt-6" : "pt-4"}`}>
+        <div className={`flex-1 overflow-y-auto card-scrollbar pb-6 ${desktop ? "px-5" : "px-4"} ${desktop ? "pt-6" : "pt-4"}`}>
           <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>How to Reach Me</p>
           {LINKS.map((link) => (
-            <LinkRow key={link.label} {...link} desktop={desktop} onRowClick={onRowClick} />
+            <LinkRow key={link.label} {...link} desktop={desktop} />
           ))}
         </div>
       </>)}

@@ -80,7 +80,7 @@ function MobileDetailSheet({ item, onClose, accentColor, detailBg }: {
       exit={{ opacity: 0, y: "-35%", scale: 0.95 }}
       transition={{ type: "spring", damping: 28, stiffness: 340 }}
     >
-      <div className="max-h-[72vh] overflow-y-auto hide-scrollbar px-6 py-6">
+      <div className="max-h-[72vh] overflow-y-auto card-scrollbar px-6 py-6">
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
             {item.logo && (
@@ -191,7 +191,7 @@ function MobileStack({
       className="relative w-full h-full overflow-hidden"
       onPan={selectedId === null ? (_, info) => {
         // Down → spread cards apart; up → pull closer (clamped)
-        peekMv.set(Math.max(-12, Math.min(48, info.offset.y * 0.25)));
+        peekMv.set(Math.max(-12, Math.min(48, info.offset.y * 0.12)));
       } : undefined}
       onPanEnd={selectedId === null ? () => {
         animate(peekMv, 0, SNAP_BACK);

@@ -82,7 +82,7 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
       {/* Bio text + action buttons */}
       {(desktop || onRowClick) && (
         <div className="flex flex-col flex-1 overflow-hidden">
-          <div className={`flex-1 overflow-y-auto hide-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}>
+          <div className={`flex-1 overflow-y-auto card-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}>
             <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>Who I Am</p>
             <p className={`leading-relaxed ${desktop ? "text-2xl" : "text-lg"}`} style={{ color: "rgba(255,255,255,0.85)" }}>
               Hey, I'm Radhey (aka Rod)!
