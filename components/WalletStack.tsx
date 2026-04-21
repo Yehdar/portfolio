@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentType, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { animate, AnimatePresence, motion, useMotionValue } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
 import WalletCard, { CardDef } from "./WalletCard";
 import DesktopLayout, { DETAIL_DATA, ItemDetail } from "./DesktopLayout";
@@ -182,6 +182,9 @@ function MobileStack({
   const totalStackHeight = (CARDS.length - 1) * PEEK + cardHeight;
   const stackTop         = NAV_HEIGHT + Math.max(0, Math.floor((availableHeight - totalStackHeight) / 2));
 
+  const stackPullY = useMotionValue(0);
+  const SNAP_BACK  = { type: "spring", stiffness: 420, damping: 32 } as const;
+
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden">
 
@@ -226,28 +229,39 @@ function MobileStack({
         )}
       </AnimatePresence>
 
-      {CARDS.map((card, index) => {
-        const CardContent = CARD_MAP[card.id];
-        const isExpanded  = selectedId === card.id;
-        return (
-          <WalletCard
-            key={card.id}
-            card={card}
-            stackedY={stackTop + index * PEEK}
-            cardHeight={cardHeight}
-            containerHeight={containerHeight}
-            zIndex={index + 1}
-            isExpanded={isExpanded}
-            hasAnyExpanded={selectedId !== null}
-            onClick={() => setSelectedId(card.id)}
-            onClose={() => setSelectedId(null)}
-          >
-            {CardContent && (
-              <CardContent onRowClick={isExpanded ? setMobileSelectedItem : undefined} />
-            )}
-          </WalletCard>
-        );
-      })}
+      <motion.div
+        className="absolute inset-0"
+        style={{ y: stackPullY }}
+        onPan={selectedId === null ? (_, info) => {
+          stackPullY.set(Math.max(0, info.offset.y * 0.4));
+        } : undefined}
+        onPanEnd={selectedId === null ? () => {
+          animate(stackPullY, 0, SNAP_BACK);
+        } : undefined}
+      >
+        {CARDS.map((card, index) => {
+          const CardContent = CARD_MAP[card.id];
+          const isExpanded  = selectedId === card.id;
+          return (
+            <WalletCard
+              key={card.id}
+              card={card}
+              stackedY={stackTop + index * PEEK}
+              cardHeight={cardHeight}
+              containerHeight={containerHeight}
+              zIndex={index + 1}
+              isExpanded={isExpanded}
+              hasAnyExpanded={selectedId !== null}
+              onClick={() => setSelectedId(card.id)}
+              onClose={() => setSelectedId(null)}
+            >
+              {CardContent && (
+                <CardContent onRowClick={isExpanded ? setMobileSelectedItem : undefined} />
+              )}
+            </WalletCard>
+          );
+        })}
+      </motion.div>
 
       <AnimatePresence>
         {detailItem && (

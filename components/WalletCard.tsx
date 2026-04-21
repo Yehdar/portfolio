@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { animate, motion, useMotionValue } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 export interface CardDef {
   id: string;
@@ -21,11 +23,13 @@ interface WalletCardProps {
   children?: React.ReactNode;
 }
 
-const TRANSITION = { type: "spring", damping: 30, stiffness: 300 } as const;
-const CARD_PAD  = 12;
-const CARD_TOP  = 10;
-const STACK_PAD = 12;
-const R         = 24;
+const TRANSITION  = { type: "tween", duration: 0.28, ease: [0.32, 0.72, 0, 1] } as const;
+const SNAP_BACK   = { type: "spring", stiffness: 420, damping: 32 } as const;
+const CARD_PAD    = 12;
+const CARD_TOP    = 10;
+const STACK_PAD   = 12;
+const R           = 24;
+const DISMISS_PX  = 90;
 
 export default function WalletCard({
   card,
@@ -39,7 +43,14 @@ export default function WalletCard({
   onClose,
   children,
 }: WalletCardProps) {
-  const animate = isExpanded
+  const pullY = useMotionValue(0);
+
+  // Reset pull offset whenever this card collapses
+  useEffect(() => {
+    if (!isExpanded) pullY.set(0);
+  }, [isExpanded, pullY]);
+
+  const animateTarget = isExpanded
     ? { top: CARD_TOP, left: CARD_PAD, right: CARD_PAD, height: containerHeight - CARD_TOP - CARD_PAD, borderRadius: R }
     : hasAnyExpanded
     ? { top: containerHeight + 40, left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R }
@@ -51,9 +62,10 @@ export default function WalletCard({
       style={{
         zIndex: isExpanded ? 50 : zIndex,
         cursor: isExpanded || card.placeholder ? "default" : "pointer",
+        y: pullY,
       }}
       initial={false}
-      animate={animate}
+      animate={animateTarget}
       transition={TRANSITION}
       whileHover={!isExpanded ? { scale: 1.012 } : undefined}
       whileTap={!isExpanded ? { scale: 0.98 } : undefined}
@@ -67,14 +79,26 @@ export default function WalletCard({
         )}
       </div>
 
+      {/* Pull-to-dismiss handle — sits above scrollable content */}
       {isExpanded && (
-        <button
-          className="absolute top-5 right-5 z-20 bg-white text-[#007aff] text-[15px] font-semibold px-4 py-1.5 rounded-full shadow-md hover:bg-white/90 transition-colors"
-          onClick={(e) => { e.stopPropagation(); onClose(); }}
+        <motion.div
+          className="absolute top-0 inset-x-0 h-14 z-30 flex items-start justify-center pt-3 touch-none select-none"
+          onPan={(_, info) => {
+            // Resistance: movement slows as you pull further
+            pullY.set(Math.max(0, info.offset.y * 0.45));
+          }}
+          onPanEnd={(_, info) => {
+            if (info.offset.y > DISMISS_PX) {
+              onClose();
+            } else {
+              animate(pullY, 0, SNAP_BACK);
+            }
+          }}
         >
-          Done
-        </button>
+          <ChevronDown size={32} className="text-white/40" strokeWidth={2.5} />
+        </motion.div>
       )}
+
     </motion.div>
   );
 }
