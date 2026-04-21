@@ -10,13 +10,9 @@ export interface CardDef {
 
 interface WalletCardProps {
   card: CardDef;
-  /** CSS top value (px) when the card is sitting in the stack */
   stackedY: number;
-  /** Height (px) when the card is in the stack */
   cardHeight: number;
-  /** Full container height (px) — used for the expanded state */
   containerHeight: number;
-  /** CSS z-index when not expanded */
   zIndex: number;
   isExpanded: boolean;
   hasAnyExpanded: boolean;
@@ -25,11 +21,11 @@ interface WalletCardProps {
   children?: React.ReactNode;
 }
 
-const SPRING = { type: "spring", damping: 30, stiffness: 300 } as const;
-
-/** Border radius in px: rounded when stacked, flush when filling the screen. */
-const R_STACKED  = 24;
-const R_EXPANDED = 0;
+const TRANSITION = { type: "spring", damping: 30, stiffness: 300 } as const;
+const CARD_PAD  = 12;
+const CARD_TOP  = 10;
+const STACK_PAD = 12;
+const R         = 24;
 
 export default function WalletCard({
   card,
@@ -43,21 +39,11 @@ export default function WalletCard({
   onClose,
   children,
 }: WalletCardProps) {
-  /**
-   * Three states:
-   *  expanded  – fills the full container (top:0, height:containerHeight)
-   *  hidden    – another card is expanded; slide below the fold
-   *  stacked   – normal wallet pile position
-   */
-  const CARD_PAD   = 12;
-  const CARD_TOP   = 10;
-  const STACK_PAD  = 12;
-
   const animate = isExpanded
-    ? { top: CARD_TOP, left: CARD_PAD, right: CARD_PAD, height: containerHeight - CARD_TOP - CARD_PAD, borderRadius: R_STACKED }
+    ? { top: CARD_TOP, left: CARD_PAD, right: CARD_PAD, height: containerHeight - CARD_TOP - CARD_PAD, borderRadius: R }
     : hasAnyExpanded
-    ? { top: containerHeight + 40, left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R_STACKED }
-    : { top: stackedY, left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R_STACKED };
+    ? { top: containerHeight + 40, left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R }
+    : { top: stackedY, left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R };
 
   return (
     <motion.div
@@ -68,35 +54,23 @@ export default function WalletCard({
       }}
       initial={false}
       animate={animate}
-      transition={SPRING}
-      // All non-expanded cards get a subtle lift; only non-placeholders expand on click
+      transition={TRANSITION}
       whileHover={!isExpanded ? { scale: 1.012 } : undefined}
       whileTap={!isExpanded ? { scale: 0.98 } : undefined}
       onClick={!isExpanded && !card.placeholder ? onClick : undefined}
     >
-      {/* ── Scrollable card body ──────────────────────────────────── */}
-      <div
-        className={`w-full h-full hide-scrollbar ${
-          isExpanded ? "overflow-y-auto" : "overflow-hidden"
-        }`}
-      >
+      <div className={`w-full h-full hide-scrollbar ${isExpanded ? "overflow-y-auto" : "overflow-hidden"}`}>
         {children ?? (
           <div className="w-full h-full bg-zinc-800 flex items-start p-6">
-            <span className="text-white/90 text-2xl font-bold tracking-tight">
-              {card.label}
-            </span>
+            <span className="text-white/90 text-2xl font-bold tracking-tight">{card.label}</span>
           </div>
         )}
       </div>
 
-      {/* ── Done button — pinned, never scrolls ──────────────────── */}
       {isExpanded && (
         <button
           className="absolute top-5 right-5 z-20 bg-white text-[#007aff] text-[15px] font-semibold px-4 py-1.5 rounded-full shadow-md hover:bg-white/90 transition-colors"
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
+          onClick={(e) => { e.stopPropagation(); onClose(); }}
         >
           Done
         </button>

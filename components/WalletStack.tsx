@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ComponentType, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
 import WalletCard, { CardDef } from "./WalletCard";
@@ -11,8 +11,6 @@ import ProjectsCard from "./cards/ProjectsCard";
 import ConnectionsCard from "./cards/ConnectionsCard";
 import { ID_THEMES } from "./idThemes";
 
-// ─── Card definitions (back → front) ──────────────────────────────────────────
-
 export const CARDS: CardDef[] = [
   { id: "connections", label: "Links"      },
   { id: "projects",    label: "Projects"   },
@@ -20,23 +18,22 @@ export const CARDS: CardDef[] = [
   { id: "about",       label: "About Me"   },
 ];
 
-// ─── Stack layout constants ────────────────────────────────────────────────────
+type CardComp = ComponentType<{ onRowClick?: (id: string) => void }>;
+const CARD_MAP: Record<string, CardComp> = {
+  connections: ConnectionsCard,
+  projects:    ProjectsCard,
+  experience:  ExperienceCard,
+  about:       AboutCard,
+};
 
-const PEEK         = 72;
-const NAV_HEIGHT   = 100;
+const PEEK          = 72;
+const NAV_HEIGHT    = 100;
 const BOTTOM_MARGIN = 24;
-
-// ──────────────────────────────────────────────────────────────────────────────
 
 export default function WalletStack() {
   const [activeCard, setActiveCard]     = useState<string>("about");
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [selectedId, setSelectedId]     = useState<string | null>(null);
-
-  const handleCardSelect = (id: string) => {
-    setActiveCard(id);
-    setSelectedItem(null);
-  };
 
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
   useLayoutEffect(() => {
@@ -53,7 +50,7 @@ export default function WalletStack() {
       <DesktopLayout
         activeCard={activeCard}
         selectedItem={selectedItem}
-        onCardSelect={handleCardSelect}
+        onCardSelect={(id) => { setActiveCard(id); setSelectedItem(null); }}
         onItemSelect={setSelectedItem}
       />
     );
@@ -62,9 +59,12 @@ export default function WalletStack() {
   return <MobileStack selectedId={selectedId} setSelectedId={setSelectedId} />;
 }
 
-// ─── Mobile wallet stack ───────────────────────────────────────────────────────
-
-function MobileDetailSheet({ item, onClose, accentColor, detailBg }: { item: ItemDetail; onClose: () => void; accentColor: string; detailBg: string }) {
+function MobileDetailSheet({ item, onClose, accentColor, detailBg }: {
+  item: ItemDetail;
+  onClose: () => void;
+  accentColor: string;
+  detailBg: string;
+}) {
   return (
     <motion.div
       className="absolute inset-x-4 z-60 rounded-3xl overflow-hidden shadow-2xl"
@@ -81,7 +81,6 @@ function MobileDetailSheet({ item, onClose, accentColor, detailBg }: { item: Ite
       transition={{ type: "spring", damping: 28, stiffness: 340 }}
     >
       <div className="max-h-[72vh] overflow-y-auto hide-scrollbar px-6 py-6">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
             {item.logo && (
@@ -98,62 +97,44 @@ function MobileDetailSheet({ item, onClose, accentColor, detailBg }: { item: Ite
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 active:scale-95 transition-all"
-            style={{
-              background: "rgba(255,255,255,0.1)",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.15)",
-            }}
+            style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.15)" }}
           >
             <X size={14} className="text-white" strokeWidth={2} />
           </button>
         </div>
 
-        {/* Badges */}
         <div className="flex flex-wrap gap-2 mb-5">
           {item.tech.map((t) => (
-            <span
-              key={t}
-              className="text-xs font-semibold px-3 py-1 rounded-full"
-              style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
-            >
+            <span key={t} className="text-xs font-semibold px-3 py-1 rounded-full"
+              style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}>
               {t}
             </span>
           ))}
-          <span
-            className="text-xs font-semibold px-3 py-1 rounded-full"
+          <span className="text-xs font-semibold px-3 py-1 rounded-full"
             style={item.status === "Active"
               ? { background: accentColor + "33", color: accentColor }
-              : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}
-          >
+              : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
             {item.status}
           </span>
           {item.date && (
-            <span
-              className="text-xs font-semibold px-3 py-1 rounded-full"
-              style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}
-            >
+            <span className="text-xs font-semibold px-3 py-1 rounded-full"
+              style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
               {item.date}
             </span>
           )}
         </div>
 
-        {/* Divider */}
         <div className="border-t mb-5" style={{ borderColor: "rgba(255,255,255,0.08)" }} />
 
-        {/* Bullets */}
         <div className="space-y-3 mb-6">
           {item.bullets.map((b, i) => (
             <div key={i} className="flex gap-3 items-start">
-              <div
-                className="w-1.5 h-1.5 rounded-full mt-[7px] flex-shrink-0"
-                style={{ background: accentColor }}
-              />
+              <div className="w-1.5 h-1.5 rounded-full mt-[7px] flex-shrink-0" style={{ background: accentColor }} />
               <p className="text-white/70 text-sm leading-relaxed">{b}</p>
             </div>
           ))}
         </div>
 
-        {/* CTA */}
         <div className="flex justify-end">
           <a
             href={item.href}
@@ -179,12 +160,12 @@ function MobileStack({
   setSelectedId: (id: string | null) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [containerHeight, setContainerHeight]     = useState(800);
+  const [containerHeight, setContainerHeight]       = useState(800);
   const [mobileSelectedItem, setMobileSelectedItem] = useState<string | null>(null);
-  const [activeCard, setActiveCard]               = useState<string>("about");
 
+  const activeCard = selectedId ?? "about";
   const detailItem = DETAIL_DATA.find((d) => d.id === mobileSelectedItem) ?? null;
-  const theme = ID_THEMES[activeCard] ?? ID_THEMES.about;
+  const theme      = ID_THEMES[activeCard] ?? ID_THEMES.about;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -196,22 +177,14 @@ function MobileStack({
     return () => ro.disconnect();
   }, []);
 
-  const availableHeight = containerHeight - NAV_HEIGHT - BOTTOM_MARGIN;
-  const cardHeight = Math.min(360, Math.max(220, Math.floor(
-    (availableHeight - (CARDS.length - 1) * PEEK) * 0.85
-  )));
+  const availableHeight  = containerHeight - NAV_HEIGHT - BOTTOM_MARGIN;
+  const cardHeight       = Math.min(360, Math.max(220, Math.floor((availableHeight - (CARDS.length - 1) * PEEK) * 0.85)));
   const totalStackHeight = (CARDS.length - 1) * PEEK + cardHeight;
-  const stackTop = NAV_HEIGHT + Math.max(0, Math.floor((availableHeight - totalStackHeight) / 2));
-
-  const handleCardClick = (id: string) => {
-    setSelectedId(id);
-    setActiveCard(id);
-  };
+  const stackTop         = NAV_HEIGHT + Math.max(0, Math.floor((availableHeight - totalStackHeight) / 2));
 
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden">
 
-      {/* ── Animated background ───────────────────────────────────── */}
       <AnimatePresence mode="sync">
         <motion.div
           key={activeCard + "-mobilebg"}
@@ -224,7 +197,6 @@ function MobileStack({
         />
       </AnimatePresence>
 
-      {/* ── Nav Bar ──────────────────────────────────────────────── */}
       <div className="absolute top-0 left-0 right-0 h-[90px] pt-14 flex items-center justify-between px-5 z-10">
         <div style={{ fontFamily: "var(--font-geist-sans)" }}>
           <p className="text-white text-[36px] font-bold tracking-tight leading-tight">Welcome!</p>
@@ -232,61 +204,51 @@ function MobileStack({
         </div>
       </div>
 
-      {/* ── Backdrop: dims cards when any card is expanded ────────── */}
       <AnimatePresence>
         {selectedId && (
           <motion.div
             className="absolute inset-0 z-40 bg-black/30"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            onClick={() => { if (!mobileSelectedItem) { setSelectedId(null); setActiveCard("about"); } }}
+            onClick={() => { if (!mobileSelectedItem) setSelectedId(null); }}
           />
         )}
       </AnimatePresence>
 
-      {/* ── Backdrop: blurs expanded card when detail sheet is open ── */}
       <AnimatePresence>
         {mobileSelectedItem && (
           <motion.div
             className="absolute inset-0 z-55 bg-black/40 backdrop-blur-md"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => setMobileSelectedItem(null)}
           />
         )}
       </AnimatePresence>
 
-      {/* ── Cards ────────────────────────────────────────────────── */}
       {CARDS.map((card, index) => {
-        const stackedY = stackTop + index * PEEK;
-        const zIndex   = index + 1;
-
+        const CardContent = CARD_MAP[card.id];
+        const isExpanded  = selectedId === card.id;
         return (
           <WalletCard
             key={card.id}
             card={card}
-            stackedY={stackedY}
+            stackedY={stackTop + index * PEEK}
             cardHeight={cardHeight}
             containerHeight={containerHeight}
-            zIndex={zIndex}
-            isExpanded={selectedId === card.id}
+            zIndex={index + 1}
+            isExpanded={isExpanded}
             hasAnyExpanded={selectedId !== null}
-            onClick={() => handleCardClick(card.id)}
-            onClose={() => { setSelectedId(null); setActiveCard("about"); }}
+            onClick={() => setSelectedId(card.id)}
+            onClose={() => setSelectedId(null)}
           >
-            {card.id === "connections" && <ConnectionsCard onRowClick={selectedId === card.id ? setMobileSelectedItem : undefined} />}
-            {card.id === "projects"    && <ProjectsCard    onRowClick={selectedId === card.id ? setMobileSelectedItem : undefined} />}
-            {card.id === "experience"  && <ExperienceCard  onRowClick={selectedId === card.id ? setMobileSelectedItem : undefined} />}
-            {card.id === "about"       && <AboutCard       onRowClick={selectedId === card.id ? setMobileSelectedItem : undefined} />}
+            {CardContent && (
+              <CardContent onRowClick={isExpanded ? setMobileSelectedItem : undefined} />
+            )}
           </WalletCard>
         );
       })}
 
-      {/* ── Mobile detail sheet ───────────────────────────────────── */}
       <AnimatePresence>
         {detailItem && (
           <MobileDetailSheet

@@ -1,5 +1,6 @@
 "use client";
 
+import { ComponentType } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, FileText, Mail, X } from "lucide-react";
 import AboutCard from "./cards/AboutCard";
@@ -18,6 +19,14 @@ const CARDS = [
   { id: "experience",  label: "Experience"  },
   { id: "about",       label: "About Me"    },
 ];
+
+type CardComp = ComponentType<{ desktop?: boolean; onRowClick?: (id: string) => void }>;
+const CARD_MAP: Record<string, CardComp> = {
+  connections: ConnectionsCard,
+  projects:    ProjectsCard,
+  experience:  ExperienceCard,
+  about:       AboutCard,
+};
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -218,10 +227,7 @@ function NavCard({
       onClick={onClick}
     >
       <div className="w-full pointer-events-none" style={{ height: FACE_H }}>
-        {id === "about"       && <AboutCard />}
-        {id === "experience"  && <ExperienceCard />}
-        {id === "projects"    && <ProjectsCard />}
-        {id === "connections" && <ConnectionsCard />}
+        {(() => { const C = CARD_MAP[id]; return C ? <C /> : null; })()}
       </div>
     </motion.button>
   );
@@ -475,10 +481,7 @@ export default function DesktopLayout({
                 transition={{ type: "spring", damping: 22, stiffness: 300 }}
                 className="absolute inset-0 overflow-hidden"
               >
-                {activeCard === "about"       && <AboutCard       desktop onRowClick={onItemSelect} />}
-                {activeCard === "experience"  && <ExperienceCard  desktop onRowClick={onItemSelect} />}
-                {activeCard === "projects"    && <ProjectsCard    desktop onRowClick={onItemSelect} />}
-                {activeCard === "connections" && <ConnectionsCard desktop onRowClick={onItemSelect} />}
+                {(() => { const C = CARD_MAP[activeCard]; return C ? <C desktop onRowClick={onItemSelect} /> : null; })()}
               </motion.div>
             </AnimatePresence>
           </div>
