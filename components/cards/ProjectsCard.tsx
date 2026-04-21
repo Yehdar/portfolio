@@ -15,16 +15,33 @@ interface Project {
 }
 
 export const PROJECTS: Project[] = [
-  { icon: Code2, logo: "/pointsoptimizer.png", name: "Points Optimizer", description: "AI Credit Card Points Optimizer", tech: "Next.js / Kotlin", href: "https://github.com/Yehdar/Canadian-Credit-Card-Points-Optimizer" },
-  { icon: Code2, logo: "/emailaddressvalidator.png", name: "Email Address Validator", description: "Email Address Validator", tech: "Golang", href: "https://github.com/The-Golang-Way/Email-Address-Validator"},
-  { icon: Code2, logo: "/hermes.png", name: "Hermes", description: "Network Chat Application", tech: "Python", href: "https://github.com/The-Golang-Way/Yehdar/hermes"},
+  { icon: Code2, logo: "/projects/pointsoptimizer.png",     name: "Points Optimizer ⭐",      description: "AI Credit Card Points Optimizer",                            tech: "Next.js (TypeScript), Kotlin, PostgreSQL, Gemini Flash", href: "https://www.linkedin.com/posts/radhey-patel-_most-of-us-use-credit-cards-that-dont-actually-activity-7449541890422489088-LjLC?utm_source=share&utm_medium=member_desktop&rcm=ACoAADvE724Bs3MbkG650lKiVaEA_BbmCaWxikY" },
+  { icon: Code2, logo: "/projects/lsc.png",                name: "lascongress.ca",         description: "YorkU Eng. Student Gov. Website", tech: "React (JavaScript)",            href: "https://github.com/lascongress/lascongress.github.io"            },
+  { icon: Code2, logo: "/projects/aws.png",                name: "Polyglot",               description: "Serverless Machine Code Translator",                   tech: "Python, AWS",     href: "https://github.com/Yehdar/Polyglot"                              },
+  { icon: Code2, logo: "/projects/emailaddressvalidator.png", name: "Email Address Validator", description: "CLI Tool to Validate Emails",                                 tech: "Go",           href: "https://github.com/The-Golang-Way/Email-Address-Validator"       },
+  { icon: Code2, logo: "/projects/hermes.png",             name: "Hermes",                 description: "LAN Chat Application",                                    tech: "Python",           href: "https://github.com/Yehdar/hermes"                 },
+  { icon: Code2, logo: "/projects/steady.png",             name: "Steady",                 description: "JIRA Clone (backend-only)",                                                  tech: "Python, Flask, React (TypeScript), PostgreSQL, Docker",           href: "https://github.com/Yehdar/steady"                 },
+  { icon: Code2, logo: "/projects/google.png",             name: "Google Photos Script",   description: "Script to Modify Google Photos",            tech: "Python",           href: "https://github.com/Yehdar/google-photos-script"                 },
+  { icon: Code2, logo: "/projects/watchdogs.png",          name: "Watchdogs",              description: "Serverless Streaming Application",                                tech: "Go,  JavaScript, AWS",           href: "https://github.com/Yehdar/watchdogs"                 },
+  { icon: Code2, logo: "/projects/overseer.png",           name: "Overseer",               description: "CPU Monitoring Tool",                                tech: "Python, Flask, JavaScript, AWS, Docker",           href: "https://github.com/Yehdar/overseer"                 },
+  { icon: Code2, logo: "/projects/vaultmonster.png",       name: "Vault Monster",          description: "File Storage System",                                tech: "React (TypeScript), Go",           href: "https://github.com/Yehdar/vaultmonster"                 },
+  { icon: Code2, logo: "/projects/broblox.png",            name: "Broblox",                description: "Turn-based Strategy Game",                                tech: "JavaScript, HTML, CSS",           href: "https://github.com/Yehdar/broblox"                 },
+  { icon: Code2, logo: "/projects/raincheck.png",          name: "Rain Check",             description: "CLI Tool to Check Weather",                                tech: "Go",           href: "https://github.com/The-Golang-Way/raincheck"                 },
+  { icon: Code2, logo: "/projects/remindme.png",           name: "Remind Me",              description: "CLI Tool to Set Reminders",                                tech: "Go",           href: "https://github.com/The-Golang-Way/remindme"                 },
+  { icon: Code2, logo: "/projects/stream.png",             name: "Stream",                 description: "Live Streaming Application",                                tech: "Rust",           href: "https://github.com/Yehdar/stream"                 },
+  { icon: Code2, logo: "/projects/kanine.png",             name: "Kanine",                 description: "NMAP Clone",                                tech: "Rust",           href: "https://github.com/Yehdar/kanine"                 },
+  { icon: Code2, logo: "/projects/sentient.png",           name: "Sentient",               description: "Browser From Scratch",                                tech: "Rust",           href: "https://github.com/Yehdar/sentient"                 },
+  { icon: Code2, logo: "/projects/slither.jpeg",           name: "Slither",                description: "Web Crawler",                                tech: "Rust",           href: "https://github.com/Yehdar/slither"                 },
 ];
+
+
+
 
 function SpaceLandscape() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/pirates.png"
+      src="/cards/pirates.png"
       alt=""
       aria-hidden
       className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 70%" }}
@@ -34,7 +51,10 @@ function SpaceLandscape() {
 
 function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
   return (
-    <div className={`w-full relative overflow-hidden ${fill ? "flex-1" : "h-[300px] flex-shrink-0"}`}>
+    <div
+      className={`w-full relative overflow-hidden ${fill ? "flex-1" : "flex-shrink-0"}`}
+      style={!fill ? { height: desktop ? "clamp(160px, 30dvh, 300px)" : "300px" } : undefined}
+    >
       <SpaceLandscape />
       {desktop && <div className="absolute inset-0 bg-black/50" />}
       <div className="absolute inset-0 flex flex-col p-4">
@@ -44,7 +64,7 @@ function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
           </p>
           <div
             className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
-            style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#a5b4fc" }}
+            style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#d7dbf0" }}
           >
             3
           </div>
@@ -60,7 +80,7 @@ function ProjectRow({ icon: Icon, logo, name, description, tech, href, desktop, 
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(name); } }}
+      onClick={(e) => e.stopPropagation()}
       className={`flex items-center border-b-2 last:border-0 group active:scale-[0.98] px-3 rounded-none transition-all cursor-pointer
         ${desktop ? "py-7 gap-5" : "py-5 gap-4"}`}
       style={{ borderColor: theme.rowBorder }}
@@ -78,18 +98,13 @@ function ProjectRow({ icon: Icon, logo, name, description, tech, href, desktop, 
         }
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           <p className={`font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`} style={{ color: theme.rowText }}>{name}</p>
-          {onRowClick && <ArrowUpRight size={14} className="shrink-0 text-white/50" strokeWidth={2} />}
+          <ArrowUpRight size={13} className="shrink-0 text-white/40 ml-auto" strokeWidth={2} />
         </div>
-        <p className={`leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`} style={{ color: theme.rowSubtext }}>{description}</p>
+        <p className={`leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`} style={{ color: "rgba(255,255,255,0.86)" }}>{description}</p>
+        <p className={`leading-snug truncate mt-0.5 ${desktop ? "text-xs" : "text-[11px]"}`} style={{ color: "rgba(255,255,255,0.78)" }}>{tech}</p>
       </div>
-      <span
-        className={`font-semibold px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap ${desktop ? "text-sm" : "text-xs"}`}
-        style={{ background: theme.badgeBg, color: theme.badgeFg }}
-      >
-        {tech}
-      </span>
     </a>
   );
 }
@@ -99,7 +114,7 @@ export default function ProjectsCard({ desktop, onRowClick }: { desktop?: boolea
     <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
       {(desktop || onRowClick) && (<>
-        <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"} ${desktop ? "pt-6" : "pt-4"}`}>
+        <div className={`flex-1 overflow-y-auto card-scrollbar pb-6 ${desktop ? "px-5" : "px-4"} ${desktop ? "pt-6" : "pt-4"}`}>
           <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>What I've Built</p>
           {PROJECTS.map((p) => (
             <ProjectRow key={p.name} {...p} desktop={desktop} onRowClick={onRowClick} />

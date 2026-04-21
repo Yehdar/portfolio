@@ -1,15 +1,12 @@
 "use client";
 
-import { ComponentType, useState } from "react";
+import { ComponentType, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ExternalLink, FileText, Mail, X } from "lucide-react";
+import { ExternalLink, X } from "lucide-react";
 import AboutCard from "./cards/AboutCard";
 import ExperienceCard from "./cards/ExperienceCard";
 import ProjectsCard from "./cards/ProjectsCard";
 import ConnectionsCard from "./cards/ConnectionsCard";
-import { TRANSACTIONS } from "./cards/ExperienceCard";
-import { PROJECTS } from "./cards/ProjectsCard";
-import { LINKS } from "./cards/ConnectionsCard";
 import { ID_THEMES } from "./idThemes";
 
 // Mirrors CARDS in WalletStack — defined locally to avoid circular import
@@ -30,23 +27,13 @@ const CARD_MAP: Record<string, CardComp> = {
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
-interface LedgerItem {
-  id: string;
-  icon?: React.ElementType;
-  logo?: string;
-  title: string;
-  subtitle: string;
-  badge: string;
-  badgeActive?: boolean;
-}
-
 export interface ItemDetail {
   id: string;
   category: string;
   title: string;
   subtitle: string;
   date: string;
-  status: "Active" | "Completed";
+  status: string;
   tech: string[];
   bullets: string[];
   href: string;
@@ -57,52 +44,70 @@ export interface ItemDetail {
 // ─── Rich detail data ──────────────────────────────────────────────────────────
 
 export const DETAIL_DATA: ItemDetail[] = [
-  {
-    id: "Manulife", category: "experience", title: "Manulife", logo: "/manulife.png",
-    subtitle: "Technology Intern", date: "Winter 2026", status: "Active",
-    tech: ["Go", "AWS", "Kafka"],
+    {
+    id: "Citi", category: "experience", title: "Citi", logo: "/experience/citi.png",
+    subtitle: "Software Engineering Intern", date: "Summer 2026", status: "Data Engineering",
+    tech: ["Python"],
     bullets: [
-      "Built microservices handling 10k+ daily financial transactions",
-      "Reduced data pipeline latency by 40% through query optimization",
-      "Contributed to claims processing architecture review with senior engineers",
-    ],
-    href: "https://www.linkedin.com/company/manulife/", hrefLabel: "View on LinkedIn",
-  },
-  {
-    id: "RBC", category: "experience", title: "RBC", logo: "/rbc.png",
-    subtitle: "Software Engineering Intern", date: "Past", status: "Completed",
-    tech: ["Java", "Spring Boot", "SQL"],
-    bullets: [
-      "Developed internal tooling reducing manual reconciliation by 3 hrs/week",
-      "Wrote integration tests covering 85% of new service endpoints",
-      "Participated in agile sprint ceremonies and bi-weekly design reviews",
-    ],
-    href: "https://www.linkedin.com/company/rbc/", hrefLabel: "View on LinkedIn",
-  },
-  {
-    id: "Citi", category: "experience", title: "Citi", logo: "/citi.png",
-    subtitle: "Software Engineering Intern", date: "Past", status: "Completed",
-    tech: ["Python", "React", "PostgreSQL"],
-    bullets: [
-      "Built a real-time dashboard for monitoring FX transaction anomalies",
-      "Collaborated cross-functionally with risk and compliance teams",
-      "Shipped 3 features across a 12-week internship cycle",
+      "soon to come!",
     ],
     href: "https://www.linkedin.com/company/citi/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "Government of Canada", category: "experience", title: "Government of Canada", logo: "/canada.png",
-    subtitle: "Software Engineering Intern", date: "Past", status: "Completed",
-    tech: ["Node.js", "TypeScript", "GCP"],
+    id: "Manulife", category: "experience", title: "Manulife", logo: "/experience/manulife.png",
+    subtitle: "Technology Intern", date: "Winter 2026", status: "Mobile Development",
+    tech: ["React", "Kotlin", "MongoDB", "Mobile"],
     bullets: [
-      "Modernized a legacy public-facing portal serving 50k+ users",
-      "Implemented WCAG 2.1 AA accessibility standards site-wide",
-      "Deployed CI/CD pipeline cutting release cycle from 2 weeks to 2 days",
+      "Led the migration of payment processing systems from third-party vendors to an internal application using React, TypeScript, Kotlin, and Ktor",
+      "Refined cache invalidation logic to ensure high-fidelity synchronization with the MongoDB database",
+      "Extended backend functionality to include storage metadata in asset response headers, improving debugging and developer visibility",
     ],
-    href: "https://www.linkedin.com/company/government-of-canada/", hrefLabel: "View on LinkedIn",
+    href: "https://www.linkedin.com/company/manulife/", hrefLabel: "View on LinkedIn",
+  },
+    {
+    id: "John Hancock", category: "experience", title: "John Hancock", logo: "/experience/johnhancock.jpg",
+    subtitle: "Technology Intern", date: "Summer 2025", status: "Java Developer",
+    tech: ["Java", "Spring Boot", "Apache Kafka", "Microservices"],
+    bullets: [
+      "Maintained a Java Spring Boot project featuring 40+ Jakarta EE servlets and 60+ DTOs, delivering client insurance claims data to internal business applications",
+      "Refactored Java microservices from a legacy event bus to Apache Kafka by implementing producer and consumer logic for event processing",
+    ],
+    href: "https://www.linkedin.com/company/john-hancock/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "Points Optimizer", category: "projects", title: "Points Optimizer", logo: "/pointsoptimizer.png",
+    id: "Royal Bank of Canada", category: "experience", title: "Royal Bank of Canada", logo: "/experience/rbc.png",
+    subtitle: "Software Engineering Intern", date: "Winter 2025", status: "Full-Stack Development",
+    tech: ["React", "Node.js", "Microsoft SQL Server", "REST APIs"],
+    bullets: [
+      "Reduced data entry time by 80% for cybersecurity analysts by developing an internal tool using React, Node.js, and Microsoft SQL Server",
+      "Engineered REST API endpoints using Express and Prisma ORM to manage server-side logic and Axios for seamless frontend communication",
+    ],
+    href: "https://www.linkedin.com/company/rbc/", hrefLabel: "View on LinkedIn",
+  },
+  {
+    id: "Government of Canada", category: "experience", title: "Government of Canada", logo: "/experience/canada.png",
+    subtitle: "Software Engineering Intern", date: "Fall 2024", status: "Data Engineering",
+    tech: ["Python", "Apache Spark", "Apache Airflow", "Extract, Transform, Load (ETL)"],
+    bullets: [
+      "Ingested 120% more threat intelligence data for the Canadian National Security Agency using Python, REST APIs, and Apache Spark, storing it as Apache Iceberg tables in a Microsoft Azure data lake",
+      "Maintained post-ingestion analysis with Trino using Apache Hadoop and JDBC connectors",
+      "Employed Docker in Apache Airflow jobs to reduce the virtual environment boot-up time by 93% and streamline ETL pipelines",
+    ],
+    href: "https://www.linkedin.com/company/cse-cst", hrefLabel: "View on LinkedIn",
+  },
+  {
+    id: "York University", category: "experience", title: "York University", logo: "/experience/yorku.jpg",
+    subtitle: "Software Engineering Intern", date: "Summer 2024", status: "Machine Learning",
+    tech: ["Python", "TensorFlow", "Keras", "Deep Neural Networks (DNNs)"],
+    bullets: [
+      "Trained a deep neural network (DNN) using Python, TensorFlow, and Keras to optimize truck logistics routing and load strategies, reducing CO2 emissions by 30%.",
+      "Contributed to the simulation by leveraging Pandas for data analysis, NumPy for mathematical modeling, and Matplotlib for visualizing predictions.",
+      "Presented findings to a panel of professors and industry experts, receiving positive feedback for the innovative approach to sustainability in logistics",
+    ],
+    href: "https://www.linkedin.com/company/bestlab-lassonde/", hrefLabel: "View on LinkedIn",
+  },
+  {
+    id: "Points Optimizer", category: "projects", title: "Points Optimizer", logo: "/projects/pointsoptimizer.png",
     subtitle: "AI Credit Card Points Optimizer", date: "2024", status: "Active",
     tech: ["Go", "Next.js", "OpenAI"],
     bullets: [
@@ -112,8 +117,19 @@ export const DETAIL_DATA: ItemDetail[] = [
     ],
     href: "https://github.com/yehdar/arsenal", hrefLabel: "View on GitHub",
   },
+    {
+    id: "Email Address Validator", category: "projects", title: "Email Address Validator", logo: "/projects/emailaddressvalidator.png",
+    subtitle: "Email Validation Tool", date: "2024", status: "Active",
+    tech: ["Go", "Next.js", "OpenAI"],
+    bullets: [
+      "Parses multi-bank PDF statements and categorizes spend using GPT-4o",
+      "Full-stack: Go REST API backend with a Next.js + Tailwind frontend",
+      "Detects recurring charges, subscription creep, and spending anomalies",
+    ],
+    href: "https://github.com/yehdar/arsenal", hrefLabel: "View on GitHub",
+  },
   {
-    id: "GitHub", category: "connections", title: "GitHub", logo: "/github.png",
+    id: "GitHub", category: "connections", title: "GitHub", logo: "/links/github.png",
     subtitle: "github.com/yehdar", date: "", status: "Active",
     tech: [],
     bullets: [
@@ -123,7 +139,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://github.com/yehdar", hrefLabel: "Open GitHub",
   },
   {
-    id: "LinkedIn", category: "connections", title: "LinkedIn", logo: "/linkedin.png",
+    id: "LinkedIn", category: "connections", title: "LinkedIn", logo: "/links/linkedin.png",
     subtitle: "linkedin.com/in/radhey-patel-", date: "", status: "Active",
     tech: [],
     bullets: [
@@ -153,39 +169,6 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "mailto:radheypatel@example.com", hrefLabel: "Send Email",
   },
 ];
-
-// ─── Ledger item map ───────────────────────────────────────────────────────────
-
-const LEDGER_MAP: Record<string, LedgerItem[]> = {
-  experience: TRANSACTIONS.map((t) => ({
-    id: t.company,
-    logo: t.logo,
-    title: t.company,
-    subtitle: t.role,
-    badge: t.date,
-    badgeActive: t.current,
-  })),
-  projects: PROJECTS.map((p) => ({
-    id: p.name,
-    icon: p.icon,
-    logo: p.logo,
-    title: p.name,
-    subtitle: p.description,
-    badge: p.tech,
-  })),
-  connections: LINKS.map((l) => ({
-    id: l.label,
-    icon: l.icon,
-    logo: l.logo,
-    title: l.label,
-    subtitle: l.handle,
-    badge: "",
-  })),
-  about: [
-    { id: "resume",  icon: FileText, title: "Resume",  subtitle: "View PDF",  badge: "PDF"   },
-    { id: "contact", icon: Mail,     title: "Contact", subtitle: "Email Me",  badge: "Email" },
-  ],
-};
 
 // ─── Stack geometry (left mini-wallet) ────────────────────────────────────────
 
@@ -335,7 +318,7 @@ function DesktopDetailModal({
         exit={{ opacity: 0, x: "-50%", y: "-44%", scale: 0.96 }}
         transition={{ type: "spring", damping: 28, stiffness: 340 }}
       >
-        <div className="max-h-[78vh] overflow-y-auto hide-scrollbar px-8 py-8">
+        <div className="max-h-[78vh] overflow-y-auto card-scrollbar px-8 py-8">
           {/* Header */}
           <div className="flex items-start justify-between gap-4 mb-6">
             <div className="flex items-center gap-4">
@@ -432,9 +415,20 @@ export default function DesktopLayout({
   onCardSelect,
   onItemSelect,
 }: DesktopLayoutProps) {
-  const ledgerItems = LEDGER_MAP[activeCard] ?? [];
   const detailItem  = DETAIL_DATA.find((d) => d.id === selectedItem) ?? null;
   const theme       = ID_THEMES[activeCard] ?? ID_THEMES.about;
+
+  const stackAreaRef = useRef<HTMLDivElement>(null);
+  const [stackScale, setStackScale] = useState(1);
+  useEffect(() => {
+    const el = stackAreaRef.current;
+    if (!el) return;
+    const update = () => setStackScale(Math.min(1, (el.clientHeight - 24) / stackH));
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   return (
     <div className="w-full h-dvh relative overflow-hidden">
@@ -463,8 +457,8 @@ export default function DesktopLayout({
           </div>
 
           {/* Card stack */}
-          <div className="flex-1 flex items-center justify-center px-10 pb-6">
-            <div className="relative w-full" style={{ height: stackH }}>
+          <div className="flex-1 flex items-center justify-center px-10 pb-6" ref={stackAreaRef}>
+            <div className="relative w-full" style={{ height: stackH, transform: `scale(${stackScale})`, transformOrigin: "center center" }}>
               {CARDS.map((card, index) => (
                 <NavCard
                   key={card.id}

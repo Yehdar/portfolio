@@ -85,7 +85,7 @@ export default function WalletCard({
       whileTap={!isExpanded ? { scale: 0.98 } : undefined}
       onClick={!isExpanded && !card.placeholder ? onClick : undefined}
     >
-      <div className={`w-full h-full hide-scrollbar ${isExpanded ? "overflow-y-auto" : "overflow-hidden"}`}>
+      <div className={`w-full h-full card-scrollbar ${isExpanded ? "overflow-y-auto" : "overflow-hidden"}`}>
         {children ?? (
           <div className="w-full h-full bg-zinc-800 flex items-start p-6">
             <span className="text-white/90 text-2xl font-bold tracking-tight">{card.label}</span>
