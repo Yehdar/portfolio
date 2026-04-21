@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
 import { ID_THEMES } from "../idThemes";
 
 const theme = ID_THEMES.experience;
@@ -15,11 +16,11 @@ interface Transaction {
 
 export const TRANSACTIONS: Transaction[] = [
   { logo: "/citi.png",     company: "Citi",                 role: "Software Engineer Intern", date: "Current",        href: "https://www.linkedin.com/company/citi/",                             current: true},
-  { logo: "/manulife.png", company: "Manulife",             role: "Software Engineer Intern",           date: "Jan 2026 - Apr 2026", href: "https://www.linkedin.com/company/manulife/",              },
-  { logo: "/johnhancock.jpg", company: "John Hancock",                   role: "Software Engineer Intern", date: "May 2025 - Aug 2025",        href: "https://www.linkedin.com/company/rbc/"                              },
-  { logo: "/rbc.png",      company: "Royal Bank of Canada",              role: "Software Engineer Intern",           date: "Jan 2025 - Apr 2025", href: "https://www.linkedin.com/company/john-hancock/",              },
-  { logo: "/canada.png",   company: "Government of Canada", role: "Software Engineer Intern", date: "Sep 2024 - Dec 2024",        href: "https://www.linkedin.com/company/government-of-canada/"             },
-  { logo: "/yorku.jpg",   company: "York University",      role: "Undergraduate Research Assistant", date: "Jul 2024 - Aug 2024",        href: "https://www.linkedin.com/company/york-university/"                    },
+  { logo: "/manulife.png", company: "Manulife",             role: "Software Engineer Intern",           date: "2026", href: "https://www.linkedin.com/company/manulife/",              },
+  { logo: "/johnhancock.jpg", company: "John Hancock",                   role: "Software Engineer Intern", date: "2025",        href: "https://www.linkedin.com/company/rbc/"                              },
+  { logo: "/rbc.png",      company: "Royal Bank of Canada",              role: "Software Engineer Intern",           date: "2025", href: "https://www.linkedin.com/company/john-hancock/",              },
+  { logo: "/canada.png",   company: "Government of Canada", role: "Software Engineer Intern", date: "2024",        href: "https://www.linkedin.com/company/government-of-canada/"             },
+  { logo: "/yorku.jpg",   company: "York University",      role: "Undergraduate Research Assistant", date: "2024",        href: "https://www.linkedin.com/company/york-university/"                    },
 ];
 
 function OceanLandscape() {
@@ -82,7 +83,10 @@ function TransactionRow({
         <img src={logo} alt={company} className="w-full h-full object-contain" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`} style={{ color: theme.rowText }}>{company}</p>
+        <div className="flex items-center gap-1">
+          <p className={`font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`} style={{ color: theme.rowText }}>{company}</p>
+          {onRowClick && <ArrowUpRight size={14} className="shrink-0 text-white/50" strokeWidth={2} />}
+        </div>
         <p className={`leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`} style={{ color: theme.rowSubtext }}>{role}</p>
       </div>
       <span

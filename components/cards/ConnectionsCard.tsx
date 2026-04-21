@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
 import { ID_THEMES } from "../idThemes";
 
 const theme = ID_THEMES.connections;
@@ -78,7 +79,10 @@ function LinkRow({ icon: Icon, logo, label, handle, href, desktop, onRowClick }:
         }
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`} style={{ color: theme.rowText }}>{label}</p>
+        <div className="flex items-center gap-1">
+          <p className={`font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`} style={{ color: theme.rowText }}>{label}</p>
+          {onRowClick && <ArrowUpRight size={14} className="shrink-0 text-white/50" strokeWidth={2} />}
+        </div>
         <p className={`leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`} style={{ color: theme.rowSubtext }}>{handle}</p>
       </div>
     </a>

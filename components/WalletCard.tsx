@@ -82,9 +82,8 @@ export default function WalletCard({
       {/* Pull-to-dismiss handle — sits above scrollable content */}
       {isExpanded && (
         <motion.div
-          className="absolute top-0 inset-x-0 h-14 z-30 flex items-start justify-center pt-3 touch-none select-none"
+          className="absolute top-0 inset-x-0 h-16 z-30 flex flex-col items-center justify-start pt-2 gap-0.5 touch-none select-none"
           onPan={(_, info) => {
-            // Resistance: movement slows as you pull further
             pullY.set(Math.max(0, info.offset.y * 0.45));
           }}
           onPanEnd={(_, info) => {
@@ -95,7 +94,13 @@ export default function WalletCard({
             }
           }}
         >
-          <ChevronDown size={32} className="text-white/40" strokeWidth={2.5} />
+          <motion.div
+            animate={{ y: [0, 5, 0] }}
+            transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
+          >
+            <ChevronDown size={28} className="text-white/40" strokeWidth={2.5} />
+          </motion.div>
+          <p className="text-white/30 text-[9px] font-bold tracking-[0.2em] uppercase">drag down</p>
         </motion.div>
       )}
 
