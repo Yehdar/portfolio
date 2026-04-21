@@ -1,9 +1,11 @@
 "use client";
 
-import { Briefcase, Landmark, Building2, Building } from "lucide-react";
+import { ID_THEMES } from "../idThemes";
+
+const theme = ID_THEMES.experience;
 
 interface Transaction {
-  icon: React.ElementType;
+  logo: string;
   company: string;
   role: string;
   date: string;
@@ -12,63 +14,53 @@ interface Transaction {
 }
 
 export const TRANSACTIONS: Transaction[] = [
-  { icon: Briefcase, company: "Manulife",             role: "Technology Intern",           date: "Winter 2026", href: "https://www.linkedin.com/company/manulife/",              current: true },
-  { icon: Landmark,  company: "RBC",                  role: "Software Engineering Intern", date: "Past",        href: "https://www.linkedin.com/company/rbc/"                              },
-  { icon: Building2, company: "Citi",                 role: "Software Engineering Intern", date: "Past",        href: "https://www.linkedin.com/company/citi/"                             },
-  { icon: Building,  company: "Government of Canada", role: "Software Engineering Intern", date: "Past",        href: "https://www.linkedin.com/company/government-of-canada/"             },
+  { logo: "/citi.png",     company: "Citi",                 role: "Software Engineer Intern", date: "Current",        href: "https://www.linkedin.com/company/citi/",                             current: true},
+  { logo: "/manulife.png", company: "Manulife",             role: "Software Engineer Intern",           date: "Jan 2026 - Apr 2026", href: "https://www.linkedin.com/company/manulife/",              },
+  { logo: "/johnhancock.jpg", company: "John Hancock",                   role: "Software Engineer Intern", date: "May 2025 - Aug 2025",        href: "https://www.linkedin.com/company/rbc/"                              },
+  { logo: "/rbc.png",      company: "Royal Bank of Canada",              role: "Software Engineer Intern",           date: "Jan 2025 - Apr 2025", href: "https://www.linkedin.com/company/john-hancock/",              },
+  { logo: "/canada.png",   company: "Government of Canada", role: "Software Engineer Intern", date: "Sep 2024 - Dec 2024",        href: "https://www.linkedin.com/company/government-of-canada/"             },
+  { logo: "/yorku.jpg",   company: "York University",      role: "Undergraduate Research Assistant", date: "Jul 2024 - Aug 2024",        href: "https://www.linkedin.com/company/york-university/"                    },
 ];
 
-// ─── SoFi card face ────────────────────────────────────────────────────────────
-function CardFace() {
+function OceanLandscape() {
   return (
-    <div className="w-full h-[210px] relative flex-shrink-0 bg-white overflow-hidden border-b border-zinc-100">
-      {/* Subtle dot-grid texture */}
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage: "radial-gradient(circle, #0070ba 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
-        }}
-      />
-      {/* Glare top-right */}
-      <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-[#0070ba]/[0.04]" />
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/space.png"
+      alt=""
+      aria-hidden
+      className="absolute inset-0 w-full h-full object-cover"
+    />
+  );
+}
 
-      <div className="relative h-full flex flex-col justify-between p-5">
-        {/* Top: SoFi wordmark + dot-matrix logo */}
-        <div className="flex items-center gap-3">
-          <span className="text-[#0070ba] text-[32px] font-black tracking-tight leading-none">
-            SoFi
-          </span>
-          {/* 3×3 dot grid mark */}
-          <div className="grid grid-cols-3 gap-[3px] mt-1">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <div key={i} className="w-[5px] h-[5px] rounded-full bg-[#0070ba]/60" />
-            ))}
+function CardFace({ desktop, fill }: { desktop?: boolean; fill?: boolean }) {
+  return (
+    <div className={`w-full relative overflow-hidden ${fill ? "flex-1" : "h-[300px] flex-shrink-0"}`}>
+      <OceanLandscape />
+      {desktop && <div className="absolute inset-0 bg-black/50" />}
+      <div className="absolute inset-0 flex flex-col p-4">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-[12px] tracking-[0.35em] font-bold uppercase text-white/90 leading-none mb-1">
+              {theme.category}
+            </p>
           </div>
-        </div>
-
-        {/* Middle: tagline */}
-        <p className="text-zinc-400 text-[11px] font-medium tracking-wide">
-          Career History
-        </p>
-
-        {/* Bottom: cardholder */}
-        <div>
-          <p className="text-zinc-400 text-[9px] tracking-[0.25em] uppercase font-semibold mb-0.5">
-            Member
-          </p>
-          <p className="text-zinc-700 text-[13px] font-semibold tracking-wide uppercase">
-            Radhey Patel
-          </p>
+          <div
+            className="px-2 rounded text-[10px] font-bold tracking-widest uppercase"
+            style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(4px)", color: "#fca5a5" }}
+          >
+            2
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-// ─── Transaction Row (light theme) ────────────────────────────────────────────
+// ─── Transaction Row ───────────────────────────────────────────────────────────
 function TransactionRow({
-  icon: Icon, company, role, date, href, current, desktop, onRowClick,
+  logo, company, role, date, href, current, desktop, onRowClick,
 }: Transaction & { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <a
@@ -76,20 +68,29 @@ function TransactionRow({
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => { e.stopPropagation(); if (onRowClick) { e.preventDefault(); onRowClick(company); } }}
-      className={`flex items-center gap-4 border-b border-zinc-100 last:border-0 group hover:bg-zinc-50 active:scale-[0.98] px-2 -mx-2 rounded-xl transition-all cursor-pointer
-        ${desktop ? "py-5 gap-5" : "py-3.5"}`}
+      className={`flex items-center border-b-2 last:border-0 group active:scale-[0.98] px-3 rounded-none transition-all cursor-pointer
+        ${desktop ? "py-7 gap-5" : "py-5 gap-4"}`}
+      style={{ borderColor: theme.rowBorder }}
+      onMouseEnter={desktop ? (e) => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; } : undefined}
+      onMouseLeave={desktop ? (e) => { e.currentTarget.style.background = ""; } : undefined}
     >
-      <div className={`rounded-full bg-zinc-100 group-hover:bg-zinc-200 flex items-center justify-center shrink-0 transition-colors
-        ${desktop ? "w-12 h-12" : "w-10 h-10"}`}>
-        <Icon size={desktop ? 20 : 17} className="text-[#0070ba]" strokeWidth={1.8} />
+      <div
+        className={`shrink-0 overflow-hidden ${desktop ? "w-12 h-12" : "w-10 h-10"}`}
+        style={{ background: "rgba(255,255,255,0.07)" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={logo} alt={company} className="w-full h-full object-contain" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`text-zinc-900 font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`}>{company}</p>
-        <p className={`text-zinc-500 leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`}>{role}</p>
+        <p className={`font-semibold leading-tight truncate ${desktop ? "text-base" : "text-sm"}`} style={{ color: theme.rowText }}>{company}</p>
+        <p className={`leading-snug truncate mt-0.5 ${desktop ? "text-sm" : "text-xs"}`} style={{ color: theme.rowSubtext }}>{role}</p>
       </div>
-      <span className={`font-semibold px-2 py-0.5 rounded-full shrink-0 ${desktop ? "text-sm" : "text-xs"} ${
-        current ? "bg-green-100 text-green-700" : "bg-zinc-100 text-zinc-500"
-      }`}>
+      <span
+        className={`font-semibold px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap ${desktop ? "text-sm" : "text-xs"}`}
+        style={current
+          ? { background: theme.badgeActiveBg, color: theme.badgeActiveFg }
+          : { background: theme.badgeBg, color: theme.badgeFg }}
+      >
         {date}
       </span>
     </a>
@@ -98,18 +99,18 @@ function TransactionRow({
 
 export default function ExperienceCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
-    <div className="w-full h-full flex flex-col bg-white overflow-hidden">
-      <CardFace />
-      <div className={`shrink-0 ${desktop ? "px-6 pt-6 pb-2" : "px-5 pt-4 pb-1"}`}>
-        <p className="text-zinc-400 text-[10px] font-bold tracking-[0.25em] uppercase">
-          Experience
-        </p>
-      </div>
-      <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
-        {TRANSACTIONS.map((tx) => (
-          <TransactionRow key={tx.company} {...tx} desktop={desktop} onRowClick={onRowClick} />
-        ))}
-      </div>
+    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
+      <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
+      {(desktop || onRowClick) && (<>
+        <div className={`shrink-0 ${desktop ? "px-5 pt-6 pb-2" : "px-4 pt-4 pb-1"}`}>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: "rgba(255,255,255,0.5)" }}>Click on them to find more details</p>
+        </div>
+        <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
+          {TRANSACTIONS.map((tx) => (
+            <TransactionRow key={tx.company} {...tx} desktop={desktop} onRowClick={onRowClick} />
+          ))}
+        </div>
+      </>)}
     </div>
   );
 }

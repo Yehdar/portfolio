@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ExternalLink, Briefcase, Landmark, Building2, Building, Code2, Globe, Cpu, FileText, Mail } from "lucide-react";
+import { ExternalLink, FileText, Mail, X } from "lucide-react";
 import AboutCard from "./cards/AboutCard";
 import ExperienceCard from "./cards/ExperienceCard";
 import ProjectsCard from "./cards/ProjectsCard";
@@ -9,6 +9,7 @@ import ConnectionsCard from "./cards/ConnectionsCard";
 import { TRANSACTIONS } from "./cards/ExperienceCard";
 import { PROJECTS } from "./cards/ProjectsCard";
 import { LINKS } from "./cards/ConnectionsCard";
+import { ID_THEMES } from "./idThemes";
 
 // Mirrors CARDS in WalletStack — defined locally to avoid circular import
 const CARDS = [
@@ -22,7 +23,8 @@ const CARDS = [
 
 interface LedgerItem {
   id: string;
-  icon: React.ElementType;
+  icon?: React.ElementType;
+  logo?: string;
   title: string;
   subtitle: string;
   badge: string;
@@ -40,13 +42,14 @@ export interface ItemDetail {
   bullets: string[];
   href: string;
   hrefLabel: string;
+  logo?: string;
 }
 
 // ─── Rich detail data ──────────────────────────────────────────────────────────
 
 export const DETAIL_DATA: ItemDetail[] = [
   {
-    id: "Manulife", category: "experience", title: "Manulife",
+    id: "Manulife", category: "experience", title: "Manulife", logo: "/manulife.png",
     subtitle: "Technology Intern", date: "Winter 2026", status: "Active",
     tech: ["Go", "AWS", "Kafka"],
     bullets: [
@@ -57,7 +60,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://www.linkedin.com/company/manulife/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "RBC", category: "experience", title: "RBC",
+    id: "RBC", category: "experience", title: "RBC", logo: "/rbc.png",
     subtitle: "Software Engineering Intern", date: "Past", status: "Completed",
     tech: ["Java", "Spring Boot", "SQL"],
     bullets: [
@@ -68,7 +71,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://www.linkedin.com/company/rbc/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "Citi", category: "experience", title: "Citi",
+    id: "Citi", category: "experience", title: "Citi", logo: "/citi.png",
     subtitle: "Software Engineering Intern", date: "Past", status: "Completed",
     tech: ["Python", "React", "PostgreSQL"],
     bullets: [
@@ -79,7 +82,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://www.linkedin.com/company/citi/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "Government of Canada", category: "experience", title: "Government of Canada",
+    id: "Government of Canada", category: "experience", title: "Government of Canada", logo: "/canada.png",
     subtitle: "Software Engineering Intern", date: "Past", status: "Completed",
     tech: ["Node.js", "TypeScript", "GCP"],
     bullets: [
@@ -90,8 +93,8 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://www.linkedin.com/company/government-of-canada/", hrefLabel: "View on LinkedIn",
   },
   {
-    id: "Arsenal (Fintech App)", category: "projects", title: "Arsenal",
-    subtitle: "AI Credit Card Statement Analyzer", date: "2024", status: "Active",
+    id: "Points Optimizer", category: "projects", title: "Points Optimizer", logo: "/pointsoptimizer.png",
+    subtitle: "AI Credit Card Points Optimizer", date: "2024", status: "Active",
     tech: ["Go", "Next.js", "OpenAI"],
     bullets: [
       "Parses multi-bank PDF statements and categorizes spend using GPT-4o",
@@ -101,29 +104,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://github.com/yehdar/arsenal", hrefLabel: "View on GitHub",
   },
   {
-    id: "Student Gov Website", category: "projects", title: "Student Gov Website",
-    subtitle: "Centralized Resource Portal", date: "2023", status: "Completed",
-    tech: ["React", "Vite", "Firebase"],
-    bullets: [
-      "Built official site for York University engineering student government",
-      "Resource hub serving 4,000+ students with events and job postings",
-      "Reduced admin content-update time from hours to minutes",
-    ],
-    href: "https://github.com/yehdar/student-gov", hrefLabel: "View on GitHub",
-  },
-  {
-    id: "FIRST Robotics", category: "projects", title: "FIRST Robotics",
-    subtitle: "Team Lead & Fundraiser", date: "2022", status: "Completed",
-    tech: ["Leadership", "Java", "FRC"],
-    bullets: [
-      "Led a 20-person robotics team to regional competition finals",
-      "Raised $12k in sponsorships through targeted outreach and grant applications",
-      "Programmed autonomous drive routines in Java using WPILib",
-    ],
-    href: "https://www.firstinspires.org/", hrefLabel: "View on FIRST",
-  },
-  {
-    id: "GitHub", category: "connections", title: "GitHub",
+    id: "GitHub", category: "connections", title: "GitHub", logo: "/github.png",
     subtitle: "github.com/yehdar", date: "", status: "Active",
     tech: [],
     bullets: [
@@ -133,7 +114,7 @@ export const DETAIL_DATA: ItemDetail[] = [
     href: "https://github.com/yehdar", hrefLabel: "Open GitHub",
   },
   {
-    id: "LinkedIn", category: "connections", title: "LinkedIn",
+    id: "LinkedIn", category: "connections", title: "LinkedIn", logo: "/linkedin.png",
     subtitle: "linkedin.com/in/radhey-patel-", date: "", status: "Active",
     tech: [],
     bullets: [
@@ -169,7 +150,7 @@ export const DETAIL_DATA: ItemDetail[] = [
 const LEDGER_MAP: Record<string, LedgerItem[]> = {
   experience: TRANSACTIONS.map((t) => ({
     id: t.company,
-    icon: t.icon,
+    logo: t.logo,
     title: t.company,
     subtitle: t.role,
     badge: t.date,
@@ -178,6 +159,7 @@ const LEDGER_MAP: Record<string, LedgerItem[]> = {
   projects: PROJECTS.map((p) => ({
     id: p.name,
     icon: p.icon,
+    logo: p.logo,
     title: p.name,
     subtitle: p.description,
     badge: p.tech,
@@ -185,6 +167,7 @@ const LEDGER_MAP: Record<string, LedgerItem[]> = {
   connections: LINKS.map((l) => ({
     id: l.label,
     icon: l.icon,
+    logo: l.logo,
     title: l.label,
     subtitle: l.handle,
     badge: "",
@@ -195,16 +178,9 @@ const LEDGER_MAP: Record<string, LedgerItem[]> = {
   ],
 };
 
-const LEDGER_LABEL: Record<string, string> = {
-  experience:  "Experience",
-  projects:    "Projects",
-  connections: "Links",
-  about:       "About Me",
-};
-
 // ─── Stack geometry (left mini-wallet) ────────────────────────────────────────
 
-const PEEK       = 52;
+const PEEK       = 80;
 const FRONT_SHOW = 64;
 const FACE_H     = 270;
 const stackH     = (CARDS.length - 1) * PEEK + FRONT_SHOW + FACE_H;
@@ -232,10 +208,10 @@ function NavCard({
       }}
       animate={{
         boxShadow: isActive
-          ? "0 0 0 2px rgba(0,0,0,0.15), 0 16px 40px rgba(0,0,0,0.28)"
+          ? "0 0 0 2px rgba(255,255,255,0.2), 0 16px 40px rgba(0,0,0,0.5)"
           : index === CARDS.length - 1
-          ? "0 8px 20px rgba(0,0,0,0.14)"
-          : "0 2px 8px rgba(0,0,0,0.08)",
+          ? "0 8px 20px rgba(0,0,0,0.35)"
+          : "0 2px 8px rgba(0,0,0,0.25)",
       }}
       whileHover={{ x: 20 }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
@@ -257,32 +233,44 @@ function LedgerRow({
   item,
   isSelected,
   onClick,
+  accentColor,
 }: {
   item: LedgerItem;
   isSelected: boolean;
   onClick: () => void;
+  accentColor: string;
 }) {
   const Icon = item.icon;
   return (
     <motion.button
       className="w-full flex items-center gap-5 px-8 py-5 text-left transition-colors relative focus:outline-none"
-      style={{ borderLeft: isSelected ? "2px solid #000" : "2px solid transparent" }}
-      animate={{ backgroundColor: isSelected ? "rgb(248,248,248)" : "rgb(255,255,255)" }}
-      whileHover={{ backgroundColor: "rgb(248,248,248)" }}
+      style={{ borderLeft: isSelected ? `2px solid ${accentColor}` : "2px solid transparent" }}
+      animate={{ backgroundColor: isSelected ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0)" }}
+      whileHover={{ backgroundColor: "rgba(255,255,255,0.04)" }}
       transition={{ duration: 0.12 }}
       onClick={onClick}
     >
-      <div className="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center shrink-0">
-        <Icon size={20} className="text-zinc-600" strokeWidth={1.8} />
+      <div
+        className="w-12 h-12 flex items-center justify-center shrink-0 overflow-hidden"
+        style={{ background: "rgba(255,255,255,0.08)" }}
+      >
+        {item.logo
+          // eslint-disable-next-line @next/next/no-img-element
+          ? <img src={item.logo} alt={item.title} className="w-full h-full object-contain" />
+          : Icon && <Icon size={20} style={{ color: accentColor }} strokeWidth={1.8} />
+        }
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-zinc-900 text-base font-semibold leading-tight truncate">{item.title}</p>
-        <p className="text-zinc-400 text-sm leading-snug mt-0.5 truncate">{item.subtitle}</p>
+        <p className="text-white text-base font-semibold leading-tight truncate">{item.title}</p>
+        <p className="text-white/40 text-sm leading-snug mt-0.5 truncate">{item.subtitle}</p>
       </div>
       {item.badge && (
-        <span className={`text-sm font-semibold px-3 py-1 rounded-full shrink-0 whitespace-nowrap ${
-          item.badgeActive ? "bg-green-100 text-green-700" : "bg-zinc-100 text-zinc-500"
-        }`}>
+        <span
+          className="text-sm font-semibold px-3 py-1 rounded-full shrink-0 whitespace-nowrap"
+          style={item.badgeActive
+            ? { background: accentColor + "33", color: accentColor }
+            : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}
+        >
           {item.badge}
         </span>
       )}
@@ -290,97 +278,131 @@ function LedgerRow({
   );
 }
 
-// ─── Right column: Empty state ─────────────────────────────────────────────────
+// ─── Desktop detail modal ─────────────────────────────────────────────────────
 
-function EmptyState() {
+function DesktopDetailModal({
+  item,
+  accentColor,
+  detailBg,
+  onClose,
+}: {
+  item: ItemDetail;
+  accentColor: string;
+  detailBg: string;
+  onClose: () => void;
+}) {
   return (
-    <div className="h-full flex flex-col items-center justify-center gap-3 select-none">
-      <svg viewBox="0 0 24 24" className="w-14 h-14 fill-zinc-200">
-        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-      </svg>
-      <p className="text-zinc-400 text-sm font-medium">Select a transaction to view details</p>
-    </div>
-  );
-}
+    <>
+      {/* Backdrop */}
+      <motion.div
+        className="absolute inset-0 z-20 bg-black/40 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        onClick={onClose}
+      />
 
-// ─── Right column: Item detail ─────────────────────────────────────────────────
-
-function ItemDetail({ item }: { item: ItemDetail }) {
-  const iconMap: Record<string, React.ElementType> = {
-    Manulife: Briefcase,
-    RBC: Landmark,
-    Citi: Building2,
-    "Government of Canada": Building,
-    "Arsenal (Fintech App)": Code2,
-    "Student Gov Website": Globe,
-    "FIRST Robotics": Cpu,
-    GitHub: Code2,
-    LinkedIn: Globe,
-    resume: FileText,
-    contact: Mail,
-  };
-  const Icon = iconMap[item.id] ?? Briefcase;
-
-  return (
-    <div className="h-full overflow-y-auto hide-scrollbar px-12 py-12">
-      {/* Header */}
-      <div className="flex items-center gap-6 mb-10">
-        <div className="w-20 h-20 rounded-2xl bg-zinc-100 flex items-center justify-center shrink-0">
-          <Icon size={36} className="text-zinc-700" strokeWidth={1.6} />
-        </div>
-        <div>
-          <h1 className="text-4xl font-bold text-zinc-900 leading-tight">{item.title}</h1>
-          <p className="text-zinc-500 mt-1.5 text-base">{item.subtitle}</p>
-        </div>
-      </div>
-
-      {/* Badges */}
-      <div className="flex flex-wrap gap-2 mb-10">
-        {item.tech.map((t) => (
-          <span key={t} className="text-sm font-semibold px-4 py-1.5 rounded-full bg-zinc-100 text-zinc-600">
-            {t}
-          </span>
-        ))}
-        <span className={`text-sm font-semibold px-4 py-1.5 rounded-full ${
-          item.status === "Active" ? "bg-green-100 text-green-700" : "bg-zinc-100 text-zinc-500"
-        }`}>
-          {item.status}
-        </span>
-        {item.date && (
-          <span className="text-sm font-semibold px-4 py-1.5 rounded-full bg-zinc-100 text-zinc-500">
-            {item.date}
-          </span>
-        )}
-      </div>
-
-      {/* Divider */}
-      <div className="border-t border-zinc-100 mb-10" />
-
-      {/* Bullet points */}
-      <div className="space-y-5 mb-12">
-        {item.bullets.map((b, i) => (
-          <div key={i} className="flex gap-4 items-start">
-            <div className="w-1.5 h-1.5 rounded-full bg-zinc-300 mt-[11px] flex-shrink-0" />
-            <p className="text-zinc-700 leading-relaxed text-base">{b}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* CTA */}
-      <a
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-700 active:bg-zinc-800 text-white text-base font-semibold px-6 py-3.5 rounded-xl transition-colors"
+      {/* Modal */}
+      <motion.div
+        className="absolute z-30 rounded-3xl overflow-hidden shadow-2xl"
+        style={{
+          top: "50%",
+          left: "50%",
+          width: "min(560px, 90%)",
+          background: detailBg,
+          backdropFilter: "blur(32px)",
+          WebkitBackdropFilter: "blur(32px)",
+          border: `1px solid ${accentColor}33`,
+        }}
+        initial={{ opacity: 0, x: "-50%", y: "-44%", scale: 0.96 }}
+        animate={{ opacity: 1, x: "-50%", y: "-50%", scale: 1 }}
+        exit={{ opacity: 0, x: "-50%", y: "-44%", scale: 0.96 }}
+        transition={{ type: "spring", damping: 28, stiffness: 340 }}
       >
-        {item.hrefLabel}
-        <ExternalLink size={16} strokeWidth={2} />
-      </a>
-    </div>
+        <div className="max-h-[78vh] overflow-y-auto hide-scrollbar px-8 py-8">
+          {/* Header */}
+          <div className="flex items-start justify-between gap-4 mb-6">
+            <div className="flex items-center gap-4">
+              {item.logo && (
+                <div className="w-14 h-14 shrink-0 overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={item.logo} alt={item.title} className="w-full h-full object-contain" />
+                </div>
+              )}
+              <div>
+                <p className="text-[9px] tracking-[0.3em] uppercase mb-1" style={{ color: accentColor + "99" }}>
+                  {item.category.toUpperCase()}
+                </p>
+                <h2 className="text-2xl font-bold text-white leading-tight">{item.title}</h2>
+                <p className="text-white/50 text-sm mt-1">{item.subtitle}</p>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 active:scale-95 transition-all mt-0.5"
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.12)",
+              }}
+            >
+              <X size={15} className="text-white" strokeWidth={2} />
+            </button>
+          </div>
+
+          {/* Badges */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {item.tech.map((t) => (
+              <span key={t} className="text-xs font-semibold px-3 py-1 rounded-full"
+                style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}>
+                {t}
+              </span>
+            ))}
+            <span className="text-xs font-semibold px-3 py-1 rounded-full"
+              style={item.status === "Active"
+                ? { background: accentColor + "33", color: accentColor }
+                : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
+              {item.status}
+            </span>
+            {item.date && (
+              <span className="text-xs font-semibold px-3 py-1 rounded-full"
+                style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
+                {item.date}
+              </span>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="border-t mb-6" style={{ borderColor: "rgba(255,255,255,0.08)" }} />
+
+          {/* Bullets */}
+          <div className="space-y-4 mb-8">
+            {item.bullets.map((b, i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <div className="w-1.5 h-1.5 rounded-full mt-[9px] flex-shrink-0" style={{ background: accentColor }} />
+                <p className="text-white/70 text-sm leading-relaxed">{b}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-white text-sm font-semibold px-5 py-3 rounded-xl transition-all active:scale-95"
+            style={{ background: accentColor + "33", border: `1px solid ${accentColor}55` }}
+          >
+            {item.hrefLabel}
+            <ExternalLink size={14} strokeWidth={2} />
+          </a>
+        </div>
+      </motion.div>
+    </>
   );
 }
 
-// ─── Desktop 3-column layout ───────────────────────────────────────────────────
+// ─── Desktop layout ───────────────────────────────────────────────────────────
 
 interface DesktopLayoutProps {
   activeCard: string;
@@ -397,79 +419,84 @@ export default function DesktopLayout({
 }: DesktopLayoutProps) {
   const ledgerItems = LEDGER_MAP[activeCard] ?? [];
   const detailItem  = DETAIL_DATA.find((d) => d.id === selectedItem) ?? null;
+  const theme       = ID_THEMES[activeCard] ?? ID_THEMES.about;
 
   return (
-    <div className="w-full h-dvh bg-white grid overflow-hidden" style={{ gridTemplateColumns: "480px 1fr 1fr" }}>
+    <div className="w-full h-dvh relative overflow-hidden">
 
-      {/* ── Col 1: Mini-Wallet navigation ──────────────────────────── */}
-      <div className="border-r border-slate-100 flex flex-col overflow-hidden">
-        {/* Nav bar */}
-        <div className="h-[72px] flex items-center px-8 flex-shrink-0">
-          <span className="text-black text-3xl font-bold tracking-tight leading-none" style={{ fontFamily: "var(--font-geist-sans)" }}>
-            Welcome!
-          </span>
-        </div>
+      {/* ── Animated background ─────────────────────────────────────── */}
+      <motion.div
+        key={activeCard + "-bg"}
+        className="absolute inset-0 z-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.7, ease: "easeInOut" }}
+        style={{ background: theme.dominantBg }}
+      />
 
-        {/* Card stack */}
-        <div className="flex-1 flex items-center justify-center px-10 pb-6">
-          <div className="relative w-full" style={{ height: stackH }}>
-            {CARDS.map((card, index) => (
-              <NavCard
-                key={card.id}
-                id={card.id}
-                index={index}
-                isActive={activeCard === card.id}
-                onClick={() => onCardSelect(card.id)}
-              />
-            ))}
+      {/* ── 2-column grid (on top of background) ────────────────────── */}
+      <div className="relative z-10 w-full h-full grid overflow-hidden" style={{ gridTemplateColumns: "480px 1fr" }}>
+
+        {/* ── Col 1: Mini-Wallet navigation ──────────────────────────── */}
+        <div className="border-r flex flex-col overflow-hidden" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+          {/* Nav bar */}
+          <div className="h-[90px] flex items-end px-12 pb-4 pt-24 flex-shrink-0">
+            <div style={{ fontFamily: "var(--font-geist-sans)" }}>
+              <p className="text-white text-[36px] font-bold tracking-tight leading-tight">Welcome!</p>
+              <p className="text-white/60 text-[15px] font-medium leading-tight">Press a card to learn more about me</p>
+            </div>
+          </div>
+
+          {/* Card stack */}
+          <div className="flex-1 flex items-center justify-center px-10 pb-6">
+            <div className="relative w-full" style={{ height: stackH }}>
+              {CARDS.map((card, index) => (
+                <NavCard
+                  key={card.id}
+                  id={card.id}
+                  index={index}
+                  isActive={activeCard === card.id}
+                  onClick={() => onCardSelect(card.id)}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* ── Col 2: Expanded card (pop animation) ──────────────────── */}
-      <div className="border-r border-slate-100 flex flex-col overflow-hidden p-4">
-        <div className="flex-1 relative overflow-hidden rounded-3xl">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCard}
-              initial={{ opacity: 0, scale: 0.96, y: 18 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: -12 }}
-              transition={{ type: "spring", damping: 22, stiffness: 300 }}
-              className="absolute inset-0 overflow-hidden"
-            >
-              {activeCard === "about"       && <AboutCard       desktop onRowClick={onItemSelect} />}
-              {activeCard === "experience"  && <ExperienceCard  desktop onRowClick={onItemSelect} />}
-              {activeCard === "projects"    && <ProjectsCard    desktop onRowClick={onItemSelect} />}
-              {activeCard === "connections" && <ConnectionsCard desktop onRowClick={onItemSelect} />}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-
-      {/* ── Col 3: Deep Dive ───────────────────────────────────────── */}
-      <div className="flex flex-col overflow-hidden">
-        {/* Header */}
-        <div className="h-[72px] flex items-center px-8 border-b border-slate-100 flex-shrink-0">
-          <h2 className="text-xl font-bold text-zinc-900">Detail View</h2>
+        {/* ── Col 2: Expanded card (pop animation) ──────────────────── */}
+        <div className="flex flex-col overflow-hidden p-4">
+          <div className="flex-1 relative overflow-hidden rounded-3xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCard}
+                initial={{ opacity: 0, scale: 0.96, y: 18 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96, y: -12 }}
+                transition={{ type: "spring", damping: 22, stiffness: 300 }}
+                className="absolute inset-0 overflow-hidden"
+              >
+                {activeCard === "about"       && <AboutCard       desktop onRowClick={onItemSelect} />}
+                {activeCard === "experience"  && <ExperienceCard  desktop onRowClick={onItemSelect} />}
+                {activeCard === "projects"    && <ProjectsCard    desktop onRowClick={onItemSelect} />}
+                {activeCard === "connections" && <ConnectionsCard desktop onRowClick={onItemSelect} />}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 relative overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedItem ?? "__empty__"}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute inset-0"
-            >
-              {detailItem ? <ItemDetail item={detailItem} /> : <EmptyState />}
-            </motion.div>
-          </AnimatePresence>
-        </div>
       </div>
+
+      {/* ── Detail modal (overlays entire layout) ───────────────────── */}
+      <AnimatePresence>
+        {detailItem && (
+          <DesktopDetailModal
+            item={detailItem}
+            accentColor={theme.accentColor}
+            detailBg={theme.detailBg}
+            onClose={() => onItemSelect(null)}
+          />
+        )}
+      </AnimatePresence>
 
     </div>
   );
