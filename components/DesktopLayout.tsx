@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentType } from "react";
+import { ComponentType, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, FileText, Mail, X } from "lucide-react";
 import AboutCard from "./cards/AboutCard";
@@ -199,30 +199,39 @@ const stackH     = (CARDS.length - 1) * PEEK + FRONT_SHOW + FACE_H;
 function NavCard({
   id,
   index,
-  isActive,
+  activeIndex,
   onClick,
 }: {
   id: string;
   index: number;
-  isActive: boolean;
+  activeIndex: number;
   onClick: () => void;
 }) {
+  const isActive = index === activeIndex;
+  const [hovered, setHovered] = useState(false);
+
+  const targetTop = isActive
+    ? (CARDS.length - 1) * PEEK
+    : index > activeIndex
+    ? (index - 1) * PEEK
+    : index * PEEK;
+
   return (
     <motion.button
       className="absolute left-0 right-0 overflow-hidden rounded-2xl cursor-pointer text-left focus:outline-none"
       style={{
-        top: index * PEEK,
         height: FACE_H,
-        zIndex: index + 1,
+        zIndex: isActive ? CARDS.length + 2 : index + 1,
       }}
       animate={{
+        top: targetTop,
+        x: !isActive && hovered ? 20 : 0,
         boxShadow: isActive
-          ? "0 0 0 2px rgba(255,255,255,0.2), 0 16px 40px rgba(0,0,0,0.5)"
-          : index === CARDS.length - 1
-          ? "0 8px 20px rgba(0,0,0,0.35)"
+          ? "0 0 0 3px rgba(255,255,255,0.95), 0 20px 50px rgba(0,0,0,0.6)"
           : "0 2px 8px rgba(0,0,0,0.25)",
       }}
-      whileHover={{ x: 20 }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
       onClick={onClick}
     >
@@ -461,7 +470,7 @@ export default function DesktopLayout({
                   key={card.id}
                   id={card.id}
                   index={index}
-                  isActive={activeCard === card.id}
+                  activeIndex={CARDS.findIndex(c => c.id === activeCard)}
                   onClick={() => onCardSelect(card.id)}
                 />
               ))}

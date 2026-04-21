@@ -182,11 +182,21 @@ function MobileStack({
   const totalStackHeight = (CARDS.length - 1) * PEEK + cardHeight;
   const stackTop         = NAV_HEIGHT + Math.max(0, Math.floor((availableHeight - totalStackHeight) / 2));
 
-  const stackPullY = useMotionValue(0);
-  const SNAP_BACK  = { type: "spring", stiffness: 420, damping: 32 } as const;
+  const peekMv   = useMotionValue(0);
+  const SNAP_BACK = { type: "spring", stiffness: 420, damping: 32 } as const;
 
   return (
-    <div ref={containerRef} className="relative w-full h-full overflow-hidden">
+    <motion.div
+      ref={containerRef}
+      className="relative w-full h-full overflow-hidden"
+      onPan={selectedId === null ? (_, info) => {
+        // Down → spread cards apart; up → pull closer (clamped)
+        peekMv.set(Math.max(-12, Math.min(48, info.offset.y * 0.25)));
+      } : undefined}
+      onPanEnd={selectedId === null ? () => {
+        animate(peekMv, 0, SNAP_BACK);
+      } : undefined}
+    >
 
       <AnimatePresence mode="sync">
         <motion.div
@@ -229,39 +239,30 @@ function MobileStack({
         )}
       </AnimatePresence>
 
-      <motion.div
-        className="absolute inset-0"
-        style={{ y: stackPullY }}
-        onPan={selectedId === null ? (_, info) => {
-          stackPullY.set(Math.max(0, info.offset.y * 0.4));
-        } : undefined}
-        onPanEnd={selectedId === null ? () => {
-          animate(stackPullY, 0, SNAP_BACK);
-        } : undefined}
-      >
-        {CARDS.map((card, index) => {
-          const CardContent = CARD_MAP[card.id];
-          const isExpanded  = selectedId === card.id;
-          return (
-            <WalletCard
-              key={card.id}
-              card={card}
-              stackedY={stackTop + index * PEEK}
-              cardHeight={cardHeight}
-              containerHeight={containerHeight}
-              zIndex={index + 1}
-              isExpanded={isExpanded}
-              hasAnyExpanded={selectedId !== null}
-              onClick={() => setSelectedId(card.id)}
-              onClose={() => setSelectedId(null)}
-            >
-              {CardContent && (
-                <CardContent onRowClick={isExpanded ? setMobileSelectedItem : undefined} />
-              )}
-            </WalletCard>
-          );
-        })}
-      </motion.div>
+      {CARDS.map((card, index) => {
+        const CardContent = CARD_MAP[card.id];
+        const isExpanded  = selectedId === card.id;
+        return (
+          <WalletCard
+            key={card.id}
+            card={card}
+            stackedY={stackTop + index * PEEK}
+            cardHeight={cardHeight}
+            containerHeight={containerHeight}
+            zIndex={index + 1}
+            isExpanded={isExpanded}
+            hasAnyExpanded={selectedId !== null}
+            onClick={() => setSelectedId(card.id)}
+            onClose={() => setSelectedId(null)}
+            peekMv={peekMv}
+            cardIndex={index}
+          >
+            {CardContent && (
+              <CardContent onRowClick={isExpanded ? setMobileSelectedItem : undefined} />
+            )}
+          </WalletCard>
+        );
+      })}
 
       <AnimatePresence>
         {detailItem && (
@@ -273,6 +274,6 @@ function MobileStack({
           />
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }

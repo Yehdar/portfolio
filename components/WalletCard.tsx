@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { animate, motion, useMotionValue } from "framer-motion";
+import { MotionValue, animate, motion, useMotionValue, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 export interface CardDef {
@@ -21,6 +21,9 @@ interface WalletCardProps {
   onClick: () => void;
   onClose: () => void;
   children?: React.ReactNode;
+  /** Motion value driving extra spacing between stacked cards */
+  peekMv?: MotionValue<number>;
+  cardIndex?: number;
 }
 
 const TRANSITION  = { type: "tween", duration: 0.28, ease: [0.32, 0.72, 0, 1] } as const;
@@ -42,19 +45,29 @@ export default function WalletCard({
   onClick,
   onClose,
   children,
+  peekMv,
+  cardIndex = 0,
 }: WalletCardProps) {
   const pullY = useMotionValue(0);
 
-  // Reset pull offset whenever this card collapses
+  // Fallback so useTransform is always called unconditionally
+  const fallbackPeek = useMotionValue(0);
+  const dynamicTop = useTransform(
+    peekMv ?? fallbackPeek,
+    (extra) => stackedY + cardIndex * extra,
+  );
+
   useEffect(() => {
     if (!isExpanded) pullY.set(0);
   }, [isExpanded, pullY]);
 
+  // When stacked, omit top from animate — let style/dynamicTop control it.
+  // When expanded or hidden, animate.top takes over and overrides style.
   const animateTarget = isExpanded
-    ? { top: CARD_TOP, left: CARD_PAD, right: CARD_PAD, height: containerHeight - CARD_TOP - CARD_PAD, borderRadius: R }
+    ? { top: CARD_TOP,            left: CARD_PAD,  right: CARD_PAD,  height: containerHeight - CARD_TOP - CARD_PAD, borderRadius: R }
     : hasAnyExpanded
     ? { top: containerHeight + 40, left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R }
-    : { top: stackedY, left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R };
+    : {                            left: STACK_PAD, right: STACK_PAD, height: cardHeight, borderRadius: R };
 
   return (
     <motion.div
@@ -63,6 +76,7 @@ export default function WalletCard({
         zIndex: isExpanded ? 50 : zIndex,
         cursor: isExpanded || card.placeholder ? "default" : "pointer",
         y: pullY,
+        top: dynamicTop,
       }}
       initial={false}
       animate={animateTarget}
@@ -79,10 +93,9 @@ export default function WalletCard({
         )}
       </div>
 
-      {/* Pull-to-dismiss handle — sits above scrollable content */}
       {isExpanded && (
         <motion.div
-          className="absolute top-0 inset-x-0 h-16 z-30 flex flex-col items-center justify-start pt-2 gap-0.5 touch-none select-none"
+          className="absolute top-0 inset-x-0 h-[300px] z-30 flex flex-col items-center justify-start pt-2 gap-0.5 touch-none select-none"
           onPan={(_, info) => {
             pullY.set(Math.max(0, info.offset.y * 0.45));
           }}
@@ -103,7 +116,6 @@ export default function WalletCard({
           <p className="text-white/30 text-[9px] font-bold tracking-[0.2em] uppercase">drag down</p>
         </motion.div>
       )}
-
     </motion.div>
   );
 }
