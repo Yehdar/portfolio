@@ -102,10 +102,8 @@ export default function ExperienceCard({ desktop, onRowClick }: { desktop?: bool
     <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
       {(desktop || onRowClick) && (<>
-        <div className={`shrink-0 ${desktop ? "px-5 pt-6 pb-2" : "px-4 pt-4 pb-1"}`}>
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: "rgba(255,255,255,0.5)" }}>Click on them to find more details</p>
-        </div>
-        <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
+        <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"} ${desktop ? "pt-6" : "pt-4"}`}>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>Where I've Worked</p>
           {TRANSACTIONS.map((tx) => (
             <TransactionRow key={tx.company} {...tx} desktop={desktop} onRowClick={onRowClick} />
           ))}

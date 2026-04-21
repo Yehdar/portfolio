@@ -16,6 +16,8 @@ interface Project {
 
 export const PROJECTS: Project[] = [
   { icon: Code2, logo: "/pointsoptimizer.png", name: "Points Optimizer", description: "AI Credit Card Points Optimizer", tech: "Next.js / Kotlin", href: "https://github.com/Yehdar/Canadian-Credit-Card-Points-Optimizer" },
+  { icon: Code2, logo: "/emailaddressvalidator.png", name: "Email Address Validator", description: "Email Address Validator", tech: "Golang", href: "https://github.com/The-Golang-Way/Email-Address-Validator"},
+  { icon: Code2, logo: "/hermes.png", name: "Hermes", description: "Network Chat Application", tech: "Python", href: "https://github.com/The-Golang-Way/Yehdar/hermes"},
 ];
 
 function SpaceLandscape() {
@@ -94,10 +96,8 @@ export default function ProjectsCard({ desktop, onRowClick }: { desktop?: boolea
     <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
       {(desktop || onRowClick) && (<>
-        <div className={`shrink-0 ${desktop ? "px-5 pt-6 pb-2" : "px-4 pt-4 pb-1"}`}>
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: "rgba(255,255,255,0.5)" }}>Click on them to find more details</p>
-        </div>
-        <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"}`}>
+        <div className={`flex-1 overflow-y-auto hide-scrollbar pb-6 ${desktop ? "px-5" : "px-4"} ${desktop ? "pt-6" : "pt-4"}`}>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>What I've Built</p>
           {PROJECTS.map((p) => (
             <ProjectRow key={p.name} {...p} desktop={desktop} onRowClick={onRowClick} />
           ))}

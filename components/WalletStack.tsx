@@ -23,7 +23,7 @@ export const CARDS: CardDef[] = [
 // ─── Stack layout constants ────────────────────────────────────────────────────
 
 const PEEK         = 72;
-const MIN_TOP      = 24;
+const NAV_HEIGHT   = 100;
 const BOTTOM_MARGIN = 24;
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -196,11 +196,12 @@ function MobileStack({
     return () => ro.disconnect();
   }, []);
 
+  const availableHeight = containerHeight - NAV_HEIGHT - BOTTOM_MARGIN;
   const cardHeight = Math.min(360, Math.max(220, Math.floor(
-    (containerHeight - BOTTOM_MARGIN - MIN_TOP - (CARDS.length - 1) * PEEK) * 0.85
+    (availableHeight - (CARDS.length - 1) * PEEK) * 0.85
   )));
   const totalStackHeight = (CARDS.length - 1) * PEEK + cardHeight;
-  const stackTop = Math.max(MIN_TOP, Math.floor((containerHeight - totalStackHeight) / 2));
+  const stackTop = NAV_HEIGHT + Math.max(0, Math.floor((availableHeight - totalStackHeight) / 2));
 
   const handleCardClick = (id: string) => {
     setSelectedId(id);

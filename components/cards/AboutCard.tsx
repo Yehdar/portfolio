@@ -80,9 +80,13 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
       {(desktop || onRowClick) && (
         <div className="flex flex-col flex-1 overflow-hidden">
           <div className={`flex-1 overflow-y-auto hide-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}>
-            <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>About Me</p>
-            <p className={`leading-relaxed ${desktop ? "text-xl" : "text-lg"}`} style={{ color: "rgba(255,255,255,0.85)" }}>
+            <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>Who I Am</p>
+            <p className={`leading-relaxed ${desktop ? "text-2xl" : "text-lg"}`} style={{ color: "rgba(255,255,255,0.85)" }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              <br></br><br></br>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                  <br></br><br></br>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
           </div>
           <div className={`flex gap-3 p-4 shrink-0 ${desktop ? "px-5 pb-6" : ""}`}>
