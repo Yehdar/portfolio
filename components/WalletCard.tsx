@@ -26,8 +26,8 @@ interface WalletCardProps {
   cardIndex?: number;
 }
 
-const TRANSITION  = { type: "tween", duration: 0.28, ease: [0.32, 0.72, 0, 1] } as const;
-const SNAP_BACK   = { type: "spring", stiffness: 420, damping: 32 } as const;
+const TRANSITION  = { type: "tween", duration: 0.36, ease: [0.25, 0.46, 0.45, 0.94] } as const;
+const SNAP_BACK   = { type: "spring", stiffness: 180, damping: 26 } as const;
 const CARD_PAD    = 12;
 const CARD_TOP    = 10;
 const STACK_PAD   = 12;
