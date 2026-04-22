@@ -83,20 +83,17 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
       {(desktop || onRowClick) && (
         <div className="flex flex-col flex-1 overflow-hidden">
           <div className={`flex-1 overflow-y-auto card-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}>
-            <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>Who I Am</p>
-            <p className={`leading-relaxed ${desktop ? "text-2xl" : "text-lg"}`} style={{ color: "rgba(255,255,255,0.85)" }}>
-              Hey, I'm Radhey (aka Rod)!
-              <br></br>
-              Fintech enthusiast, software engineer, and lifelong learner.
-              <br></br><br></br>
-              Currently, I'm interning as a software engineer at Citibank, leading the data engineering pipelines for consumer banking.
-              <br></br><br></br>
-              Before that, I was fortunate enough to stay in the finance and technology world by interning as an engineer at Manulife and Royal Bank of Canada.
-              <br></br><br></br>
-              Outside of work, you can find me building cool projects, learning new skills, and exploring the world with my loved ones.
-              <br></br><br></br>
-              Anyway, feel free to explore the rest of the site and reach out if you want to connect!
-            </p>
+            <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-4" style={{ color: "rgba(255,255,255,0.5)" }}>Who I Am</p>
+            <div
+              className={`space-y-4 leading-relaxed font-serif ${desktop ? "text-xl" : "text-base"}`}
+              style={{ color: "rgba(255,255,255,0.88)" }}
+            >
+              <p>Hey, I'm Radhey, but most people call me <em>Rod</em>.</p>
+              <p>I'm a software engineer obsessed with the intersection of <em>finance and technology</em> — currently building data pipelines at Citi for consumer banking.</p>
+              <p>Before that, I managed infrastructure at Manulife, rebuilt internal tools at RBC, and ingested threat intelligence data for Canada's cyber security agency.</p>
+              <p>Outside of work, I'm usually staying active, building new projects, and spending time with the people who matter most.</p>
+              <p style={{ color: "rgba(255,255,255,0.5)" }}>Glad you stopped by. Feel free to look around and reach out!</p>
+            </div>
           </div>
           {/* DONT DELETE THIS */}
           {/* <div className={`flex gap-3 p-4 shrink-0 ${desktop ? "px-5 pb-6" : ""}`}>

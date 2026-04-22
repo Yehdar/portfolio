@@ -172,7 +172,7 @@ export const DETAIL_DATA: ItemDetail[] = [
 
 // ─── Stack geometry (left mini-wallet) ────────────────────────────────────────
 
-const PEEK       = 80;
+const PEEK       = 90;
 const FRONT_SHOW = 64;
 const FACE_H     = 270;
 const stackH     = (CARDS.length - 1) * PEEK + FRONT_SHOW + FACE_H;
@@ -381,7 +381,7 @@ export default function DesktopLayout({
   }, []);
 
   return (
-    <div className="w-full h-dvh relative overflow-hidden">
+    <div className="w-full h-dvh relative overflow-hidden bg-black">
 
       {/* ── Animated background ─────────────────────────────────────── */}
       <motion.div

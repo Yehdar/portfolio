@@ -188,7 +188,7 @@ function MobileStack({
   return (
     <motion.div
       ref={containerRef}
-      className="relative w-full h-full overflow-hidden"
+      className="relative w-full h-full overflow-hidden bg-black"
       onPan={selectedId === null ? (_, info) => {
         // Down → spread cards apart; up → pull closer (clamped)
         peekMv.set(Math.max(-12, Math.min(48, info.offset.y * 0.12)));
