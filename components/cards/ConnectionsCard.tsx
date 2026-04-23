@@ -95,15 +95,14 @@ function LinkRow({ icon: Icon, logo, label, handle, href, desktop }: Link & { de
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
-    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
+    <div className={`w-full flex flex-col overflow-hidden ${(onRowClick && !desktop) ? "min-h-full" : "h-full"}`} style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
 
       {(desktop || onRowClick) && (
-        <div
-          className={`flex-1 overflow-y-auto card-scrollbar pb-6 ${desktop ? "px-5 pt-6" : "px-4 pt-4"}`}
-          style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)" }}
+        <div className={`pb-6 ${desktop ? "flex-1 overflow-y-auto card-scrollbar px-5 pt-6" : "px-4 pt-4"}`}
+          style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)" }}
         >
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>How to Reach Me</p>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255)" }}>How to Reach Me</p>
           {LINKS.map((link) => (
             <LinkRow key={link.label} {...link} desktop={desktop} />
           ))}
