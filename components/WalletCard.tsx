@@ -85,7 +85,7 @@ export default function WalletCard({
       whileTap={!isExpanded ? { scale: 0.98 } : undefined}
       onClick={!isExpanded && !card.placeholder ? onClick : undefined}
     >
-      <div className={`w-full h-full card-scrollbar ${isExpanded ? "overflow-y-auto" : "overflow-hidden"}`}>
+      <div className={`w-full h-full ${isExpanded ? "overflow-y-auto card-scrollbar" : "overflow-hidden"}`}>
         {children ?? (
           <div className="w-full h-full bg-zinc-800 flex items-start p-6">
             <span className="text-white/90 text-2xl font-bold tracking-tight">{card.label}</span>
@@ -96,6 +96,7 @@ export default function WalletCard({
       {isExpanded && (
         <motion.div
           className="absolute top-0 inset-x-0 h-[300px] z-30 flex flex-col items-center justify-start pt-2 gap-0.5 touch-none select-none"
+          onClick={onClose}
           onPan={(_, info) => {
             pullY.set(Math.max(0, info.offset.y * 0.45));
           }}
@@ -107,13 +108,8 @@ export default function WalletCard({
             }
           }}
         >
-          <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
-          >
-            <ChevronDown size={28} className="text-white/40" strokeWidth={2.5} />
-          </motion.div>
-          <p className="text-white/30 text-[9px] font-bold tracking-[0.2em] uppercase">drag down</p>
+          <ChevronDown size={28} className="text-white/40" strokeWidth={2.5} />
+          <p className="text-white/30 text-[9px] font-bold tracking-[0.2em] uppercase">tap or drag down</p>
         </motion.div>
       )}
     </motion.div>

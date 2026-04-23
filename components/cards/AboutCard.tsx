@@ -1,6 +1,5 @@
 "use client";
 
-import { FileText, Mail } from "lucide-react";
 import { ID_THEMES } from "../idThemes";
 
 const theme = ID_THEMES.about;
@@ -17,47 +16,10 @@ function TorontoLandscape() {
   );
 }
 
-// ─── Action Button ─────────────────────────────────────────────────────────────
-function ActionButton({
-  href, icon: Icon, title, sub, onRowClick, id,
-}: {
-  href: string;
-  icon: React.ElementType;
-  title: string;
-  sub: string;
-  onRowClick?: (id: string) => void;
-  id?: string;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={(e) => { e.stopPropagation(); if (onRowClick && id) { e.preventDefault(); onRowClick(id); } }}
-      className="flex-1 flex flex-col items-center justify-center gap-2 rounded-2xl py-4 px-3 active:scale-95 transition-all"
-      style={{
-        background: "rgba(0,0,0,0.35)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        border: "1px solid rgba(255,255,255,0.12)",
-      }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(0,0,0,0.35)"; }}
-    >
-      <Icon style={{ color: theme.accentColor }} size={22} strokeWidth={1.6} />
-      <div className="flex flex-col items-center">
-        <span className="text-sm font-semibold leading-tight text-white">{title}</span>
-        <span className="text-xs leading-tight text-white/50">{sub}</span>
-      </div>
-    </a>
-  );
-}
-
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
   return (
     <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
-      {/* Image section — same fixed height as other cards */}
       <div
         className={`w-full relative overflow-hidden ${(desktop || onRowClick) ? "flex-shrink-0" : "flex-1"}`}
         style={(desktop || onRowClick) ? { height: desktop ? "clamp(160px, 30dvh, 300px)" : "300px" } : undefined}
@@ -79,10 +41,12 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
         </div>
       </div>
 
-      {/* Bio text + action buttons */}
       {(desktop || onRowClick) && (
         <div className="flex flex-col flex-1 overflow-hidden">
-          <div className={`flex-1 overflow-y-auto card-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}>
+          <div
+            className={`flex-1 overflow-y-auto card-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}
+            style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)" }}
+          >
             <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-4" style={{ color: "rgba(255,255,255,0.5)" }}>Who I Am</p>
             <div
               className={`space-y-4 leading-relaxed font-serif ${desktop ? "text-xl" : "text-base"}`}
@@ -92,14 +56,9 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
               <p>I'm a software engineer obsessed with the intersection of <em>finance and technology</em> — currently building data pipelines at Citi for consumer banking.</p>
               <p>Before that, I managed infrastructure at Manulife, rebuilt internal tools at RBC, and ingested threat intelligence data for Canada's cyber security agency.</p>
               <p>Outside of work, I'm usually staying active, building new projects, and spending time with the people who matter most.</p>
-              <p style={{ color: "rgba(255,255,255,0.5)" }}>Glad you stopped by. Feel free to look around and reach out!</p>
+              <p>Glad you stopped by. Feel free to look around and reach out!</p>
             </div>
           </div>
-          {/* DONT DELETE THIS */}
-          {/* <div className={`flex gap-3 p-4 shrink-0 ${desktop ? "px-5 pb-6" : ""}`}>
-            <ActionButton href="/resume.pdf"                    icon={FileText} title="Resume"  sub="View PDF"  id="resume"  onRowClick={onRowClick} />
-            <ActionButton href="mailto:radheypatel@example.com" icon={Mail}     title="Contact" sub="Email Me" id="contact" onRowClick={onRowClick} />
-          </div> */}
         </div>
       )}
     </div>
