@@ -106,6 +106,7 @@ export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boo
           {LINKS.map((link) => (
             <LinkRow key={link.label} {...link} desktop={desktop} />
           ))}
+          {!desktop && <div className="h-64 shrink-0" />}
         </div>
       )}
     </div>
