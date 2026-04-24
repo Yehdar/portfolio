@@ -109,7 +109,7 @@ export default function ExperienceCard({ desktop, onRowClick }: { desktop?: bool
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
       {(desktop || onRowClick) && (
         <div
-          className={`flex-1 overflow-y-auto card-scrollbar pb-6 ${desktop ? "px-5 pt-6" : "px-4 pt-4"}`}
+          className={`flex-1 overflow-y-auto card-scrollbar pb-14 ${desktop ? "px-5 pt-6" : "px-4 pt-4"}`}
             style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)" }}
         >
           <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255)" }}>Where I've Worked</p>
