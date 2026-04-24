@@ -99,7 +99,7 @@ export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boo
       <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
 
       {(desktop || onRowClick) && (
-        <div className={`pb-6 ${desktop ? "flex-1 overflow-y-auto card-scrollbar px-5 pt-6" : "px-4 pt-4"}`}
+        <div className={`${desktop ? "flex-1 overflow-y-auto card-scrollbar px-5 pt-6 pb-6" : "px-4 pt-4 pb-64"}`}
             style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 14%, black 82%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 14%, black 82%, transparent 100%)" }}
         >
           <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255)" }}>How to Reach Me</p>
