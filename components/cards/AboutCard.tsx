@@ -45,7 +45,7 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
         <div className="flex flex-col flex-1 overflow-hidden ">
           <div
             className={`flex-1 overflow-y-auto card-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}
-            style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)" }}
+            style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)" }}
           >
             <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-4" style={{ color: "rgb(255, 255, 255)" }}>Who I Am</p>
             <div
