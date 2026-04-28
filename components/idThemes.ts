@@ -16,6 +16,9 @@ export interface IDTheme {
   detailBg: string;
 }
 
+export const SCROLL_MASK_MOBILE  = "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)";
+export const SCROLL_MASK_DESKTOP = "linear-gradient(to bottom, black 0%, black 82%, transparent 100%)";
+
 export const ID_THEMES: Record<string, IDTheme> = {
   about: {
     category: "ABOUT ME",

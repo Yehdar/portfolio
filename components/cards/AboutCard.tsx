@@ -1,6 +1,6 @@
 "use client";
 
-import { ID_THEMES } from "../idThemes";
+import { ID_THEMES, SCROLL_MASK_MOBILE, SCROLL_MASK_DESKTOP } from "../idThemes";
 
 const theme = ID_THEMES.about;
 
@@ -17,12 +17,14 @@ function TorontoLandscape() {
 }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
-export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
+export default function AboutCard({ desktop, expanded }: { desktop?: boolean; expanded?: boolean }) {
+  const show = desktop || expanded;
+  const mask = desktop ? SCROLL_MASK_DESKTOP : SCROLL_MASK_MOBILE;
   return (
-    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
+    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: show ? theme.rowBg : "transparent" }}>
       <div
-        className={`w-full relative overflow-hidden ${(desktop || onRowClick) ? "flex-shrink-0" : "flex-1"}`}
-        style={(desktop || onRowClick) ? { height: desktop ? "clamp(160px, 30dvh, 300px)" : "300px" } : undefined}
+        className={`w-full relative overflow-hidden ${show ? "flex-shrink-0" : "flex-1"}`}
+        style={show ? { height: desktop ? "clamp(160px, 30dvh, 300px)" : "300px" } : undefined}
       >
         <TorontoLandscape />
         {desktop && <div className="absolute inset-0 bg-black/50" />}
@@ -41,11 +43,11 @@ export default function AboutCard({ desktop, onRowClick }: { desktop?: boolean; 
         </div>
       </div>
 
-      {(desktop || onRowClick) && (
-        <div className="flex flex-col flex-1 overflow-hidden ">
+      {show && (
+        <div className="flex flex-col flex-1 overflow-hidden">
           <div
             className={`flex-1 overflow-y-auto card-scrollbar px-5 ${desktop ? "pt-6" : "pt-4"} pb-2`}
-            style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 82%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 82%, transparent 100%)" }}
+            style={{ maskImage: mask, WebkitMaskImage: mask }}
           >
             <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-4" style={{ color: "rgb(255, 255, 255)" }}>Who I Am</p>
             <div

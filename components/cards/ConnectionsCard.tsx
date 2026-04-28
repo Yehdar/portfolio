@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { ID_THEMES } from "../idThemes";
+import { ID_THEMES, SCROLL_MASK_MOBILE, SCROLL_MASK_DESKTOP } from "../idThemes";
 
 const theme = ID_THEMES.connections;
 
@@ -93,20 +93,22 @@ function LinkRow({ icon: Icon, logo, label, handle, href, desktop }: Link & { de
 }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
-export default function ConnectionsCard({ desktop, onRowClick }: { desktop?: boolean; onRowClick?: (id: string) => void }) {
+export default function ConnectionsCard({ desktop, expanded }: { desktop?: boolean; expanded?: boolean }) {
+  const show = desktop || expanded;
+  const mask = desktop ? SCROLL_MASK_DESKTOP : SCROLL_MASK_MOBILE;
   return (
-    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: (desktop || onRowClick) ? theme.rowBg : "transparent" }}>
-      <CardFace desktop={desktop} fill={!desktop && !onRowClick} />
+    <div className="w-full h-full flex flex-col overflow-hidden" style={{ background: show ? theme.rowBg : "transparent" }}>
+      <CardFace desktop={desktop} fill={!show} />
 
-      {(desktop || onRowClick) && (
+      {show && (
         <div className={`flex-1 overflow-y-auto card-scrollbar pb-6 ${desktop ? "px-5 pt-6" : "px-4 pt-4"}`}
-            style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 14%, black 82%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 14%, black 82%, transparent 100%)" }}
+          style={{ maskImage: mask, WebkitMaskImage: mask }}
         >
           <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: "rgba(255,255,255)" }}>How to Reach Me</p>
           {LINKS.map((link) => (
             <LinkRow key={link.label} {...link} desktop={desktop} />
           ))}
-          {!desktop && <div className="h-64 shrink-0" />}
+          {!desktop && <div className="h-32 shrink-0" />}
         </div>
       )}
     </div>
