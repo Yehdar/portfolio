@@ -108,7 +108,7 @@ export default function ConnectionsCard({ desktop, expanded }: { desktop?: boole
           {LINKS.map((link) => (
             <LinkRow key={link.label} {...link} desktop={desktop} />
           ))}
-          {!desktop && <div className="h-32 shrink-0" />}
+          {!desktop && <div className="h-48 shrink-0" />}
         </div>
       )}
     </div>
